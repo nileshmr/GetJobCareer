@@ -271,7 +271,7 @@ description="Subscribe to JobPortal job alerts and get notified about new intern
     buttonLoading.hidden = false;
 
     try {
-      const response = await fetch("/api/subscribers/subscribe", {
+      const response = await fetch(`https://get-job-career.vercel.app/api/subscribers`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
