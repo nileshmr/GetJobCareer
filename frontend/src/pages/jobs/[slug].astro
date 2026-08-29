@@ -4,7 +4,7 @@ import Layout from "../../layouts/Layout.astro";
 export const prerender = false;
 
 const API_URL =
-  import.meta.env.PUBLIC_API_URL || "http://localhost:5000/api";
+  import.meta.env.PUBLIC_API_URL || "https://get-job-career.vercel.app/api";
 
 const slug = Astro.params.slug;
 
@@ -374,7 +374,7 @@ try {
 
 <script>
   const API_URL =
-    "http://localhost:5000/api";
+    "https://get-job-career.vercel.app/api";
 
   const slug = window.location.pathname
     .split("/")

@@ -1010,7 +1010,7 @@ import "../styles/global.css";
             message: String(formData.get("Message") || "").trim(),
         };
 
-      const response = await fetch("http://localhost:5000/api/collaborations", {
+      const response = await fetch("https://get-job-career.vercel.app/api/collaborations", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
