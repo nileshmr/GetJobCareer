@@ -1,0 +1,1873 @@
+---
+import Layout from "../../layouts/Layout.astro";
+---
+
+<Layout
+  title="Latest Jobs & Internships in India | GetJobCareer"
+  description="Find the latest jobs, internships and career opportunities in India. Search jobs for BCA, MCA, B.Tech, B.Sc IT, M.Sc IT and Computer Science students and freshers on GetJobCareer."
+>
+  <main class="jobs-page">
+    <!-- HERO -->
+    <section class="jobs-header">
+      <div class="container hero-container">
+        <span class="badge">Career Opportunities</span>
+
+        <h1>Latest Jobs & Internships in India</h1>
+
+       <p class="hero-description">
+  Find the latest jobs, internships and career opportunities for
+  <span class="highlight-keyword">BCA</span>,
+  <span class="highlight-keyword">MCA</span>,
+  <span class="highlight-keyword">B.Tech</span>,
+  <span class="highlight-keyword">B.Sc IT</span>,
+  <span class="highlight-keyword">M.Sc IT</span>,
+  <span class="highlight-keyword">B.Sc Computer Science</span> and
+  <span class="highlight-keyword">M.Sc Computer Science</span>
+  students, freshers and graduates across India.
+</p>
+      </div>
+    </section>
+
+    <!-- SEARCH -->
+    <section class="search-section">
+      <div class="container">
+        <div class="search-box">
+          <div class="search-field search-field-large">
+            <span class="field-icon">⌕</span>
+
+            <input
+              id="searchInput"
+              type="text"
+              placeholder="Search job title or company..."
+            />
+          </div>
+
+          <div class="select-wrapper">
+            <select id="categoryFilter">
+              <option value="">All Categories</option>
+            </select>
+            <span class="select-arrow">⌄</span>
+          </div>
+
+          <div class="select-wrapper">
+            <select id="jobTypeFilter">
+              <option value="">All Job Types</option>
+            </select>
+            <span class="select-arrow">⌄</span>
+          </div>
+
+          <div class="select-wrapper">
+            <select id="workModeFilter">
+              <option value="">All Work Modes</option>
+            </select>
+            <span class="select-arrow">⌄</span>
+          </div>
+
+          <div class="search-field">
+            <span class="field-icon location-icon">⌖</span>
+
+            <input
+              id="locationFilter"
+              type="text"
+              placeholder="Location"
+            />
+          </div>
+
+          <button id="searchButton" class="search-button">
+            Search
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- RESULTS -->
+    <section class="results-section">
+      <div class="container">
+        <div class="results-top">
+          <div>
+            <h2>Latest Jobs</h2>
+            <p>Explore the latest opportunities</p>
+          </div>
+
+          <span id="resultCount">Loading jobs...</span>
+        </div>
+
+        <div id="loading" class="loading">
+          <div class="spinner"></div>
+          <span>Loading jobs...</span>
+        </div>
+
+        <div id="errorMessage" class="error-message hidden"></div>
+
+        <div id="jobsContainer" class="jobs-grid"></div>
+
+        <div id="emptyMessage" class="empty-message hidden">
+          <div class="empty-icon">⌕</div>
+          <h3>No jobs found</h3>
+          <p>Try changing your search or filters.</p>
+        </div>
+
+        <div id="pagination" class="pagination"></div>
+      </div>
+    </section>
+  </main>
+
+   <!-- =========================
+     FAQ SECTION
+========================= -->
+
+<section class="faq-section" aria-labelledby="faq-heading">
+  <div class="faq-container">
+
+    <div class="faq-heading">
+      <span class="faq-badge">Frequently Asked Questions</span>
+
+      <h2 id="faq-heading">
+        Frequently Asked Questions About GetJobCareer
+      </h2>
+
+      <p>
+        Find answers to common questions about jobs, internships,
+        career opportunities and job searches on GetJobCareer.
+      </p>
+    </div>
+
+    <div class="faq-list">
+
+      <details class="faq-item">
+        <summary>
+          What is GetJobCareer?
+          <span class="faq-icon">+</span>
+        </summary>
+
+        <div class="faq-answer">
+          <p>
+            GetJobCareer is a job and career platform that helps students,
+            freshers and job seekers discover the latest jobs, internships
+            and career opportunities. You can search for opportunities by
+            job title, company, category, location, job type and work mode.
+          </p>
+        </div>
+      </details>
+
+      <details class="faq-item">
+        <summary>
+          Can BCA students find jobs on GetJobCareer?
+          <span class="faq-icon">+</span>
+        </summary>
+
+        <div class="faq-answer">
+          <p>
+            Yes. GetJobCareer can help BCA students and BCA freshers discover
+            relevant jobs, internships and entry-level career opportunities.
+            Students can search for software development, web development,
+            IT support, testing, digital marketing and other suitable roles.
+          </p>
+        </div>
+      </details>
+
+      <details class="faq-item">
+        <summary>
+          Are there jobs for MCA students and freshers?
+          <span class="faq-icon">+</span>
+        </summary>
+
+        <div class="faq-answer">
+          <p>
+            Yes. MCA students and freshers can use GetJobCareer to find
+            technology jobs and internships. Opportunities may include
+            software development, full stack development, backend development,
+            frontend development, database, testing and other IT roles.
+          </p>
+        </div>
+      </details>
+
+      <details class="faq-item">
+        <summary>
+          Can B.Tech students find jobs and internships here?
+          <span class="faq-icon">+</span>
+        </summary>
+
+        <div class="faq-answer">
+          <p>
+            Yes. GetJobCareer provides a place to discover job and internship
+            opportunities suitable for B.Tech graduates and students.
+            Depending on available listings, candidates can explore software,
+            IT, engineering and other technology-related career opportunities.
+          </p>
+        </div>
+      </details>
+
+      <details class="faq-item">
+        <summary>
+          Are there jobs for B.Sc IT and M.Sc IT graduates?
+          <span class="faq-icon">+</span>
+        </summary>
+
+        <div class="faq-answer">
+          <p>
+            Yes. B.Sc IT and M.Sc IT students and graduates can use
+            GetJobCareer to search for relevant IT jobs and internships.
+            You can explore opportunities based on your skills, experience,
+            location, job type and work mode.
+          </p>
+        </div>
+      </details>
+
+      <details class="faq-item">
+        <summary>
+          Does GetJobCareer have jobs for Computer Science students?
+          <span class="faq-icon">+</span>
+        </summary>
+
+        <div class="faq-answer">
+          <p>
+            GetJobCareer can help Computer Science students and graduates
+            discover relevant career opportunities. Candidates with B.Sc
+            Computer Science, M.Sc Computer Science and related qualifications
+            can search available software, IT and technology jobs and
+            internships.
+          </p>
+        </div>
+      </details>
+
+      <details class="faq-item">
+        <summary>
+          Can freshers find jobs on GetJobCareer?
+          <span class="faq-icon">+</span>
+        </summary>
+
+        <div class="faq-answer">
+          <p>
+            Yes. Freshers can use GetJobCareer to search for entry-level jobs,
+            internships and graduate opportunities. You can use job search
+            filters to find opportunities based on your preferred category,
+            location, job type and work mode.
+          </p>
+        </div>
+      </details>
+
+      <details class="faq-item">
+        <summary>
+          What types of jobs can I search for on GetJobCareer?
+          <span class="faq-icon">+</span>
+        </summary>
+
+        <div class="faq-answer">
+          <p>
+            The available jobs depend on current listings. You may find
+            opportunities in software development, web development, frontend,
+            backend, full stack development, IT, testing, digital marketing,
+            data-related roles, internships and other career categories.
+          </p>
+        </div>
+      </details>
+
+      <details class="faq-item">
+        <summary>
+          Can I search jobs by location and work mode?
+          <span class="faq-icon">+</span>
+        </summary>
+
+        <div class="faq-answer">
+          <p>
+            Yes. GetJobCareer allows job seekers to search and filter
+            opportunities using information such as location, job type and
+            work mode. This can help candidates find opportunities that better
+            match their preferred working location and working arrangement.
+          </p>
+        </div>
+      </details>
+
+      <details class="faq-item">
+        <summary>
+          Does GetJobCareer list internships for students?
+          <span class="faq-icon">+</span>
+        </summary>
+
+        <div class="faq-answer">
+          <p>
+            Yes. Students and freshers can use GetJobCareer to discover
+            internship opportunities along with available job listings.
+            Internships can be useful for gaining practical experience,
+            developing skills and starting a professional career.
+          </p>
+        </div>
+      </details>
+
+      <details class="faq-item">
+        <summary>
+          How can I find the latest jobs on GetJobCareer?
+          <span class="faq-icon">+</span>
+        </summary>
+
+        <div class="faq-answer">
+          <p>
+            Visit the Jobs & Internships section of GetJobCareer and use the
+            available search and filters. You can search by job title or
+            company and narrow results using category, job type, work mode
+            and location.
+          </p>
+        </div>
+      </details>
+
+      <details class="faq-item">
+        <summary>
+          Is GetJobCareer useful for Indian job seekers?
+          <span class="faq-icon">+</span>
+        </summary>
+
+        <div class="faq-answer">
+          <p>
+            GetJobCareer is designed to make job discovery easier for students,
+            freshers and job seekers looking for career opportunities. Users
+            can explore available job listings and internships and use search
+            filters to find opportunities that match their career interests.
+          </p>
+        </div>
+      </details>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- =========================
+     FAQ JSON-LD
+========================= -->
+
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "What is GetJobCareer?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "GetJobCareer is a job and career platform that helps students, freshers and job seekers discover the latest jobs, internships and career opportunities. Users can search for opportunities by job title, company, category, location, job type and work mode."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Can BCA students find jobs on GetJobCareer?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes. GetJobCareer can help BCA students and BCA freshers discover relevant jobs, internships and entry-level career opportunities, including software development, web development, IT support, testing and digital marketing roles."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Are there jobs for MCA students and freshers?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes. MCA students and freshers can use GetJobCareer to find technology jobs and internships, including software development, full stack development, backend development, frontend development, database and testing roles."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Can B.Tech students find jobs and internships here?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes. GetJobCareer provides a place to discover job and internship opportunities suitable for B.Tech graduates and students. Depending on available listings, candidates can explore software, IT, engineering and technology-related career opportunities."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Are there jobs for B.Sc IT and M.Sc IT graduates?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes. B.Sc IT and M.Sc IT students and graduates can use GetJobCareer to search for relevant IT jobs and internships. Users can explore opportunities based on skills, experience, location, job type and work mode."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Does GetJobCareer have jobs for Computer Science students?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "GetJobCareer can help Computer Science students and graduates discover relevant career opportunities. Candidates with B.Sc Computer Science, M.Sc Computer Science and related qualifications can search available software, IT and technology jobs and internships."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Can freshers find jobs on GetJobCareer?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes. Freshers can use GetJobCareer to search for entry-level jobs, internships and graduate opportunities. Job seekers can use search filters to find opportunities based on category, location, job type and work mode."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What types of jobs can I search for on GetJobCareer?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "The available jobs depend on current listings. Users may find opportunities in software development, web development, frontend, backend, full stack development, IT, testing, digital marketing, data-related roles, internships and other career categories."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Can I search jobs by location and work mode?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes. GetJobCareer allows job seekers to search and filter opportunities using information such as location, job type and work mode. This helps candidates find opportunities that better match their preferred working location and working arrangement."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Does GetJobCareer list internships for students?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes. Students and freshers can use GetJobCareer to discover internship opportunities along with available job listings. Internships can help candidates gain practical experience, develop skills and start a professional career."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How can I find the latest jobs on GetJobCareer?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Visit the Jobs & Internships section of GetJobCareer and use the available search and filters. You can search by job title or company and narrow results using category, job type, work mode and location."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Is GetJobCareer useful for Indian job seekers?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "GetJobCareer is designed to make job discovery easier for students, freshers and job seekers looking for career opportunities. Users can explore available job listings and internships and use search filters to find opportunities that match their career interests."
+        }
+      }
+    ]
+  }
+</script>
+
+
+<style>
+  .faq-section {
+    width: 100%;
+    padding: 80px 20px;
+    background: #ffffff;
+    border-top: 1px solid #e2e8f0;
+  }
+
+  .faq-container {
+    width: 100%;
+    max-width: 900px;
+    margin: 0 auto;
+  }
+
+  .faq-heading {
+    text-align: center;
+    margin-bottom: 42px;
+  }
+
+  .faq-badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 8px 16px;
+    border-radius: 999px;
+    background: #f0fdfa;
+    color: #0f766e;
+    font-size: 13px;
+    font-weight: 700;
+  }
+
+  .faq-heading h2 {
+    margin: 18px 0 12px;
+    color: #0f172a;
+    font-size: clamp(2rem, 4vw, 2.8rem);
+    line-height: 1.2;
+    font-weight: 800;
+    letter-spacing: -0.8px;
+  }
+
+  .faq-heading p {
+    max-width: 680px;
+    margin: 0 auto;
+    color: #64748b;
+    font-size: 16px;
+    line-height: 1.7;
+  }
+
+  .faq-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .faq-item {
+    overflow: hidden;
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    transition:
+      border-color 0.2s ease,
+      box-shadow 0.2s ease;
+  }
+
+  .faq-item:hover {
+    border-color: #99f6e4;
+    box-shadow: 0 5px 18px rgba(15, 23, 42, 0.05);
+  }
+
+  .faq-item[open] {
+    border-color: #99f6e4;
+    box-shadow: 0 6px 20px rgba(15, 23, 42, 0.06);
+  }
+
+  .faq-item summary {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    padding: 20px 22px;
+    color: #0f172a;
+    font-size: 16px;
+    line-height: 1.5;
+    font-weight: 700;
+    cursor: pointer;
+    list-style: none;
+  }
+
+  .faq-item summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .faq-icon {
+    flex-shrink: 0;
+    width: 28px;
+    height: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 7px;
+    background: #f0fdfa;
+    color: #0f766e;
+    font-size: 20px;
+    font-weight: 500;
+    transition: transform 0.2s ease;
+  }
+
+  .faq-item[open] .faq-icon {
+    transform: rotate(45deg);
+  }
+
+  .faq-answer {
+    padding: 0 22px 21px;
+  }
+
+  .faq-answer p {
+    margin: 0;
+    color: #64748b;
+    font-size: 15px;
+    line-height: 1.75;
+  }
+
+  @media (max-width: 600px) {
+    .faq-section {
+      padding: 60px 16px;
+    }
+
+    .faq-heading {
+      margin-bottom: 30px;
+    }
+
+    .faq-heading h2 {
+      font-size: 2rem;
+    }
+
+    .faq-heading p {
+      font-size: 15px;
+    }
+
+    .faq-item summary {
+      padding: 17px;
+      font-size: 15px;
+    }
+
+    .faq-answer {
+      padding: 0 17px 18px;
+    }
+
+    .faq-answer p {
+      font-size: 14px;
+    }
+  }
+</style>
+</Layout>
+
+<script>
+  const API_URL = "http://localhost:5000/api";
+
+  const searchInput =
+    document.getElementById("searchInput") as HTMLInputElement;
+
+  const categoryFilter =
+    document.getElementById("categoryFilter") as HTMLSelectElement;
+
+  const jobTypeFilter =
+    document.getElementById("jobTypeFilter") as HTMLSelectElement;
+
+  const workModeFilter =
+    document.getElementById("workModeFilter") as HTMLSelectElement;
+
+  const locationFilter =
+    document.getElementById("locationFilter") as HTMLInputElement;
+
+  const searchButton =
+    document.getElementById("searchButton") as HTMLButtonElement;
+
+  const jobsContainer =
+    document.getElementById("jobsContainer") as HTMLDivElement;
+
+  const loading =
+    document.getElementById("loading") as HTMLDivElement;
+
+  const errorMessage =
+    document.getElementById("errorMessage") as HTMLDivElement;
+
+  const emptyMessage =
+    document.getElementById("emptyMessage") as HTMLDivElement;
+
+  const resultCount =
+    document.getElementById("resultCount") as HTMLSpanElement;
+
+  const pagination =
+    document.getElementById("pagination") as HTMLDivElement;
+
+  let currentPage = 1;
+  const limit = 9;
+
+  async function loadFilterOptions() {
+    try {
+      const response = await fetch(
+        `${API_URL}/jobs/filters/options`
+      );
+
+      if (!response.ok) {
+        throw new Error("Failed to load filter options");
+      }
+
+      const data = await response.json();
+
+      if (Array.isArray(data.categories)) {
+        data.categories.forEach((category: string) => {
+          const option = document.createElement("option");
+          option.value = category;
+          option.textContent = category;
+          categoryFilter.appendChild(option);
+        });
+      }
+
+      if (Array.isArray(data.jobTypes)) {
+        data.jobTypes.forEach((jobType: string) => {
+          const option = document.createElement("option");
+          option.value = jobType;
+          option.textContent = jobType;
+          jobTypeFilter.appendChild(option);
+        });
+      }
+
+      if (Array.isArray(data.workModes)) {
+        data.workModes.forEach((workMode: string) => {
+          const option = document.createElement("option");
+          option.value = workMode;
+          option.textContent = workMode;
+          workModeFilter.appendChild(option);
+        });
+      }
+    } catch (error) {
+      console.error("Filter loading error:", error);
+    }
+  }
+
+  async function loadJobs(page = 1) {
+    currentPage = page;
+
+    loading.classList.remove("hidden");
+    errorMessage.classList.add("hidden");
+    emptyMessage.classList.add("hidden");
+
+    jobsContainer.innerHTML = "";
+    pagination.innerHTML = "";
+
+    const params = new URLSearchParams();
+
+    params.set("page", page.toString());
+    params.set("limit", limit.toString());
+
+    if (searchInput.value.trim()) {
+      params.set("search", searchInput.value.trim());
+    }
+
+    if (categoryFilter.value) {
+      params.set("category", categoryFilter.value);
+    }
+
+    if (jobTypeFilter.value) {
+      params.set("jobType", jobTypeFilter.value);
+    }
+
+    if (workModeFilter.value) {
+      params.set("workMode", workModeFilter.value);
+    }
+
+    if (locationFilter.value.trim()) {
+      params.set("location", locationFilter.value.trim());
+    }
+
+    try {
+      const response = await fetch(
+        `${API_URL}/jobs?${params.toString()}`
+      );
+
+      if (!response.ok) {
+        throw new Error("Failed to fetch jobs");
+      }
+
+      const data = await response.json();
+
+      loading.classList.add("hidden");
+
+      resultCount.textContent =
+        `${data.pagination.totalJobs} ${
+          data.pagination.totalJobs === 1
+            ? "job"
+            : "jobs"
+        } found`;
+
+      if (!data.jobs || data.jobs.length === 0) {
+        emptyMessage.classList.remove("hidden");
+        return;
+      }
+
+      data.jobs.forEach((job: any) => {
+        const card = createJobCard(job);
+        jobsContainer.appendChild(card);
+      });
+
+      renderPagination(data.pagination);
+    } catch (error) {
+      loading.classList.add("hidden");
+
+      errorMessage.textContent =
+        "Unable to load jobs. Please try again.";
+
+      errorMessage.classList.remove("hidden");
+
+      console.error("Jobs loading error:", error);
+    }
+  }
+
+  function createJobCard(job: any) {
+    const card = document.createElement("article");
+
+    card.className = "job-card";
+
+    const companyInitial =
+      getCompanyInitial(job.companyName);
+
+    const locationHtml = job.location
+      ? `
+        <span class="job-pill">
+          <span class="pill-icon">📍</span>
+          <span>${escapeHtml(job.location)}</span>
+        </span>
+      `
+      : "";
+
+    const jobTypeHtml = job.jobType
+      ? `
+        <span class="job-pill">
+          <span class="pill-icon">💼</span>
+          <span>${escapeHtml(job.jobType)}</span>
+        </span>
+      `
+      : "";
+
+    const workModeHtml = job.workMode
+      ? `
+        <span class="job-pill">
+          <span class="pill-icon">🏠</span>
+          <span>${escapeHtml(job.workMode)}</span>
+        </span>
+      `
+      : "";
+
+    card.innerHTML = `
+      <div class="job-card-top">
+
+        <div class="company-logo">
+          ${companyInitial}
+        </div>
+
+        <div class="company-heading">
+
+          <div class="company-name-top">
+            ${escapeHtml(job.companyName || "Company")}
+          </div>
+
+          <div class="job-category-mobile">
+            ${escapeHtml(job.category || "Job")}
+          </div>
+
+        </div>
+
+        <span class="job-category">
+          ${escapeHtml(job.category || "Job")}
+        </span>
+
+      </div>
+
+      <div class="job-main">
+
+        <h3>
+          ${escapeHtml(job.title || "Untitled Job")}
+        </h3>
+
+        <p class="company-name">
+          ${escapeHtml(job.companyName || "Company")}
+        </p>
+
+      </div>
+
+      <div class="job-divider"></div>
+
+      <div class="job-details">
+        ${locationHtml}
+        ${jobTypeHtml}
+        ${workModeHtml}
+      </div>
+
+      <div class="job-divider footer-divider"></div>
+
+      <div class="job-card-footer">
+
+        <span class="posted-date">
+
+          <span class="calendar-icon">▣</span>
+
+          ${
+            job.createdAt
+              ? `Posted ${formatDate(job.createdAt)}`
+              : ""
+          }
+
+        </span>
+
+        <a
+          href="/jobs/${encodeURIComponent(job.slug)}"
+          class="view-job"
+        >
+          <span>View Job</span>
+          <span class="arrow">→</span>
+        </a>
+
+      </div>
+    `;
+
+    return card;
+  }
+
+  function renderPagination(data: any) {
+    pagination.innerHTML = "";
+
+    if (data.totalPages <= 1) {
+      return;
+    }
+
+    if (data.hasPreviousPage) {
+      const button = document.createElement("button");
+
+      button.className =
+        "pagination-button pagination-wide";
+
+      button.innerHTML =
+        `<span>←</span><span>Previous</span>`;
+
+      button.addEventListener("click", () => {
+        loadJobs(data.currentPage - 1);
+
+        window.scrollTo({
+          top: 0,
+          behavior: "smooth"
+        });
+      });
+
+      pagination.appendChild(button);
+    }
+
+    for (
+      let page = 1;
+      page <= data.totalPages;
+      page++
+    ) {
+      const button = document.createElement("button");
+
+      button.className = "pagination-button";
+
+      button.textContent = page.toString();
+
+      if (page === data.currentPage) {
+        button.classList.add("active");
+      }
+
+      button.addEventListener("click", () => {
+        loadJobs(page);
+
+        window.scrollTo({
+          top: 0,
+          behavior: "smooth"
+        });
+      });
+
+      pagination.appendChild(button);
+    }
+
+    if (data.hasNextPage) {
+      const button = document.createElement("button");
+
+      button.className =
+        "pagination-button pagination-wide";
+
+      button.innerHTML =
+        `<span>Next</span><span>→</span>`;
+
+      button.addEventListener("click", () => {
+        loadJobs(data.currentPage + 1);
+
+        window.scrollTo({
+          top: 0,
+          behavior: "smooth"
+        });
+      });
+
+      pagination.appendChild(button);
+    }
+  }
+
+  function getCompanyInitial(name: string) {
+    if (!name) {
+      return "C";
+    }
+
+    return name.charAt(0).toUpperCase();
+  }
+
+  function formatDate(date: string) {
+    if (!date) {
+      return "";
+    }
+
+    return new Date(date).toLocaleDateString(
+      "en-IN",
+      {
+        day: "numeric",
+        month: "short",
+        year: "numeric"
+      }
+    );
+  }
+
+  function escapeHtml(value: any) {
+    const div = document.createElement("div");
+
+    div.textContent = String(value);
+
+    return div.innerHTML;
+  }
+
+  searchButton.addEventListener("click", () => {
+    loadJobs(1);
+  });
+
+  searchInput.addEventListener("keydown", (event) => {
+    if (event.key === "Enter") {
+      loadJobs(1);
+    }
+  });
+
+  categoryFilter.addEventListener("change", () => {
+    loadJobs(1);
+  });
+
+  jobTypeFilter.addEventListener("change", () => {
+    loadJobs(1);
+  });
+
+  workModeFilter.addEventListener("change", () => {
+    loadJobs(1);
+  });
+
+  locationFilter.addEventListener("keydown", (event) => {
+    if (event.key === "Enter") {
+      loadJobs(1);
+    }
+  });
+
+  loadFilterOptions();
+  loadJobs();
+</script>
+
+
+
+<style is:global>
+  * {
+    box-sizing: border-box;
+  }
+
+  .jobs-page {
+    width: 100%;
+    min-height: 100vh;
+    background: #f8fafc;
+    color: #111827;
+  }
+
+  .container {
+    width: 100%;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding-left: 38px;
+    padding-right: 38px;
+    box-sizing: border-box;
+  }
+
+  /* =========================
+     HERO
+  ========================= */
+
+  .jobs-header {
+    width: 100%;
+    padding: 55px 0 58px;
+    text-align: center;
+    background:
+      radial-gradient(
+        circle at 50% 0%,
+        rgba(15, 118, 110, 0.12),
+        transparent 58%
+      ),
+      linear-gradient(
+        135deg,
+        #ffffff 0%,
+        #f0fdfa 100%
+      );
+  }
+
+  .hero-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 9px 22px;
+    border-radius: 999px;
+    background: #f0fdfa;
+    color: #0f766e;
+    font-size: 15px;
+    font-weight: 700;
+  }
+
+  .jobs-header h1 {
+  margin: 22px 0 14px;
+
+  background: linear-gradient(
+    135deg,
+    #0f766e 0%,
+    #0d9488 50%,
+    #115e59 100%
+  );
+
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+
+  font-size: clamp(2.5rem, 5vw, 4rem);
+  line-height: 1.1;
+  letter-spacing: -1.8px;
+  font-weight: 800;
+}
+
+.jobs-header .highlight-keyword {
+  color: #0d9488;
+  font-weight: 700;
+  background: linear-gradient(
+    135deg,
+    rgba(13, 148, 136, 0.10),
+    rgba(20, 184, 166, 0.05)
+  );
+  padding: 2px 5px;
+  border-radius: 5px;
+  white-space: nowrap;
+}
+
+/* Mobile Responsive */
+@media (max-width: 600px) {
+  .jobs-header .highlight-keyword {
+    padding: 1px 4px;
+    border-radius: 4px;
+    white-space: normal;
+    display: inline;
+    box-decoration-break: clone;
+    -webkit-box-decoration-break: clone;
+  }
+
+  .jobs-header p {
+    max-width: 100%;
+    padding: 0 4px;
+    font-size: 15px;
+    line-height: 1.75;
+  }
+}
+
+/* Very Small Screens */
+@media (max-width: 400px) {
+  .jobs-header .highlight-keyword {
+    padding: 1px 3px;
+  }
+
+  .jobs-header p {
+    padding: 0;
+    font-size: 14px;
+    line-height: 1.7;
+  }
+}
+  /* =========================
+     SEARCH SECTION
+  ========================= */
+
+  .search-section {
+    position: relative;
+    z-index: 5;
+    width: 100%;
+    padding: 28px 0;
+    background: #ffffff;
+    border-top: 1px solid #f1f5f9;
+    border-bottom: 1px solid #e2e8f0;
+    box-shadow:
+      0 5px 22px rgba(15, 23, 42, 0.04);
+  }
+
+  .search-box {
+    display: grid;
+    grid-template-columns:
+      minmax(250px, 1.7fr)
+      minmax(150px, 1fr)
+      minmax(150px, 1fr)
+      minmax(150px, 1fr)
+      minmax(160px, 1fr)
+      120px;
+    gap: 12px;
+    align-items: center;
+  }
+
+  .search-field,
+  .select-wrapper {
+    position: relative;
+    width: 100%;
+    height: 58px;
+    box-sizing: border-box;
+  }
+
+  .search-field {
+    display: flex;
+    align-items: center;
+    border: 1px solid #d9dee8;
+    border-radius: 10px;
+    background: #ffffff;
+    transition:
+      border-color 0.2s ease,
+      box-shadow 0.2s ease;
+  }
+
+  .search-field:focus-within {
+    border-color: #0f766e;
+    box-shadow:
+      0 0 0 4px rgba(15, 118, 110, 0.08);
+  }
+
+  .field-icon {
+    flex-shrink: 0;
+    margin-left: 17px;
+    margin-right: 10px;
+    color: #64748b;
+    font-size: 26px;
+    line-height: 1;
+  }
+
+  .location-icon {
+    font-size: 23px;
+  }
+
+  .search-field input {
+    width: 100%;
+    height: 100%;
+    min-width: 0;
+    padding: 0 14px 0 0;
+    border: 0;
+    outline: 0;
+    background: transparent;
+    color: #1e293b;
+    font-size: 15px;
+    box-sizing: border-box;
+  }
+
+  .search-field input::placeholder {
+    color: #7c8799;
+  }
+
+  /* =========================
+     SELECT FILTERS
+  ========================= */
+
+  .select-wrapper {
+    display: flex;
+    align-items: center;
+    border: 1px solid #d9dee8;
+    border-radius: 10px;
+    background: #ffffff;
+    overflow: hidden;
+    transition:
+      border-color 0.2s ease,
+      box-shadow 0.2s ease;
+  }
+
+  .select-wrapper:focus-within {
+    border-color: #0f766e;
+    box-shadow:
+      0 0 0 4px rgba(15, 118, 110, 0.08);
+  }
+
+  .select-wrapper select {
+    width: 100%;
+    height: 100%;
+    min-width: 0;
+    padding: 0 40px 0 17px;
+    appearance: none;
+    border: 0;
+    outline: 0;
+    background: transparent;
+    color: #1e293b;
+    font-size: 15px;
+    cursor: pointer;
+  }
+
+  .select-arrow {
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-58%);
+    color: #475569;
+    font-size: 20px;
+    pointer-events: none;
+  }
+
+  /* =========================
+     SEARCH BUTTON
+  ========================= */
+
+  .search-button {
+    height: 58px;
+    padding: 0 20px;
+    border: 0;
+    border-radius: 10px;
+    background:
+      linear-gradient(
+        135deg,
+        #0f766e,
+        #115e59
+      );
+    color: #ffffff;
+    font-size: 16px;
+    font-weight: 700;
+    cursor: pointer;
+    box-shadow:
+      0 5px 14px rgba(15, 118, 110, 0.20);
+    transition:
+      transform 0.2s ease,
+      box-shadow 0.2s ease;
+  }
+
+  .search-button:hover {
+    transform: translateY(-1px);
+    box-shadow:
+      0 8px 18px rgba(15, 118, 110, 0.28);
+  }
+
+  /* =========================
+     RESULTS SECTION
+  ========================= */
+
+  .results-section {
+    width: 100%;
+    padding: 58px 0 85px;
+    background: #f8fafc;
+  }
+
+  .results-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: 20px;
+    margin-bottom: 38px;
+  }
+
+  .results-top h2 {
+    margin: 0 0 7px;
+    color: #0f172a;
+    font-size: 30px;
+    line-height: 1.2;
+    font-weight: 800;
+    letter-spacing: -0.5px;
+  }
+
+  .results-top p {
+    margin: 0;
+    color: #94a3b8;
+    font-size: 16px;
+  }
+
+  #resultCount {
+    padding-bottom: 4px;
+    color: #64748b;
+    font-size: 15px;
+    font-weight: 500;
+  }
+
+  /* =========================
+     JOB GRID
+  ========================= */
+
+  .jobs-grid {
+    width: 100%;
+    display: grid;
+    grid-template-columns:
+      repeat(3, minmax(0, 1fr));
+    gap: 20px 22px;
+  }
+
+  /* =========================
+     JOB CARD
+  ========================= */
+
+  .job-card {
+    width: 100%;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    padding: 30px 32px 24px;
+    box-sizing: border-box;
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 16px;
+    box-shadow:
+      0 3px 10px rgba(15, 23, 42, 0.04);
+    transition:
+      transform 0.2s ease,
+      box-shadow 0.2s ease,
+      border-color 0.2s ease;
+  }
+
+  .job-card:hover {
+    transform: translateY(-3px);
+    border-color: #99f6e4;
+    box-shadow:
+      0 12px 28px rgba(15, 23, 42, 0.09);
+  }
+
+  .job-card-top {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+    min-width: 0;
+  }
+
+  /* =========================
+     COMPANY LOGO
+  ========================= */
+
+  .company-logo {
+    width: 56px;
+    height: 56px;
+    min-width: 56px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 12px;
+    background: #f0fdfa;
+    color: #0f766e;
+    font-size: 24px;
+    font-weight: 800;
+    flex-shrink: 0;
+  }
+
+  .company-heading {
+    min-width: 0;
+    flex: 1;
+  }
+
+  .company-name-top {
+    margin-top: 1px;
+    color: #111827;
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 1.4;
+    overflow-wrap: anywhere;
+  }
+
+  .job-category-mobile {
+    display: none;
+  }
+
+  .job-category {
+    flex-shrink: 0;
+    padding: 8px 12px;
+    border-radius: 8px;
+    background: #f0fdfa;
+    color: #0f766e;
+    font-size: 12px;
+    font-weight: 700;
+  }
+
+  /* =========================
+     JOB MAIN CONTENT
+  ========================= */
+
+  .job-main {
+    margin-top: 27px;
+  }
+
+  .job-card h3 {
+    margin: 0 0 10px;
+    color: #0f172a;
+    font-size: 23px;
+    line-height: 1.35;
+    font-weight: 800;
+    letter-spacing: -0.35px;
+    overflow-wrap: anywhere;
+  }
+
+  .company-name {
+    margin: 0;
+    color: #0f766e;
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 1.4;
+    overflow-wrap: anywhere;
+  }
+
+  /* =========================
+     JOB DETAILS
+  ========================= */
+
+  .job-divider {
+    width: 100%;
+    height: 1px;
+    margin-top: 24px;
+    background: #e8ebf0;
+  }
+
+  .job-details {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+    padding: 20px 0 18px;
+  }
+
+  .job-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    min-height: 40px;
+    padding: 0 14px;
+    border-radius: 9px;
+    background: #f1f5f9;
+    color: #334155;
+    font-size: 14px;
+    font-weight: 500;
+    box-sizing: border-box;
+    overflow-wrap: anywhere;
+  }
+
+  .pill-icon {
+    font-size: 15px;
+    line-height: 1;
+  }
+
+  .footer-divider {
+    margin-top: 0;
+  }
+
+  /* =========================
+     CARD FOOTER
+  ========================= */
+
+  .job-card-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 15px;
+    padding-top: 17px;
+  }
+
+  .posted-date {
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+    color: #718096;
+    font-size: 14px;
+    font-weight: 500;
+  }
+
+  .calendar-icon {
+    color: #64748b;
+    font-size: 16px;
+  }
+
+  .view-job {
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+    flex-shrink: 0;
+    text-decoration: none;
+    color: #0f766e;
+    font-size: 15px;
+    font-weight: 700;
+    transition: gap 0.2s ease;
+  }
+
+  .view-job:hover {
+    gap: 13px;
+    color: #115e59;
+  }
+
+  .arrow {
+    font-size: 21px;
+    line-height: 1;
+  }
+
+  /* =========================
+     LOADING
+  ========================= */
+
+  .loading {
+    width: 100%;
+    min-height: 260px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    color: #64748b;
+    font-size: 15px;
+  }
+
+  .spinner {
+    width: 20px;
+    height: 20px;
+    border: 2px solid #e2e8f0;
+    border-top-color: #0f766e;
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+  }
+
+  @keyframes spin {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+
+  /* =========================
+     ERROR
+  ========================= */
+
+  .error-message {
+    width: 100%;
+    padding: 20px;
+    box-sizing: border-box;
+    text-align: center;
+    background: #fff5f5;
+    color: #b91c1c;
+    border: 1px solid #fecaca;
+    border-radius: 12px;
+  }
+
+  /* =========================
+     EMPTY STATE
+  ========================= */
+
+  .empty-message {
+    width: 100%;
+    padding: 65px 20px;
+    box-sizing: border-box;
+    text-align: center;
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 16px;
+  }
+
+  .empty-icon {
+    width: 52px;
+    height: 52px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 16px;
+    border-radius: 50%;
+    background: #f0fdfa;
+    color: #0f766e;
+    font-size: 27px;
+  }
+
+  .empty-message h3 {
+    margin: 0 0 8px;
+    color: #0f172a;
+    font-size: 20px;
+  }
+
+  .empty-message p {
+    margin: 0;
+    color: #64748b;
+  }
+
+  /* =========================
+     PAGINATION
+  ========================= */
+
+  .pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 42px;
+  }
+
+  .pagination-button {
+    min-width: 52px;
+    height: 52px;
+    padding: 0 15px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    border: 1px solid #dfe3eb;
+    border-radius: 9px;
+    background: #ffffff;
+    color: #64748b;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    transition:
+      background 0.2s ease,
+      color 0.2s ease,
+      border-color 0.2s ease;
+  }
+
+  .pagination-button:hover {
+    border-color: #0f766e;
+    color: #0f766e;
+    background: #f0fdfa;
+  }
+
+  .pagination-button.active {
+    border-color: #0f766e;
+    background: #0f766e;
+    color: #ffffff;
+  }
+
+  .pagination-wide {
+    min-width: 145px;
+  }
+
+  .hidden {
+    display: none !important;
+  }
+
+  /* =========================
+     TABLET
+  ========================= */
+
+  @media (max-width: 1150px) {
+    .search-box {
+      grid-template-columns:
+        1.6fr
+        1fr
+        1fr;
+    }
+
+    .search-field-large {
+      grid-column: span 1;
+    }
+
+    .search-button {
+      width: 100%;
+    }
+  }
+
+  /* =========================
+     SMALL TABLET
+  ========================= */
+
+  @media (max-width: 850px) {
+    .container {
+      padding-left: 24px;
+      padding-right: 24px;
+    }
+
+    .search-box {
+      grid-template-columns: 1fr 1fr;
+    }
+
+    .jobs-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  /* =========================
+     MOBILE
+  ========================= */
+
+  @media (max-width: 600px) {
+    .container {
+      padding-left: 16px;
+      padding-right: 16px;
+    }
+
+    .jobs-header {
+      padding: 42px 0 45px;
+    }
+
+    .jobs-header h1 {
+      font-size: 2.35rem;
+      letter-spacing: -1px;
+    }
+
+    .jobs-header p {
+      font-size: 15px;
+    }
+
+    .search-section {
+      padding: 18px 0;
+    }
+
+    .search-box {
+      grid-template-columns: 1fr;
+      gap: 10px;
+    }
+
+    .search-field,
+    .select-wrapper,
+    .search-button {
+      height: 54px;
+    }
+
+    .results-section {
+      padding: 42px 0 60px;
+    }
+
+    .results-top {
+      align-items: flex-start;
+      flex-direction: column;
+      gap: 8px;
+      margin-bottom: 25px;
+    }
+
+    .results-top h2 {
+      font-size: 26px;
+    }
+
+    .jobs-grid {
+      gap: 16px;
+    }
+
+    .job-card {
+      padding: 23px 20px 20px;
+      border-radius: 14px;
+    }
+
+    .company-logo {
+      width: 50px;
+      height: 50px;
+      min-width: 50px;
+    }
+
+    .job-card h3 {
+      font-size: 20px;
+    }
+
+    .job-category {
+      display: none;
+    }
+
+    .job-category-mobile {
+      display: inline-block;
+      margin-top: 5px;
+      color: #0f766e;
+      font-size: 13px;
+      font-weight: 600;
+    }
+
+    .job-details {
+      align-items: stretch;
+      flex-direction: column;
+    }
+
+    .job-pill {
+      width: fit-content;
+      max-width: 100%;
+    }
+
+    .job-card-footer {
+      align-items: flex-start;
+      flex-direction: column;
+    }
+
+    .view-job {
+      align-self: flex-end;
+    }
+
+    .pagination-button {
+      height: 46px;
+      min-width: 46px;
+    }
+
+    .pagination-wide {
+      min-width: 110px;
+    }
+  }
+
+  /* =========================
+     VERY SMALL MOBILE
+  ========================= */
+
+  @media (max-width: 400px) {
+    .jobs-header h1 {
+      font-size: 2rem;
+    }
+
+    .job-card-top {
+      gap: 12px;
+    }
+
+    .company-logo {
+      width: 46px;
+      height: 46px;
+      min-width: 46px;
+      font-size: 20px;
+    }
+
+    .job-card h3 {
+      font-size: 18px;
+    }
+
+    .job-pill {
+      font-size: 13px;
+      padding: 0 11px;
+    }
+  }
+</style>

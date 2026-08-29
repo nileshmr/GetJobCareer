@@ -1,0 +1,1875 @@
+---
+import Layout from "../layouts/Layout.astro";
+import "../styles/global.css";
+
+interface Job {
+  _id: string;
+  title: string;
+  slug: string;
+  companyName: string;
+  companyLogo?: string;
+  featuredImage?: string;
+  category: string;
+  jobType: "Full Time" | "Part Time" | "Internship" | "Contract" | "Freelance";
+  workMode: "On-site" | "Remote" | "Hybrid";
+  location?: string;
+  salary?: string;
+  experience?: string;
+  isPublished: boolean;
+  isFeatured: boolean;
+}
+
+interface JobsResponse {
+  jobs: Job[];
+}
+
+const API_URL = import.meta.env.PUBLIC_API_URL || "http://localhost:5000";
+
+let featuredJobs: Job[] = [];
+
+try {
+  const response = await fetch(`${API_URL}/api/jobs?limit=50`);
+
+  if (response.ok) {
+    const data: JobsResponse = await response.json();
+
+    featuredJobs = data.jobs
+      .filter((job) => job.isPublished && job.isFeatured)
+      .slice(0, 10);
+  }
+} catch (error) {
+  console.error("Failed to fetch featured jobs:", error);
+}
+---
+
+<Layout
+  title="GetJobCareer - Find Jobs, Internships & Career Opportunities"
+  description="Find the latest jobs, internships and career opportunities on GetJobCareer. Explore BCA, MCA, B.Tech, B.Sc IT, M.Sc IT and Computer Science jobs for freshers and professionals. Find the latest jobs, internships and career opportunities on GetJobCareer. Explore BCA, MCA, B.Tech, B.Sc IT, M.Sc IT and Computer Science jobs for freshers and professionals."
+  keywords="getjobcareer, jobs, internships, fresher jobs, BCA jobs, MCA jobs, BTech jobs, BSc IT jobs, MSc IT jobs, BSc Computer Science jobs, MSc Computer Science jobs, IT jobs, software developer jobs, remote jobs"
+
+
+>
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-glow glow-one"></div>
+    <div class="hero-glow glow-two"></div>
+
+    <div class="hero-content">
+      <span class="badge">
+        <span class="badge-dot"></span>
+        <!-- Trusted by 12,000+ students across India -->
+         ✓ Jobs & Internships for Students, Freshers & Professionals
+      </span>
+
+      <h1>
+        Your gateway to <span>verified internships</span> and entry-level jobs
+      </h1>
+
+      <p>
+        GetJobCareer connects students and early-career professionals with
+        real opportunities from trusted companies across India. No spam,
+        no scams — just verified listings.
+      </p>
+
+      <form class="search-box" action="/jobs" method="GET">
+        <div class="search-input">
+          <span>⌕</span>
+          <input
+            type="text"
+            name="search"
+            placeholder="Search for roles, companies, or skills..."
+          />
+        </div>
+
+        <button type="submit">
+          Search
+          <span>→</span>
+        </button>
+      </form>
+
+      <div class="tags">
+        <a href="/jobs?search=Frontend">Frontend</a>
+        <a href="/jobs?search=Backend">Backend</a>
+        <a href="/jobs?search=Fullstack">Fullstack</a>
+        <a href="/jobs?search=Data">Data</a>
+        <a href="/jobs?search=Internship">Internship</a>
+        <a href="/jobs?search=Remote">Remote</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- STATS -->
+  <section class="stats-wrapper">
+    <div class="stats">
+      <div class="stat-card">
+        <div class="stat-icon">▣</div>
+        <strong>300+</strong>
+        <span>Partner Companies</span>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-icon">✓</div>
+        <strong>5,000+</strong>
+        <span>Verified Jobs</span>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-icon">♙</div>
+        <strong>12,000+</strong>
+        <span>Students Placed</span>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-icon">↗</div>
+        <strong>85%</strong>
+        <span>Success Rate</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- FEATURED OPPORTUNITIES -->
+<section class="featured">
+  <div class="section-heading">
+    <div>
+      <h2>Featured Opportunities</h2>
+      <p>Hand-picked roles from top companies hiring now</p>
+    </div>
+
+    <a href="/jobs" class="view-all">
+      View all jobs →
+    </a>
+  </div>
+
+  {featuredJobs.length > 0 ? (
+    <div class="job-grid">
+      {featuredJobs.map((job) => (
+        <article class="job-card">
+          <div class="job-top">
+            {job.companyLogo ? (
+              <img
+                src={job.companyLogo}
+                alt={`${job.companyName} logo`}
+                class="company-logo company-logo-image"
+                loading="lazy"
+              />
+            ) : (
+              <div class="company-logo">
+                {job.companyName.charAt(0).toUpperCase()}
+              </div>
+            )}
+
+            <div>
+              <h3>{job.title}</h3>
+              <p>{job.companyName}</p>
+            </div>
+          </div>
+
+          <div class="job-info">
+            <span>
+              {job.jobType === "Full Time"
+                ? "💼 Full-time"
+                : job.jobType === "Part Time"
+                  ? "💼 Part-time"
+                  : job.jobType === "Internship"
+                    ? "🎓 Internship"
+                    : `💼 ${job.jobType}`}
+            </span>
+
+            <span>
+              {job.workMode === "Remote"
+                ? "📍 Remote"
+                : `📍 ${job.location || job.workMode}`}
+            </span>
+          </div>
+
+          <div class="job-bottom">
+            <span>{job.salary || "Salary not disclosed"}</span>
+
+            <a href={`/jobs/${job.slug}`}>
+              View Job →
+            </a>
+          </div>
+        </article>
+      ))}
+    </div>
+  ) : (
+    <div class="no-featured-jobs">
+      <p>Featured jobs will appear here soon.</p>
+      <a href="/jobs">Browse all jobs →</a>
+    </div>
+  )}
+
+  <div class="mobile-view">
+    <a href="/jobs">View all jobs →</a>
+  </div>
+</section>
+  <!-- HOW IT WORKS -->
+  <section class="how-it-works">
+    <div class="section-title">
+      <h2>How GetJobCareer Works</h2>
+      <p>Three simple steps to your dream career</p>
+    </div>
+
+    <div class="steps">
+      <article class="step-card">
+        <span class="step-number">01</span>
+        <div class="step-content">
+          <h3>Search & Discover</h3>
+          <p>
+            Browse verified job listings from trusted companies.
+            Filter by role, location, and experience level.
+          </p>
+        </div>
+      </article>
+
+      <article class="step-card">
+        <span class="step-number">02</span>
+        <div class="step-content">
+          <h3>Apply with Confidence</h3>
+          <p>
+            Find the right opportunity and apply directly through
+            the company with no unnecessary middlemen.
+          </p>
+        </div>
+      </article>
+
+      <article class="step-card">
+        <span class="step-number">03</span>
+        <div class="step-content">
+          <h3>Land Your Offer</h3>
+          <p>
+            Prepare for interviews, improve your skills and take
+            the next step toward your career.
+          </p>
+        </div>
+      </article>
+    </div>
+  </section>
+
+<!-- SEO CONTENT SECTION -->
+<section
+  class="seo-content-section"
+  aria-labelledby="getjobcareer-seo-heading"
+>
+  <div class="container seo-content">
+
+    <span class="seo-label">
+      GetJobCareer
+    </span>
+
+    <h2 id="getjobcareer-seo-heading">
+      Find Jobs and Build Your Career with GetJobCareer
+    </h2>
+
+    <p>
+      Finding the right job can be difficult, especially for students,
+      freshers, graduates, and professionals who are looking for better
+      career opportunities. <strong>GetJobCareer</strong> is a job search
+      and career platform designed to help candidates discover the latest
+      jobs, internships, and career opportunities in one convenient place.
+      Whether you are searching for your first job after graduation,
+      looking for an internship, or planning your next career move,
+      GetJobCareer helps you explore opportunities that match your skills,
+      education, interests, and preferred location.
+    </p>
+
+    <h3>
+      Find the Latest Jobs and Career Opportunities
+    </h3>
+
+    <p>
+      The job market is constantly changing, and new opportunities are
+      posted regularly across different industries and locations.
+      <strong>GetJobCareer</strong> makes it easier to discover relevant
+      job openings without spending hours searching through different
+      websites. Candidates can explore opportunities by job title,
+      company, category, job type, work mode, and location. Whether you
+      are searching for <strong>fresher jobs</strong>,
+      <strong>IT jobs</strong>, software developer jobs, web developer
+      jobs, internships, remote jobs, work-from-home jobs, full-time
+      jobs, or entry-level jobs, GetJobCareer helps you discover
+      opportunities that match your career goals.
+    </p>
+
+    <h3>
+      Jobs for BCA Graduates
+    </h3>
+
+    <p>
+      A <strong>Bachelor of Computer Applications (BCA)</strong> provides
+      students with a strong foundation in programming, software
+      development, databases, web technologies, and computer applications.
+      After completing BCA, candidates can explore careers in software
+      development, web development, IT support, testing, database
+      management, and other technology fields.
+      <strong>GetJobCareer</strong> helps BCA graduates discover
+      <strong>BCA jobs for freshers</strong>, including opportunities such
+      as software developer, frontend developer, backend developer, full
+      stack developer, web developer, technical support, and IT internship
+      roles. Building practical skills and working on real-world projects
+      can further improve your chances of finding suitable opportunities.
+    </p>
+
+    <h3>
+      Jobs for MCA Graduates
+    </h3>
+
+    <p>
+      <strong>Master of Computer Applications (MCA)</strong> graduates can
+      pursue a wide range of careers in the technology industry. With
+      advanced knowledge of computer applications, programming, databases,
+      and software development, MCA candidates can apply for software
+      engineering, application development, backend development, full
+      stack development, database, and other IT roles.
+      <strong>GetJobCareer</strong> helps MCA graduates and freshers
+      explore <strong>MCA jobs</strong>, software developer jobs, IT jobs,
+      developer opportunities, and internships based on their skills and
+      career interests.
+    </p>
+
+    <h3>
+      B.Tech Jobs and Computer Science Opportunities
+    </h3>
+
+    <p>
+      Students who complete <strong>B.Tech in Computer Science,
+      Information Technology</strong>, or related engineering fields have
+      opportunities across the software and technology industry. Popular
+      career paths include software engineering, web development,
+      frontend development, backend development, full stack development,
+      cloud computing, DevOps, cybersecurity, artificial intelligence,
+      and data-related roles.
+      <strong>GetJobCareer</strong> helps B.Tech graduates search for
+      <strong>B.Tech fresher jobs</strong>, B.Tech CSE jobs, software
+      engineer jobs, IT jobs, and technical internships. Candidates can
+      also improve their profiles by developing practical programming
+      skills and creating projects that demonstrate their abilities.
+    </p>
+
+    <h3>
+      Jobs for B.Sc IT Graduates
+    </h3>
+
+    <p>
+      A <strong>B.Sc Information Technology</strong> degree provides a
+      foundation in programming, databases, networking, information
+      systems, and technology. Graduates can search for opportunities in
+      software development, IT support, web development, testing,
+      technical support, and related fields.
+      <strong>GetJobCareer</strong> provides access to
+      <strong>B.Sc IT jobs</strong> and B.Sc IT fresher jobs, helping
+      candidates discover entry-level opportunities and internships that
+      can provide valuable professional experience.
+    </p>
+
+    <h3>
+      Jobs for M.Sc IT Graduates
+    </h3>
+
+    <p>
+      Candidates with an <strong>M.Sc IT</strong> degree can explore
+      opportunities across software development, information technology,
+      databases, data technologies, system administration, and other
+      technical areas. <strong>GetJobCareer</strong> helps M.Sc IT
+      graduates explore <strong>M.Sc IT jobs</strong>, software
+      development jobs, IT jobs, developer opportunities, and technical
+      roles. Candidates can search according to their preferred location,
+      work mode, job type, and skills.
+    </p>
+
+    <h3>
+      Jobs for B.Sc Computer Science Graduates
+    </h3>
+
+    <p>
+      A <strong>B.Sc Computer Science</strong> degree can open doors to
+      careers in programming, software development, web development,
+      testing, technical support, and information technology. Fresh
+      graduates can start their careers through internships and
+      entry-level positions while developing practical industry
+      experience.
+      <strong>GetJobCareer</strong> helps candidates search for
+      <strong>B.Sc Computer Science jobs</strong>, computer science
+      fresher jobs, programming jobs, software developer jobs, web
+      developer jobs, and internships.
+    </p>
+
+    <h3>
+      Jobs for M.Sc Computer Science Graduates
+    </h3>
+
+    <p>
+      <strong>M.Sc Computer Science graduates</strong> can explore career
+      opportunities in software engineering, data science, artificial
+      intelligence, cybersecurity, databases, application development,
+      research, and other technology fields.
+      <strong>GetJobCareer</strong> provides a platform where candidates
+      can explore <strong>M.Sc Computer Science jobs</strong>, software
+      engineering jobs, developer jobs, data-related opportunities, and
+      technical career opportunities. Combining academic knowledge with
+      practical projects and relevant technical skills can help candidates
+      become more job-ready.
+    </p>
+
+    <h3>
+      Search Remote, Full-Time and Internship Jobs
+    </h3>
+
+    <p>
+      Modern professionals and students have different preferences when
+      searching for employment. Some candidates prefer
+      <strong>remote jobs and work-from-home opportunities</strong>, while
+      others want office-based positions in a specific city. Students
+      may also be looking for internships to gain practical experience
+      before starting a full-time career.
+      <strong>GetJobCareer</strong> helps users explore different job
+      types and work modes and narrow their search according to their
+      requirements. This makes it easier to focus on opportunities that
+      are relevant to individual career plans.
+    </p>
+
+    <h3>
+      Career Resources for Students and Freshers
+    </h3>
+
+    <p>
+      Finding a job is only one part of building a successful career. A
+      strong resume, good interview preparation, technical knowledge, and
+      an effective job-search strategy are equally important.
+      <strong>GetJobCareer</strong> also focuses on helping candidates
+      become more prepared for the recruitment process. Students and
+      freshers can learn about <strong>resume building</strong>,
+      <strong>interview preparation</strong>, LinkedIn profile
+      optimization, salary negotiation, DSA preparation, system design,
+      technical skills, and job search strategies.
+    </p>
+
+    <h3>
+      Build Skills and Become Job-Ready
+    </h3>
+
+    <p>
+      Technology careers require continuous learning. Programming
+      languages, frameworks, databases, cloud technologies, artificial
+      intelligence, data science, and software development practices
+      continue to evolve. Candidates who regularly improve their skills
+      can become better prepared for changing job requirements.
+      Whether you are learning Java, JavaScript, Python, React, Node.js,
+      SQL, Java, databases, DSA, or system design, practical knowledge
+      and project experience can strengthen your career profile.
+    </p>
+
+    <h3>
+      Start Your Career with GetJobCareer
+    </h3>
+
+    <p>
+      Whether you are a <strong>BCA, MCA, B.Tech, B.Sc IT, M.Sc IT,
+      B.Sc Computer Science, or M.Sc Computer Science graduate</strong>,
+      GetJobCareer can help you take the next step toward your
+      professional goals. Explore the latest jobs, discover internships,
+      search for opportunities by location and work mode, improve your
+      technical skills, and prepare for the hiring process.
+    </p>
+
+    <p>
+      <strong>GetJobCareer</strong> is built to make job searching simpler
+      for students, freshers, and professionals. Find relevant
+      opportunities, build your skills, prepare for your career, and take
+      the next step toward your dream job with GetJobCareer.
+    </p>
+
+  </div>
+</section>
+
+  <!-- SUCCESS STORIES -->
+  <section class="success">
+    <div class="section-title">
+      <h2>Success Stories</h2>
+      <p>Real people, real results</p>
+    </div>
+
+    <div class="testimonial-grid">
+      <article class="testimonial">
+        <div class="quote">“</div>
+
+        <p>
+          GetJobCareer helped me land my first job at Amazon.
+          The verified listings saved me from countless scam
+          postings and helped me prepare for every interview.
+        </p>
+
+        <div class="person">
+          <div class="avatar">P</div>
+          <div>
+            <strong>Priya Sharma</strong>
+            <span>SDE-1 at Amazon</span>
+          </div>
+        </div>
+      </article>
+
+      <article class="testimonial">
+        <div class="quote">“</div>
+
+        <p>
+          I was struggling to find internships as a fresher.
+          GetJobCareer connected me with a real opportunity and
+          within 2 months I had a full-time offer.
+        </p>
+
+        <div class="person">
+          <div class="avatar">R</div>
+          <div>
+            <strong>Rahul Verma</strong>
+            <span>Fullstack Developer</span>
+          </div>
+        </div>
+      </article>
+
+      <article class="testimonial">
+        <div class="quote">“</div>
+
+        <p>
+          The career resources were a game changer. The interview
+          preparation material gave me the confidence to crack
+          my first data analyst interview.
+        </p>
+
+        <div class="person">
+          <div class="avatar">A</div>
+          <div>
+            <strong>Ananya Iyer</strong>
+            <span>Data Analyst</span>
+          </div>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="cta-wrapper">
+    <div class="cta">
+      <div class="cta-glow"></div>
+
+      <div class="cta-content">
+        <h2>Ready to start your career journey?</h2>
+
+        <p>
+          Join thousands of students who found their first job
+          through GetJobCareer.
+        </p>
+
+        <a href="/jobs" class="cta-button">
+          Browse All Jobs →
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================
+     FAQ SECTION
+========================= -->
+
+<section class="faq-section" aria-labelledby="faq-heading">
+  <div class="faq-container">
+
+    <div class="faq-heading">
+      <span class="faq-badge">Frequently Asked Questions</span>
+
+      <h2 id="faq-heading">
+        Frequently Asked Questions About GetJobCareer
+      </h2>
+
+      <p>
+        Find answers to common questions about jobs, internships,
+        career opportunities and job searches on GetJobCareer.
+      </p>
+    </div>
+
+    <div class="faq-list">
+
+      <details class="faq-item">
+        <summary>
+          What is GetJobCareer?
+          <span class="faq-icon">+</span>
+        </summary>
+
+        <div class="faq-answer">
+          <p>
+            GetJobCareer is a job and career platform that helps students,
+            freshers and job seekers discover the latest jobs, internships
+            and career opportunities. You can search for opportunities by
+            job title, company, category, location, job type and work mode.
+          </p>
+        </div>
+      </details>
+
+      <details class="faq-item">
+        <summary>
+          Can BCA students find jobs on GetJobCareer?
+          <span class="faq-icon">+</span>
+        </summary>
+
+        <div class="faq-answer">
+          <p>
+            Yes. GetJobCareer can help BCA students and BCA freshers discover
+            relevant jobs, internships and entry-level career opportunities.
+            Students can search for software development, web development,
+            IT support, testing, digital marketing and other suitable roles.
+          </p>
+        </div>
+      </details>
+
+      <details class="faq-item">
+        <summary>
+          Are there jobs for MCA students and freshers?
+          <span class="faq-icon">+</span>
+        </summary>
+
+        <div class="faq-answer">
+          <p>
+            Yes. MCA students and freshers can use GetJobCareer to find
+            technology jobs and internships. Opportunities may include
+            software development, full stack development, backend development,
+            frontend development, database, testing and other IT roles.
+          </p>
+        </div>
+      </details>
+
+      <details class="faq-item">
+        <summary>
+          Can B.Tech students find jobs and internships here?
+          <span class="faq-icon">+</span>
+        </summary>
+
+        <div class="faq-answer">
+          <p>
+            Yes. GetJobCareer provides a place to discover job and internship
+            opportunities suitable for B.Tech graduates and students.
+            Depending on available listings, candidates can explore software,
+            IT, engineering and other technology-related career opportunities.
+          </p>
+        </div>
+      </details>
+
+      <details class="faq-item">
+        <summary>
+          Are there jobs for B.Sc IT and M.Sc IT graduates?
+          <span class="faq-icon">+</span>
+        </summary>
+
+        <div class="faq-answer">
+          <p>
+            Yes. B.Sc IT and M.Sc IT students and graduates can use
+            GetJobCareer to search for relevant IT jobs and internships.
+            You can explore opportunities based on your skills, experience,
+            location, job type and work mode.
+          </p>
+        </div>
+      </details>
+
+      <details class="faq-item">
+        <summary>
+          Does GetJobCareer have jobs for Computer Science students?
+          <span class="faq-icon">+</span>
+        </summary>
+
+        <div class="faq-answer">
+          <p>
+            GetJobCareer can help Computer Science students and graduates
+            discover relevant career opportunities. Candidates with B.Sc
+            Computer Science, M.Sc Computer Science and related qualifications
+            can search available software, IT and technology jobs and
+            internships.
+          </p>
+        </div>
+      </details>
+
+      <details class="faq-item">
+        <summary>
+          Can freshers find jobs on GetJobCareer?
+          <span class="faq-icon">+</span>
+        </summary>
+
+        <div class="faq-answer">
+          <p>
+            Yes. Freshers can use GetJobCareer to search for entry-level jobs,
+            internships and graduate opportunities. You can use job search
+            filters to find opportunities based on your preferred category,
+            location, job type and work mode.
+          </p>
+        </div>
+      </details>
+
+      <details class="faq-item">
+        <summary>
+          What types of jobs can I search for on GetJobCareer?
+          <span class="faq-icon">+</span>
+        </summary>
+
+        <div class="faq-answer">
+          <p>
+            The available jobs depend on current listings. You may find
+            opportunities in software development, web development, frontend,
+            backend, full stack development, IT, testing, digital marketing,
+            data-related roles, internships and other career categories.
+          </p>
+        </div>
+      </details>
+
+      <details class="faq-item">
+        <summary>
+          Can I search jobs by location and work mode?
+          <span class="faq-icon">+</span>
+        </summary>
+
+        <div class="faq-answer">
+          <p>
+            Yes. GetJobCareer allows job seekers to search and filter
+            opportunities using information such as location, job type and
+            work mode. This can help candidates find opportunities that better
+            match their preferred working location and working arrangement.
+          </p>
+        </div>
+      </details>
+
+      <details class="faq-item">
+        <summary>
+          Does GetJobCareer list internships for students?
+          <span class="faq-icon">+</span>
+        </summary>
+
+        <div class="faq-answer">
+          <p>
+            Yes. Students and freshers can use GetJobCareer to discover
+            internship opportunities along with available job listings.
+            Internships can be useful for gaining practical experience,
+            developing skills and starting a professional career.
+          </p>
+        </div>
+      </details>
+
+      <details class="faq-item">
+        <summary>
+          How can I find the latest jobs on GetJobCareer?
+          <span class="faq-icon">+</span>
+        </summary>
+
+        <div class="faq-answer">
+          <p>
+            Visit the Jobs & Internships section of GetJobCareer and use the
+            available search and filters. You can search by job title or
+            company and narrow results using category, job type, work mode
+            and location.
+          </p>
+        </div>
+      </details>
+
+      <details class="faq-item">
+        <summary>
+          Is GetJobCareer useful for Indian job seekers?
+          <span class="faq-icon">+</span>
+        </summary>
+
+        <div class="faq-answer">
+          <p>
+            GetJobCareer is designed to make job discovery easier for students,
+            freshers and job seekers looking for career opportunities. Users
+            can explore available job listings and internships and use search
+            filters to find opportunities that match their career interests.
+          </p>
+        </div>
+      </details>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- =========================
+     FAQ JSON-LD
+========================= -->
+
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "What is GetJobCareer?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "GetJobCareer is a job and career platform that helps students, freshers and job seekers discover the latest jobs, internships and career opportunities. Users can search for opportunities by job title, company, category, location, job type and work mode."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Can BCA students find jobs on GetJobCareer?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes. GetJobCareer can help BCA students and BCA freshers discover relevant jobs, internships and entry-level career opportunities, including software development, web development, IT support, testing and digital marketing roles."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Are there jobs for MCA students and freshers?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes. MCA students and freshers can use GetJobCareer to find technology jobs and internships, including software development, full stack development, backend development, frontend development, database and testing roles."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Can B.Tech students find jobs and internships here?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes. GetJobCareer provides a place to discover job and internship opportunities suitable for B.Tech graduates and students. Depending on available listings, candidates can explore software, IT, engineering and technology-related career opportunities."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Are there jobs for B.Sc IT and M.Sc IT graduates?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes. B.Sc IT and M.Sc IT students and graduates can use GetJobCareer to search for relevant IT jobs and internships. Users can explore opportunities based on skills, experience, location, job type and work mode."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Does GetJobCareer have jobs for Computer Science students?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "GetJobCareer can help Computer Science students and graduates discover relevant career opportunities. Candidates with B.Sc Computer Science, M.Sc Computer Science and related qualifications can search available software, IT and technology jobs and internships."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Can freshers find jobs on GetJobCareer?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes. Freshers can use GetJobCareer to search for entry-level jobs, internships and graduate opportunities. Job seekers can use search filters to find opportunities based on category, location, job type and work mode."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What types of jobs can I search for on GetJobCareer?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "The available jobs depend on current listings. Users may find opportunities in software development, web development, frontend, backend, full stack development, IT, testing, digital marketing, data-related roles, internships and other career categories."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Can I search jobs by location and work mode?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes. GetJobCareer allows job seekers to search and filter opportunities using information such as location, job type and work mode. This helps candidates find opportunities that better match their preferred working location and working arrangement."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Does GetJobCareer list internships for students?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes. Students and freshers can use GetJobCareer to discover internship opportunities along with available job listings. Internships can help candidates gain practical experience, develop skills and start a professional career."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How can I find the latest jobs on GetJobCareer?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Visit the Jobs & Internships section of GetJobCareer and use the available search and filters. You can search by job title or company and narrow results using category, job type, work mode and location."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Is GetJobCareer useful for Indian job seekers?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "GetJobCareer is designed to make job discovery easier for students, freshers and job seekers looking for career opportunities. Users can explore available job listings and internships and use search filters to find opportunities that match their career interests."
+        }
+      }
+    ]
+  }
+</script>
+
+
+<style>
+  .faq-section {
+    width: 100%;
+    padding: 80px 20px;
+    background: #ffffff;
+    border-top: 1px solid #e2e8f0;
+  }
+
+  .faq-container {
+    width: 100%;
+    max-width: 900px;
+    margin: 0 auto;
+  }
+
+  .faq-heading {
+    text-align: center;
+    margin-bottom: 42px;
+  }
+
+  .faq-badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 8px 16px;
+    border-radius: 999px;
+    background: #f0fdfa;
+    color: #0f766e;
+    font-size: 13px;
+    font-weight: 700;
+  }
+
+  .faq-heading h2 {
+    margin: 18px 0 12px;
+    color: #0f172a;
+    font-size: clamp(2rem, 4vw, 2.8rem);
+    line-height: 1.2;
+    font-weight: 800;
+    letter-spacing: -0.8px;
+  }
+
+  .faq-heading p {
+    max-width: 680px;
+    margin: 0 auto;
+    color: #64748b;
+    font-size: 16px;
+    line-height: 1.7;
+  }
+
+  .faq-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .faq-item {
+    overflow: hidden;
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    transition:
+      border-color 0.2s ease,
+      box-shadow 0.2s ease;
+  }
+
+  .faq-item:hover {
+    border-color: #99f6e4;
+    box-shadow: 0 5px 18px rgba(15, 23, 42, 0.05);
+  }
+
+  .faq-item[open] {
+    border-color: #99f6e4;
+    box-shadow: 0 6px 20px rgba(15, 23, 42, 0.06);
+  }
+
+  .faq-item summary {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    padding: 20px 22px;
+    color: #0f172a;
+    font-size: 16px;
+    line-height: 1.5;
+    font-weight: 700;
+    cursor: pointer;
+    list-style: none;
+  }
+
+  .faq-item summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .faq-icon {
+    flex-shrink: 0;
+    width: 28px;
+    height: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 7px;
+    background: #f0fdfa;
+    color: #0f766e;
+    font-size: 20px;
+    font-weight: 500;
+    transition: transform 0.2s ease;
+  }
+
+  .faq-item[open] .faq-icon {
+    transform: rotate(45deg);
+  }
+
+  .faq-answer {
+    padding: 0 22px 21px;
+  }
+
+  .faq-answer p {
+    margin: 0;
+    color: #64748b;
+    font-size: 15px;
+    line-height: 1.75;
+  }
+
+  @media (max-width: 600px) {
+    .faq-section {
+      padding: 60px 16px;
+    }
+
+    .faq-heading {
+      margin-bottom: 30px;
+    }
+
+    .faq-heading h2 {
+      font-size: 2rem;
+    }
+
+    .faq-heading p {
+      font-size: 15px;
+    }
+
+    .faq-item summary {
+      padding: 17px;
+      font-size: 15px;
+    }
+
+    .faq-answer {
+      padding: 0 17px 18px;
+    }
+
+    .faq-answer p {
+      font-size: 14px;
+    }
+  }
+</style>
+</Layout>
+
+<style>
+  /* HERO */
+  .hero {
+    position: relative;
+    overflow: hidden;
+    padding: 90px 20px 70px;
+    background:
+      linear-gradient(
+        180deg,
+        #ecfdf8 0%,
+        #f8fffd 35%,
+        #ffffff 100%
+      );
+  }
+
+  .hero-content {
+    position: relative;
+    z-index: 2;
+    max-width: 900px;
+    margin: auto;
+    text-align: center;
+  }
+
+  .hero-glow {
+    position: absolute;
+    width: 420px;
+    height: 420px;
+    border-radius: 50%;
+    filter: blur(90px);
+    pointer-events: none;
+  }
+
+  .glow-one {
+    top: -180px;
+    left: 20%;
+    background: rgba(45, 212, 191, 0.18);
+  }
+
+  .glow-two {
+    top: -100px;
+    right: 20%;
+    background: rgba(52, 211, 153, 0.12);
+  }
+
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 7px 14px;
+    border-radius: 999px;
+    background: #dffaf3;
+    color: #0f8f7c;
+    font-size: 12px;
+    font-weight: 600;
+  }
+
+  .badge-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: #14b8a6;
+  }
+
+  .hero h1 {
+    max-width: 850px;
+    margin: 22px auto 0;
+    color: #0f172a;
+    font-size: clamp(2.6rem, 5.5vw, 4.4rem);
+    line-height: 1.08;
+    letter-spacing: -2px;
+    font-weight: 800;
+  }
+
+  .hero h1 span {
+    color: #0f9f8c;
+  }
+
+  .hero p {
+    max-width: 650px;
+    margin: 20px auto 0;
+    color: #64748b;
+    font-size: 15px;
+    line-height: 1.7;
+  }
+
+  /* SEARCH */
+  .search-box {
+    display: flex;
+    gap: 8px;
+    max-width: 700px;
+    margin: 30px auto 0;
+    padding: 7px;
+    background: white;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(15, 23, 42, 0.08);
+  }
+
+  .search-input {
+    display: flex;
+    align-items: center;
+    flex: 1;
+    gap: 8px;
+    padding: 0 12px;
+  }
+
+  .search-input span {
+    color: #94a3b8;
+    font-size: 22px;
+  }
+
+  .search-input input {
+    width: 100%;
+    border: none;
+    outline: none;
+    padding: 12px 0;
+    color: #0f172a;
+    font-size: 13px;
+    background: transparent;
+  }
+
+  .search-input input::placeholder {
+    color: #94a3b8;
+  }
+
+  .search-box button {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    border: none;
+    border-radius: 9px;
+    padding: 13px 20px;
+    background: linear-gradient(135deg, #14b8a6, #059669);
+    color: white;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.2s;
+  }
+
+  .search-box button:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 6px 18px rgba(5, 150, 105, 0.25);
+  }
+
+  /* TAGS */
+  .tags {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 18px;
+  }
+
+  .tags a {
+    padding: 6px 12px;
+    border: 1px solid #e2e8f0;
+    border-radius: 999px;
+    background: white;
+    color: #64748b;
+    text-decoration: none;
+    font-size: 11px;
+    transition: 0.2s;
+  }
+
+  .tags a:hover {
+    border-color: #5eead4;
+    color: #0f9f8c;
+  }
+
+  /* STATS */
+  .stats-wrapper {
+    position: relative;
+    z-index: 5;
+    max-width: 1100px;
+    margin: -5px auto 0;
+    padding: 0 20px;
+  }
+
+  .stats {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+  }
+
+  .stat-card {
+    padding: 20px;
+    text-align: center;
+    background: white;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(15, 23, 42, 0.04);
+  }
+
+  .stat-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 35px;
+    height: 35px;
+    margin: 0 auto 9px;
+    border-radius: 9px;
+    background: #ecfdf8;
+    color: #0f9f8c;
+    font-weight: bold;
+  }
+
+  .stat-card strong {
+    display: block;
+    color: #0f172a;
+    font-size: 22px;
+  }
+
+  .stat-card span {
+    color: #64748b;
+    font-size: 10px;
+  }
+
+  /* COMMON */
+  .featured,
+  .success {
+    max-width: 1100px;
+    margin: auto;
+    padding: 75px 20px;
+  }
+
+  .section-heading {
+    display: flex;
+    align-items: end;
+    justify-content: space-between;
+    margin-bottom: 25px;
+  }
+
+  .section-heading h2,
+  .section-title h2 {
+    margin: 0;
+    color: #0f172a;
+    font-size: 25px;
+  }
+
+  .section-heading p,
+  .section-title p {
+    margin: 6px 0 0;
+    color: #94a3b8;
+    font-size: 12px;
+  }
+
+  .view-all {
+    color: #0f9f8c;
+    text-decoration: none;
+    font-size: 12px;
+    font-weight: 600;
+  }
+
+  /* JOB CARDS */
+  .job-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 15px;
+  }
+
+  .job-card {
+    padding: 20px;
+    background: white;
+    border: 1px solid #e2e8f0;
+    border-radius: 13px;
+    transition: 0.2s;
+  }
+
+  .job-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 25px rgba(15, 23, 42, 0.07);
+  }
+
+  .job-top {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .company-logo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 42px;
+    height: 42px;
+    border-radius: 10px;
+    background: #ecfdf8;
+    color: #0f9f8c;
+    font-weight: 700;
+  }
+
+  .company-logo-image {
+  object-fit: contain;
+  padding: 6px;
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+}
+
+  .job-top h3 {
+    margin: 0;
+    color: #0f172a;
+    font-size: 14px;
+  }
+
+  .job-top p {
+    margin: 4px 0 0;
+    color: #94a3b8;
+    font-size: 11px;
+  }
+
+  .job-info {
+    display: flex;
+    gap: 8px;
+    margin: 18px 0;
+  }
+
+  .job-info span {
+    padding: 5px 8px;
+    border-radius: 6px;
+    background: #f8fafc;
+    color: #64748b;
+    font-size: 10px;
+  }
+
+  .job-bottom {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-top: 13px;
+    border-top: 1px solid #f1f5f9;
+  }
+
+  .job-bottom span {
+    color: #475569;
+    font-size: 11px;
+    font-weight: 600;
+  }
+
+  .job-bottom a {
+    color: #0f9f8c;
+    text-decoration: none;
+    font-size: 11px;
+    font-weight: 600;
+  }
+
+  .mobile-view {
+    display: none;
+    text-align: center;
+    margin-top: 25px;
+  }
+
+  .mobile-view a {
+    color: #0f9f8c;
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 600;
+  }
+
+  /* HOW IT WORKS */
+  .how-it-works {
+    padding: 65px 20px;
+    background: #f8fafc;
+  }
+
+  .section-title {
+    text-align: center;
+    margin-bottom: 35px;
+  }
+
+  .steps {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 15px;
+    max-width: 1100px;
+    margin: auto;
+  }
+
+  .step-card {
+    position: relative;
+    overflow: hidden;
+    padding: 22px;
+    background: white;
+    border: 1px solid #e2e8f0;
+    border-radius: 13px;
+  }
+
+  .step-number {
+    position: absolute;
+    top: 8px;
+    right: 12px;
+    color: #ccfbf1;
+    font-size: 48px;
+    line-height: 1;
+    font-weight: 800;
+  }
+
+  .step-content {
+    position: relative;
+  }
+
+  .step-card h3 {
+    margin: 0 0 9px;
+    color: #0f172a;
+    font-size: 14px;
+  }
+
+  .step-card p {
+    margin: 0;
+    color: #64748b;
+    font-size: 11px;
+    line-height: 1.7;
+  }
+
+  /* SUCCESS */
+  .testimonial-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 15px;
+  }
+
+  .testimonial {
+    padding: 20px;
+    border: 1px solid #e2e8f0;
+    border-radius: 13px;
+    background: white;
+  }
+
+  .quote {
+    color: #99f6e4;
+    font-size: 35px;
+    line-height: 1;
+    font-weight: bold;
+  }
+
+  .testimonial > p {
+    min-height: 100px;
+    margin: 10px 0 20px;
+    color: #64748b;
+    font-size: 11px;
+    line-height: 1.7;
+  }
+
+  .person {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .avatar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #2dd4bf, #10b981);
+    color: white;
+    font-size: 12px;
+    font-weight: bold;
+  }
+
+  .person strong,
+  .person span {
+    display: block;
+  }
+
+  .person strong {
+    color: #0f172a;
+    font-size: 11px;
+  }
+
+  .person span {
+    margin-top: 3px;
+    color: #94a3b8;
+    font-size: 9px;
+  }
+
+  /* CTA */
+  .cta-wrapper {
+    max-width: 1100px;
+    margin: auto;
+    padding: 0 20px 65px;
+  }
+
+  .cta {
+    position: relative;
+    overflow: hidden;
+    border-radius: 15px;
+    background: linear-gradient(135deg, #159d8a, #078866);
+    padding: 48px 20px;
+    text-align: center;
+  }
+
+  .cta-glow {
+    position: absolute;
+    top: -100px;
+    left: -80px;
+    width: 230px;
+    height: 230px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.08);
+    filter: blur(40px);
+  }
+
+  .cta-content {
+    position: relative;
+    z-index: 2;
+  }
+
+  .cta h2 {
+    margin: 0;
+    color: white;
+    font-size: 27px;
+  }
+
+  .cta p {
+    margin: 12px auto 22px;
+    color: #d9fff8;
+    font-size: 12px;
+  }
+
+  .cta-button {
+    display: inline-flex;
+    align-items: center;
+    padding: 11px 18px;
+    border-radius: 8px;
+    background: white;
+    color: #087f6d;
+    text-decoration: none;
+    font-size: 11px;
+    font-weight: 700;
+    transition: 0.2s;
+  }
+
+  .cta-button:hover {
+    transform: translateY(-2px);
+  }
+
+  /* RESPONSIVE */
+  @media (max-width: 800px) {
+    .stats {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    .job-grid,
+    .steps,
+    .testimonial-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .section-heading {
+      align-items: start;
+    }
+  }
+
+  @media (max-width: 600px) {
+    .hero {
+      padding: 60px 15px 55px;
+    }
+
+    .hero h1 {
+      font-size: 2.4rem;
+      letter-spacing: -1px;
+    }
+
+    .hero p {
+      font-size: 13px;
+    }
+
+    .search-box {
+      flex-direction: column;
+    }
+
+    .search-box button {
+      justify-content: center;
+    }
+
+    .stats-wrapper {
+      padding: 0 15px;
+    }
+
+    .stats {
+      gap: 8px;
+    }
+
+    .stat-card {
+      padding: 15px 8px;
+    }
+
+    .stat-card strong {
+      font-size: 19px;
+    }
+
+    .section-heading {
+      display: block;
+    }
+
+    .view-all {
+      display: none;
+    }
+
+    .mobile-view {
+      display: block;
+    }
+
+    .featured,
+    .success {
+      padding: 55px 15px;
+    }
+
+    .cta-wrapper {
+      padding: 0 15px 50px;
+    }
+
+    .cta h2 {
+      font-size: 22px;
+    }
+  }
+
+  /* =========================
+   SEO CONTENT - PREMIUM
+========================= */
+
+.seo-content-section {
+  width: 100%;
+  padding: 90px 0;
+  background:
+    linear-gradient(
+      180deg,
+      #f8fafc 0%,
+      #ffffff 100%
+    );
+  border-top: 1px solid #e5e7eb;
+}
+
+.seo-content {
+  max-width: 980px;
+  margin: 0 auto;
+  padding: 0 38px;
+}
+
+/* Small Label */
+
+.seo-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 14px;
+  padding: 7px 13px;
+  border: 1px solid #e0e7ff;
+  border-radius: 999px;
+  background: #eef2ff;
+  color: #4f46e5;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.seo-label::before {
+  content: "";
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #6366f1;
+}
+
+/* Main Heading */
+
+.seo-content h2 {
+  max-width: 850px;
+  margin: 0 0 22px;
+  color: #0f172a;
+  font-size: clamp(30px, 4vw, 40px);
+  line-height: 1.2;
+  font-weight: 800;
+  letter-spacing: -1px;
+}
+
+/* Intro paragraph */
+
+.seo-content > p:first-of-type {
+  max-width: 880px;
+  margin-bottom: 38px;
+  color: #475569;
+  font-size: 17px;
+  line-height: 1.85;
+}
+
+/* Section headings */
+
+.seo-content h3 {
+  position: relative;
+  margin: 42px 0 12px;
+  padding-left: 17px;
+  color: #172033;
+  font-size: 21px;
+  line-height: 1.4;
+  font-weight: 750;
+  letter-spacing: -0.25px;
+}
+
+.seo-content h3::before {
+  content: "";
+  position: absolute;
+  top: 5px;
+  left: 0;
+  width: 4px;
+  height: calc(100% - 10px);
+  border-radius: 999px;
+  background: #6366f1;
+}
+
+/* Paragraph */
+
+.seo-content p {
+  margin: 0 0 20px;
+  color: #64748b;
+  font-size: 15px;
+  line-height: 1.85;
+}
+
+/* Highlighted keywords */
+
+.seo-content strong {
+  color: #334155;
+  font-weight: 700;
+}
+
+/* Last paragraph */
+
+.seo-content h3:last-of-type {
+  margin-top: 46px;
+}
+
+/* Slight visual separation */
+
+.seo-content h3 + p {
+  max-width: 900px;
+}
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media (max-width: 900px) {
+  .seo-content-section {
+    padding: 75px 0;
+  }
+
+  .seo-content {
+    padding: 0 28px;
+  }
+
+  .seo-content h2 {
+    font-size: 32px;
+  }
+}
+
+@media (max-width: 600px) {
+  .seo-content-section {
+    padding: 60px 0;
+  }
+
+  .seo-content {
+    padding: 0 18px;
+  }
+
+  .seo-label {
+    font-size: 11px;
+    padding: 6px 11px;
+  }
+
+  .seo-content h2 {
+    margin-bottom: 18px;
+    font-size: 28px;
+    line-height: 1.25;
+    letter-spacing: -0.6px;
+  }
+
+  .seo-content > p:first-of-type {
+    margin-bottom: 30px;
+    font-size: 15px;
+    line-height: 1.75;
+  }
+
+  .seo-content h3 {
+    margin-top: 34px;
+    padding-left: 14px;
+    font-size: 19px;
+  }
+
+  .seo-content h3::before {
+    width: 3px;
+  }
+
+  .seo-content p {
+    font-size: 14px;
+    line-height: 1.8;
+  }
+  .no-featured-jobs {
+  padding: 40px 20px;
+  text-align: center;
+  border: 1px dashed #cbd5e1;
+  border-radius: 13px;
+  background: #f8fafc;
+}
+
+.no-featured-jobs p {
+  margin: 0 0 12px;
+  color: #64748b;
+  font-size: 13px;
+}
+
+.no-featured-jobs a {
+  color: #0f9f8c;
+  text-decoration: none;
+  font-size: 12px;
+  font-weight: 600;
+}
+}
+</style>

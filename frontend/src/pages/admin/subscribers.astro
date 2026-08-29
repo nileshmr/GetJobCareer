@@ -1,0 +1,1802 @@
+---
+import Header from "../../components/Header.astro";
+---
+
+<Header />
+
+<div class="admin-layout">
+  <!-- =========================
+       SIDEBAR
+  ========================== -->
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+      <div class="sidebar-menu">
+        <a href="/admin" class="menu-item">
+          <span class="menu-icon">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <rect x="3" y="3" width="7" height="7" rx="1.5"></rect>
+              <rect x="14" y="3" width="7" height="7" rx="1.5"></rect>
+              <rect x="3" y="14" width="7" height="7" rx="1.5"></rect>
+              <rect x="14" y="14" width="7" height="7" rx="1.5"></rect>
+            </svg>
+          </span>
+          <span>Dashboard</span>
+        </a>
+
+        <a href="/admin/jobs" class="menu-item">
+          <span class="menu-icon">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <rect x="3" y="7" width="18" height="13" rx="2"></rect>
+              <path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+              <path d="M3 12h18"></path>
+              <path d="M10 12v2h4v-2"></path>
+            </svg>
+          </span>
+          <span>Jobs</span>
+        </a>
+
+        <a href="/admin/subscribers" class="menu-item active">
+          <span class="menu-icon">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <circle cx="9" cy="8" r="3"></circle>
+              <path d="M3 20c0-3.2 2.7-5 6-5s6 1.8 6 5"></path>
+              <circle cx="17" cy="9" r="2.5"></circle>
+              <path d="M15.5 15.5c2.7.3 4.5 1.8 4.5 4.5"></path>
+            </svg>
+          </span>
+          <span>Subscribers</span>
+        </a>
+
+        <a href="/" class="menu-item">
+          <span class="menu-icon">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <circle cx="12" cy="12" r="9"></circle>
+              <path d="M3 12h18"></path>
+              <path d="M12 3c2.2 2.5 3.3 5.5 3.3 9s-1.1 6.5-3.3 9"></path>
+              <path d="M12 3c-2.2 2.5-3.3 5.5-3.3 9s1.1 6.5 3.3 9"></path>
+            </svg>
+          </span>
+          <span>View Website</span>
+        </a>
+      </div>
+
+      <div class="sidebar-bottom">
+        <button id="logoutBtn" class="menu-item logout-btn" type="button">
+          <span class="menu-icon">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M10 5H6a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h4"></path>
+              <path d="M14 8l4 4-4 4"></path>
+              <path d="M18 12H9"></path>
+            </svg>
+          </span>
+          <span>Logout</span>
+        </button>
+      </div>
+    </div>
+  </aside>
+
+  <!-- =========================
+       MAIN CONTENT
+  ========================== -->
+  <main class="main-content">
+    <!-- PAGE HEADER -->
+    <div class="page-header">
+      <div class="page-title">
+        <div class="title-icon">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <circle cx="9" cy="8" r="3"></circle>
+            <path d="M3 20c0-3.2 2.7-5 6-5s6 1.8 6 5"></path>
+            <circle cx="17" cy="9" r="2.5"></circle>
+            <path d="M15.5 15.5c2.7.3 4.5 1.8 4.5 4.5"></path>
+          </svg>
+        </div>
+
+        <div>
+          <h1>Subscribers</h1>
+          <p>Manage and view all JobPortal subscribers.</p>
+        </div>
+      </div>
+
+      <a href="/admin" class="back-btn">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M15 18l-6-6 6-6"></path>
+        </svg>
+        <span>Dashboard</span>
+      </a>
+    </div>
+
+    <!-- =========================
+         FILTERS
+    ========================== -->
+    <section class="filters">
+      <div class="search-wrapper">
+        <svg class="search-icon" viewBox="0 0 24 24" aria-hidden="true">
+          <circle cx="11" cy="11" r="7"></circle>
+          <path d="M16.5 16.5L21 21"></path>
+        </svg>
+
+        <input
+          id="searchInput"
+          type="text"
+          placeholder="Search by name, email or phone..."
+          autocomplete="off"
+        />
+      </div>
+
+      <div class="select-wrapper">
+        <select id="categoryFilter">
+          <option value="">All Categories</option>
+          <option value="IT Jobs">IT Jobs</option>
+          <option value="Internships">Internships</option>
+          <option value="Government Jobs">Government Jobs</option>
+          <option value="Private Jobs">Private Jobs</option>
+        </select>
+      </div>
+
+      <div class="select-wrapper">
+        <select id="statusFilter">
+          <option value="">All Status</option>
+          <option value="Active">Active</option>
+          <option value="Inactive">Inactive</option>
+        </select>
+      </div>
+
+      <button id="clearFilters" class="clear-btn" type="button">
+        Clear
+      </button>
+    </section>
+
+    <!-- =========================
+         RESULT INFO
+    ========================== -->
+    <div class="result-info">
+      <strong id="subscriberCount">0</strong>
+      <span>subscribers found</span>
+    </div>
+
+    <!-- =========================
+         TABLE
+    ========================== -->
+    <section class="table-card">
+      <div class="table-wrapper">
+        <table>
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Email</th>
+              <th>Phone</th>
+              <th>Categories</th>
+              <th>Email</th>
+              <th>WhatsApp</th>
+              <th>Status</th>
+              <th>Joined</th>
+            </tr>
+          </thead>
+
+          <tbody id="subscriberTable">
+            <tr>
+              <td colspan="8" class="loading">
+                <div class="loading-content">
+                  <span class="spinner"></span>
+                  <span>Loading subscribers...</span>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- =========================
+         PAGINATION
+    ========================== -->
+    <div class="pagination">
+      <button id="prevBtn" type="button">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M15 18l-6-6 6-6"></path>
+        </svg>
+        <span>Previous</span>
+      </button>
+
+      <span id="pageInfo">
+        Page 1 of 1
+      </span>
+
+      <button id="nextBtn" type="button">
+        <span>Next</span>
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M9 18l6-6-6-6"></path>
+        </svg>
+      </button>
+    </div>
+  </main>
+</div>
+
+<script>
+  // @ts-nocheck
+
+  // ==========================================
+  // API BASE URL
+  // ==========================================
+
+  const API_URL =
+    import.meta.env.PUBLIC_API_URL ||
+    "http://localhost:5000";
+
+  // ==========================================
+  // STATE
+  // ==========================================
+
+  let subscribers = [];
+  let filteredSubscribers = [];
+
+  let currentPage = 1;
+
+  const itemsPerPage = 10;
+
+  // ==========================================
+  // DOM ELEMENTS
+  // ==========================================
+
+  const table =
+    document.getElementById("subscriberTable");
+
+  const countElement =
+    document.getElementById("subscriberCount");
+
+  const searchInput =
+    document.getElementById("searchInput");
+
+  const categoryFilter =
+    document.getElementById("categoryFilter");
+
+  const statusFilter =
+    document.getElementById("statusFilter");
+
+  const clearFilters =
+    document.getElementById("clearFilters");
+
+  const prevBtn =
+    document.getElementById("prevBtn");
+
+  const nextBtn =
+    document.getElementById("nextBtn");
+
+  const pageInfo =
+    document.getElementById("pageInfo");
+
+  const logoutBtn =
+    document.getElementById("logoutBtn");
+
+  // ==========================================
+  // TOKEN
+  // ==========================================
+
+  function getToken() {
+    return (
+      localStorage.getItem("token") ||
+      localStorage.getItem("accessToken")
+    );
+  }
+
+  // ==========================================
+  // LOGOUT
+  // ==========================================
+
+  function logout() {
+    localStorage.removeItem("token");
+    localStorage.removeItem("accessToken");
+
+    window.location.href = "/admin/login";
+  }
+
+  if (logoutBtn) {
+    logoutBtn.addEventListener(
+      "click",
+      logout
+    );
+  }
+
+  // ==========================================
+  // INITIAL LOAD
+  // ==========================================
+
+  const initialToken = getToken();
+
+  if (!initialToken) {
+    window.location.href = "/admin/login";
+  } else {
+    fetchSubscribers();
+  }
+
+  // ==========================================
+  // FETCH SUBSCRIBERS
+  // ==========================================
+
+  async function fetchSubscribers() {
+    try {
+      const token = getToken();
+
+      if (!token) {
+        window.location.href = "/admin/login";
+        return;
+      }
+
+      const response = await fetch(
+        `${API_URL}/api/subscribers`,
+        {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      // ========================================
+      // UNAUTHORIZED / FORBIDDEN
+      // ========================================
+
+      if (
+        response.status === 401 ||
+        response.status === 403
+      ) {
+        localStorage.removeItem("token");
+        localStorage.removeItem("accessToken");
+
+        window.location.href = "/admin/login";
+        return;
+      }
+
+      // ========================================
+      // OTHER API ERRORS
+      // ========================================
+
+      if (!response.ok) {
+        let errorData = {};
+
+        try {
+          errorData = await response.json();
+        } catch {
+          errorData = {};
+        }
+
+        throw new Error(
+          errorData.message ||
+            `Request failed with status ${response.status}`
+        );
+      }
+
+      // ========================================
+      // SUCCESS
+      // ========================================
+
+      const data = await response.json();
+
+      subscribers =
+        Array.isArray(data.subscribers)
+          ? data.subscribers
+          : [];
+
+      filteredSubscribers = [
+        ...subscribers,
+      ];
+
+      renderTable();
+    } catch (error) {
+      console.error(
+        "Subscriber API Error:",
+        error
+      );
+
+      const message =
+        error instanceof Error
+          ? error.message
+          : "Something went wrong.";
+
+      if (table) {
+        table.innerHTML = `
+          <tr>
+            <td colspan="8" class="error">
+              <div class="error-content">
+
+                <div class="error-icon">
+                  <svg
+                    viewBox="0 0 24 24"
+                    aria-hidden="true"
+                  >
+                    <circle
+                      cx="12"
+                      cy="12"
+                      r="9"
+                    ></circle>
+
+                    <path
+                      d="M12 8v5"
+                    ></path>
+
+                    <path
+                      d="M12 16h.01"
+                    ></path>
+                  </svg>
+                </div>
+
+                <strong>
+                  Failed to load subscribers
+                </strong>
+
+                <span>
+                  ${escapeHtml(message)}
+                </span>
+
+              </div>
+            </td>
+          </tr>
+        `;
+      }
+
+      if (countElement) {
+        countElement.textContent = "0";
+      }
+    }
+  }
+
+  // ==========================================
+  // FILTER + SEARCH
+  // ==========================================
+
+  function renderTable() {
+    if (
+      !searchInput ||
+      !categoryFilter ||
+      !statusFilter
+    ) {
+      return;
+    }
+
+    const search =
+      searchInput.value
+        .toLowerCase()
+        .trim();
+
+    const category =
+      categoryFilter.value;
+
+    const status =
+      statusFilter.value;
+
+    filteredSubscribers =
+      subscribers.filter(
+        (subscriber) => {
+          // ------------------------------------
+          // SEARCH
+          // ------------------------------------
+
+          const name =
+            String(
+              subscriber.name || ""
+            );
+
+          const email =
+            String(
+              subscriber.email || ""
+            );
+
+          const phone =
+            String(
+              subscriber.phone || ""
+            );
+
+          const searchMatch =
+            name
+              .toLowerCase()
+              .includes(search) ||
+            email
+              .toLowerCase()
+              .includes(search) ||
+            phone
+              .toLowerCase()
+              .includes(search);
+
+          // ------------------------------------
+          // CATEGORY
+          // ------------------------------------
+
+          let categories =
+            subscriber.categories || [];
+
+          if (!Array.isArray(categories)) {
+            categories = [
+              String(categories),
+            ];
+          }
+
+          const categoryMatch =
+            !category ||
+            categories.some(
+              (item) =>
+                String(item)
+                  .toLowerCase() ===
+                category.toLowerCase()
+            );
+
+          // ------------------------------------
+          // STATUS
+          // ------------------------------------
+
+          const subscriberStatus =
+            subscriber.isActive === true
+              ? "Active"
+              : "Inactive";
+
+          const statusMatch =
+            !status ||
+            subscriberStatus === status;
+
+          return (
+            searchMatch &&
+            categoryMatch &&
+            statusMatch
+          );
+        }
+      );
+
+    currentPage = 1;
+
+    renderCurrentPage();
+  }
+
+  // ==========================================
+  // RENDER CURRENT PAGE
+  // ==========================================
+
+  function renderCurrentPage() {
+    const start =
+      (currentPage - 1) *
+      itemsPerPage;
+
+    const end =
+      start + itemsPerPage;
+
+    const pageSubscribers =
+      filteredSubscribers.slice(
+        start,
+        end
+      );
+
+    // ----------------------------------------
+    // COUNT
+    // ----------------------------------------
+
+    if (countElement) {
+      countElement.textContent =
+        String(
+          filteredSubscribers.length
+        );
+    }
+
+    // ----------------------------------------
+    // EMPTY STATE
+    // ----------------------------------------
+
+    if (
+      pageSubscribers.length === 0
+    ) {
+      if (table) {
+        table.innerHTML = `
+          <tr>
+            <td
+              colspan="8"
+              class="empty"
+            >
+              <div class="empty-content">
+
+                <div class="empty-icon">
+                  <svg
+                    viewBox="0 0 24 24"
+                    aria-hidden="true"
+                  >
+                    <circle
+                      cx="9"
+                      cy="8"
+                      r="3"
+                    ></circle>
+
+                    <path
+                      d="M3 20c0-3.2 2.7-5 6-5s6 1.8 6 5"
+                    ></path>
+
+                    <circle
+                      cx="17"
+                      cy="9"
+                      r="2.5"
+                    ></circle>
+
+                    <path
+                      d="M15.5 15.5c2.7.3 4.5 1.8 4.5 4.5"
+                    ></path>
+                  </svg>
+                </div>
+
+                <strong>
+                  No subscribers found
+                </strong>
+
+                <span>
+                  Try changing your search or filters.
+                </span>
+
+              </div>
+            </td>
+          </tr>
+        `;
+      }
+    } else {
+      // ----------------------------------------
+      // TABLE ROWS
+      // ----------------------------------------
+
+      const rows =
+        pageSubscribers
+          .map(
+            (subscriber) => {
+              const name =
+                subscriber.name || "—";
+
+              const email =
+                subscriber.email || "—";
+
+              const phone =
+                subscriber.phone || "—";
+
+              // --------------------------------
+              // CATEGORIES
+              // --------------------------------
+
+              let categories =
+                subscriber.categories || [];
+
+              if (!Array.isArray(categories)) {
+                categories = [
+                  String(categories),
+                ];
+              }
+
+              // --------------------------------
+              // OPT-IN
+              // --------------------------------
+
+              const emailOptIn =
+                subscriber.emailOptIn === true;
+
+              const whatsappOptIn =
+                subscriber.whatsappOptIn === true;
+
+              // --------------------------------
+              // STATUS
+              // --------------------------------
+
+              const status =
+                subscriber.isActive === true
+                  ? "Active"
+                  : "Inactive";
+
+              // --------------------------------
+              // DATE
+              // --------------------------------
+
+              const formattedDate =
+                subscriber.createdAt
+                  ? formatDate(
+                      subscriber.createdAt
+                    )
+                  : "—";
+
+              // --------------------------------
+              // AVATAR
+              // --------------------------------
+
+              const avatar =
+                String(name)
+                  .trim()
+                  .charAt(0)
+                  .toUpperCase() || "?";
+
+              // --------------------------------
+              // CATEGORY HTML
+              // --------------------------------
+
+              const categoryHtml =
+                categories.length
+                  ? categories
+                      .map(
+                        (category) => `
+                          <span class="category-tag">
+                            ${escapeHtml(
+                              String(category)
+                            )}
+                          </span>
+                        `
+                      )
+                      .join("")
+                  : `
+                      <span class="muted">
+                        —
+                      </span>
+                    `;
+
+              // --------------------------------
+              // ROW
+              // --------------------------------
+
+              return `
+                <tr>
+
+                  <td class="name-cell">
+                    <div class="name-wrapper">
+
+                      <span class="avatar">
+                        ${escapeHtml(avatar)}
+                      </span>
+
+                      <strong>
+                        ${escapeHtml(
+                          String(name)
+                        )}
+                      </strong>
+
+                    </div>
+                  </td>
+
+                  <td class="email-cell">
+                    ${escapeHtml(
+                      String(email)
+                    )}
+                  </td>
+
+                  <td class="phone-cell">
+                    ${escapeHtml(
+                      String(phone)
+                    )}
+                  </td>
+
+                  <td>
+                    <div class="category-list">
+                      ${categoryHtml}
+                    </div>
+                  </td>
+
+                  <td>
+                    <span
+                      class="${
+                        emailOptIn
+                          ? "yes"
+                          : "no"
+                      }"
+                    >
+                      <span class="dot"></span>
+
+                      ${
+                        emailOptIn
+                          ? "Yes"
+                          : "No"
+                      }
+                    </span>
+                  </td>
+
+                  <td>
+                    <span
+                      class="${
+                        whatsappOptIn
+                          ? "yes"
+                          : "no"
+                      }"
+                    >
+                      <span class="dot"></span>
+
+                      ${
+                        whatsappOptIn
+                          ? "Yes"
+                          : "No"
+                      }
+                    </span>
+                  </td>
+
+                  <td>
+                    <span
+                      class="${
+                        status === "Active"
+                          ? "status-active"
+                          : "status-inactive"
+                      }"
+                    >
+                      <span class="status-dot"></span>
+
+                      ${status}
+                    </span>
+                  </td>
+
+                  <td class="date-cell">
+                    ${formattedDate}
+                  </td>
+
+                </tr>
+              `;
+            }
+          )
+          .join("");
+
+      if (table) {
+        table.innerHTML = rows;
+      }
+    }
+
+    updatePagination();
+  }
+
+  // ==========================================
+  // DATE FORMAT
+  // ==========================================
+
+  function formatDate(dateString) {
+    const date =
+      new Date(dateString);
+
+    if (
+      Number.isNaN(
+        date.getTime()
+      )
+    ) {
+      return "—";
+    }
+
+    return date.toLocaleDateString(
+      "en-IN",
+      {
+        day: "2-digit",
+        month: "short",
+        year: "numeric",
+      }
+    );
+  }
+
+  // ==========================================
+  // PAGINATION
+  // ==========================================
+
+  function updatePagination() {
+    const totalPages =
+      Math.max(
+        1,
+        Math.ceil(
+          filteredSubscribers.length /
+            itemsPerPage
+        )
+      );
+
+    if (pageInfo) {
+      pageInfo.textContent =
+        `Page ${currentPage} of ${totalPages}`;
+    }
+
+    if (prevBtn) {
+      prevBtn.disabled =
+        currentPage === 1;
+    }
+
+    if (nextBtn) {
+      nextBtn.disabled =
+        currentPage === totalPages;
+    }
+  }
+
+  // ==========================================
+  // PREVIOUS PAGE
+  // ==========================================
+
+  if (prevBtn) {
+    prevBtn.addEventListener(
+      "click",
+      () => {
+        if (currentPage > 1) {
+          currentPage--;
+
+          renderCurrentPage();
+        }
+      }
+    );
+  }
+
+  // ==========================================
+  // NEXT PAGE
+  // ==========================================
+
+  if (nextBtn) {
+    nextBtn.addEventListener(
+      "click",
+      () => {
+        const totalPages =
+          Math.ceil(
+            filteredSubscribers.length /
+              itemsPerPage
+          );
+
+        if (
+          currentPage < totalPages
+        ) {
+          currentPage++;
+
+          renderCurrentPage();
+        }
+      }
+    );
+  }
+
+  // ==========================================
+  // SEARCH
+  // ==========================================
+
+  if (searchInput) {
+    searchInput.addEventListener(
+      "input",
+      () => {
+        renderTable();
+      }
+    );
+  }
+
+  // ==========================================
+  // CATEGORY FILTER
+  // ==========================================
+
+  if (categoryFilter) {
+    categoryFilter.addEventListener(
+      "change",
+      () => {
+        renderTable();
+      }
+    );
+  }
+
+  // ==========================================
+  // STATUS FILTER
+  // ==========================================
+
+  if (statusFilter) {
+    statusFilter.addEventListener(
+      "change",
+      () => {
+        renderTable();
+      }
+    );
+  }
+
+  // ==========================================
+  // CLEAR FILTERS
+  // ==========================================
+
+  if (clearFilters) {
+    clearFilters.addEventListener(
+      "click",
+      () => {
+        if (searchInput) {
+          searchInput.value = "";
+        }
+
+        if (categoryFilter) {
+          categoryFilter.value = "";
+        }
+
+        if (statusFilter) {
+          statusFilter.value = "";
+        }
+
+        renderTable();
+      }
+    );
+  }
+
+  // ==========================================
+  // SECURITY
+  // ==========================================
+
+  function escapeHtml(value) {
+    return String(value)
+      .replaceAll("&", "&amp;")
+      .replaceAll("<", "&lt;")
+      .replaceAll(">", "&gt;")
+      .replaceAll('"', "&quot;")
+      .replaceAll("'", "&#039;");
+  }
+</script>
+
+<style>
+  /* =========================================
+     GLOBAL
+  ========================================= */
+  .admin-layout {
+    display: flex;
+    min-height: calc(100vh - 70px);
+    background: #f6f7fb;
+  }
+
+  /* =========================================
+     SIDEBAR
+  ========================================= */
+  .sidebar {
+    width: 230px;
+    flex-shrink: 0;
+    background: #111827;
+    min-height: calc(100vh - 70px);
+  }
+
+  .sidebar-inner {
+    min-height: calc(100vh - 70px);
+    display: flex;
+    flex-direction: column;
+  }
+
+  .sidebar-menu {
+    padding: 24px 14px;
+  }
+
+  .menu-item {
+    width: 100%;
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 13px 15px;
+    margin-bottom: 7px;
+    border-radius: 10px;
+    color: #cbd5e1;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 600;
+    transition:
+      background 0.2s ease,
+      color 0.2s ease,
+      transform 0.2s ease;
+    cursor: pointer;
+  }
+
+  .menu-item:hover {
+    background: #1f2937;
+    color: #ffffff;
+  }
+
+  .menu-item.active {
+    background: linear-gradient(
+      135deg,
+      #4f46e5,
+      #5b4bea
+    );
+    color: #ffffff;
+    box-shadow:
+      0 6px 18px
+      rgba(79, 70, 229, 0.28);
+  }
+
+  .menu-icon {
+    width: 20px;
+    height: 20px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .menu-icon svg {
+    width: 18px;
+    height: 18px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.8;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  .sidebar-bottom {
+    margin-top: auto;
+    padding: 14px;
+  }
+
+  .logout-btn {
+    appearance: none;
+    border: none;
+    background: transparent;
+    font-family: inherit;
+    text-align: left;
+  }
+
+  .logout-btn:hover {
+    background: #991b1b;
+  }
+
+  /* =========================================
+     MAIN CONTENT
+  ========================================= */
+  .main-content {
+    flex: 1;
+    min-width: 0;
+    padding: 38px 40px 50px;
+  }
+
+  /* =========================================
+     PAGE HEADER
+  ========================================= */
+  .page-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 25px;
+    margin-bottom: 28px;
+  }
+
+  .page-title {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+  }
+
+  .title-icon {
+    width: 50px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 14px;
+    background: #eef2ff;
+    color: #4f46e5;
+  }
+
+  .title-icon svg {
+    width: 25px;
+    height: 25px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.7;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  .page-header h1 {
+    margin: 0 0 5px;
+    font-size: 32px;
+    line-height: 1.2;
+    color: #111827;
+    letter-spacing: -0.6px;
+  }
+
+  .page-header p {
+    margin: 0;
+    color: #64748b;
+    font-size: 14px;
+  }
+
+  .back-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    padding: 11px 17px;
+    border: 1px solid #e2e8f0;
+    border-radius: 10px;
+    background: #ffffff;
+    color: #374151;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 600;
+    transition:
+      background 0.2s ease,
+      border-color 0.2s ease,
+      transform 0.2s ease;
+  }
+
+  .back-btn:hover {
+    background: #f8fafc;
+    border-color: #cbd5e1;
+    transform: translateY(-1px);
+  }
+
+  .back-btn svg {
+    width: 17px;
+    height: 17px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  /* =========================================
+     FILTERS
+  ========================================= */
+  .filters {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 16px;
+    background: #ffffff;
+    border: 1px solid #e5e7eb;
+    border-radius: 14px;
+    box-shadow:
+      0 4px 12px
+      rgba(15, 23, 42, 0.04);
+    margin-bottom: 20px;
+  }
+
+  .search-wrapper {
+    flex: 1;
+    min-width: 220px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    height: 46px;
+    padding: 0 14px;
+    border: 1px solid #d7dce5;
+    border-radius: 10px;
+    background: #ffffff;
+    transition:
+      border-color 0.2s ease,
+      box-shadow 0.2s ease;
+  }
+
+  .search-wrapper:focus-within {
+    border-color: #6366f1;
+    box-shadow:
+      0 0 0 3px
+      rgba(99, 102, 241, 0.1);
+  }
+
+  .search-icon {
+    width: 19px;
+    height: 19px;
+    flex-shrink: 0;
+    fill: none;
+    stroke: #64748b;
+    stroke-width: 1.8;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  .search-wrapper input {
+    width: 100%;
+    padding: 0;
+    border: none;
+    outline: none;
+    background: transparent;
+    color: #111827;
+    font-family: inherit;
+    font-size: 14px;
+  }
+
+  .search-wrapper input::placeholder {
+    color: #94a3b8;
+  }
+
+  .select-wrapper {
+    flex-shrink: 0;
+  }
+
+  .filters select {
+    height: 46px;
+    min-width: 170px;
+    padding: 0 36px 0 13px;
+    border: 1px solid #d7dce5;
+    border-radius: 10px;
+    background: #ffffff;
+    color: #374151;
+    font-family: inherit;
+    font-size: 14px;
+    outline: none;
+    cursor: pointer;
+    transition:
+      border-color 0.2s ease,
+      box-shadow 0.2s ease;
+  }
+
+  .filters select:focus {
+    border-color: #6366f1;
+    box-shadow:
+      0 0 0 3px
+      rgba(99, 102, 241, 0.1);
+  }
+
+  .clear-btn {
+    height: 46px;
+    padding: 0 19px;
+    border: 1px solid #e0e7ff;
+    border-radius: 10px;
+    background: #eef2ff;
+    color: #4338ca;
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    transition:
+      background 0.2s ease,
+      border-color 0.2s ease,
+      transform 0.2s ease;
+  }
+
+  .clear-btn:hover {
+    background: #e0e7ff;
+    border-color: #c7d2fe;
+    transform: translateY(-1px);
+  }
+
+  /* =========================================
+     RESULT INFO
+  ========================================= */
+  .result-info {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    margin: 22px 0 12px;
+    color: #64748b;
+    font-size: 14px;
+  }
+
+  .result-info strong {
+    color: #111827;
+    font-size: 15px;
+  }
+
+  /* =========================================
+     TABLE
+  ========================================= */
+  .table-card {
+    width: 100%;
+    background: #ffffff;
+    border: 1px solid #e5e7eb;
+    border-radius: 14px;
+    overflow: hidden;
+    box-shadow:
+      0 4px 14px
+      rgba(15, 23, 42, 0.04);
+  }
+
+  .table-wrapper {
+    width: 100%;
+    overflow-x: auto;
+    scrollbar-width: thin;
+    scrollbar-color: #cbd5e1 transparent;
+  }
+
+  .table-wrapper::-webkit-scrollbar {
+    height: 8px;
+  }
+
+  .table-wrapper::-webkit-scrollbar-track {
+    background: #f8fafc;
+  }
+
+  .table-wrapper::-webkit-scrollbar-thumb {
+    background: #cbd5e1;
+    border-radius: 10px;
+  }
+
+  table {
+    width: 100%;
+    min-width: 1100px;
+    border-collapse: collapse;
+  }
+
+  th {
+    padding: 15px 16px;
+    background: #f8fafc;
+    color: #475569;
+    font-size: 12px;
+    font-weight: 700;
+    text-align: left;
+    white-space: nowrap;
+    border-bottom: 1px solid #e5e7eb;
+  }
+
+  td {
+    padding: 17px 16px;
+    color: #374151;
+    font-size: 14px;
+    white-space: nowrap;
+    border-bottom: 1px solid #f1f5f9;
+  }
+
+  tbody tr:last-child td {
+    border-bottom: none;
+  }
+
+  tbody tr {
+    transition: background 0.15s ease;
+  }
+
+  tbody tr:hover {
+    background: #fafbff;
+  }
+
+  /* =========================================
+     NAME
+  ========================================= */
+  .name-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .avatar {
+    width: 34px;
+    height: 34px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 9px;
+    background: #eef2ff;
+    color: #4f46e5;
+    font-size: 13px;
+    font-weight: 800;
+  }
+
+  .name-cell strong {
+    color: #111827;
+    font-weight: 700;
+  }
+
+  .email-cell {
+    color: #475569;
+  }
+
+  .phone-cell {
+    color: #475569;
+  }
+
+  .date-cell {
+    color: #64748b;
+  }
+
+  /* =========================================
+     CATEGORY TAGS
+  ========================================= */
+  .category-list {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 5px;
+    max-width: 260px;
+  }
+
+  .category-tag {
+    display: inline-flex;
+    align-items: center;
+    padding: 5px 8px;
+    background: #eef2ff;
+    color: #4338ca;
+    border: 1px solid #e0e7ff;
+    border-radius: 6px;
+    font-size: 11px;
+    font-weight: 600;
+  }
+
+  .muted {
+    color: #94a3b8;
+  }
+
+  /* =========================================
+     YES / NO
+  ========================================= */
+  .yes,
+  .no {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12px;
+    font-weight: 600;
+  }
+
+  .yes {
+    color: #15803d;
+  }
+
+  .no {
+    color: #94a3b8;
+  }
+
+  .dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: currentColor;
+  }
+
+  /* =========================================
+     STATUS
+  ========================================= */
+  .status-active,
+  .status-inactive {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 10px;
+    border-radius: 999px;
+    font-size: 11px;
+    font-weight: 700;
+  }
+
+  .status-active {
+    background: #dcfce7;
+    color: #15803d;
+  }
+
+  .status-inactive {
+    background: #f1f5f9;
+    color: #64748b;
+  }
+
+  .status-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: currentColor;
+  }
+
+  /* =========================================
+     LOADING / EMPTY / ERROR
+  ========================================= */
+  .loading,
+  .empty,
+  .error {
+    padding: 65px 20px !important;
+    text-align: center;
+  }
+
+  .loading-content,
+  .error-content,
+  .empty-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .loading {
+    color: #64748b;
+  }
+
+  .spinner {
+    width: 24px;
+    height: 24px;
+    margin-bottom: 6px;
+    border: 2px solid #e2e8f0;
+    border-top-color: #4f46e5;
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+  }
+
+  @keyframes spin {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+
+  .empty-content strong {
+    color: #334155;
+    font-size: 14px;
+  }
+
+  .empty-content span {
+    color: #94a3b8;
+    font-size: 13px;
+  }
+
+  .empty-icon,
+  .error-icon {
+    width: 48px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 5px;
+    border-radius: 12px;
+  }
+
+  .empty-icon {
+    background: #f1f5f9;
+    color: #64748b;
+  }
+
+  .error-icon {
+    background: #fef2f2;
+    color: #dc2626;
+  }
+
+  .empty-icon svg,
+  .error-icon svg {
+    width: 24px;
+    height: 24px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.7;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  .error {
+    color: #dc2626;
+  }
+
+  .error-content strong {
+    font-size: 14px;
+  }
+
+  .error-content span {
+    max-width: 500px;
+    color: #ef4444;
+    font-size: 13px;
+  }
+
+  /* =========================================
+     PAGINATION
+  ========================================= */
+  .pagination {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 14px;
+    margin-top: 22px;
+  }
+
+  .pagination button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+    height: 39px;
+    padding: 0 14px;
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+    background: #ffffff;
+    color: #374151;
+    font-family: inherit;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition:
+      background 0.2s ease,
+      border-color 0.2s ease,
+      transform 0.2s ease;
+  }
+
+  .pagination button:hover:not(:disabled) {
+    background: #f8fafc;
+    border-color: #cbd5e1;
+    transform: translateY(-1px);
+  }
+
+  .pagination button:disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+  }
+
+  .pagination button svg {
+    width: 15px;
+    height: 15px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  #pageInfo {
+    min-width: 95px;
+    text-align: center;
+    color: #475569;
+    font-size: 13px;
+    font-weight: 700;
+  }
+
+  /* =========================================
+     RESPONSIVE
+  ========================================= */
+  @media (max-width: 1000px) {
+    .main-content {
+      padding: 30px 25px 45px;
+    }
+
+    .filters {
+      flex-wrap: wrap;
+    }
+
+    .search-wrapper {
+      flex-basis: 100%;
+    }
+
+    .filters select {
+      flex: 1;
+      min-width: 160px;
+    }
+  }
+
+  @media (max-width: 700px) {
+    .sidebar {
+      width: 190px;
+    }
+
+    .main-content {
+      padding: 25px 18px 40px;
+    }
+
+    .page-header {
+      align-items: flex-start;
+    }
+
+    .page-title {
+      align-items: flex-start;
+    }
+
+    .title-icon {
+      display: none;
+    }
+
+    .page-header h1 {
+      font-size: 27px;
+    }
+
+    .page-header p {
+      font-size: 13px;
+    }
+
+    .back-btn {
+      padding: 9px 12px;
+    }
+
+    .back-btn span {
+      display: none;
+    }
+
+    .filters select,
+    .clear-btn {
+      flex: 1;
+      min-width: 0;
+    }
+  }
+
+  @media (max-width: 560px) {
+    .sidebar {
+      display: none;
+    }
+
+    .main-content {
+      padding: 22px 14px 35px;
+    }
+
+    .page-header {
+      margin-bottom: 20px;
+    }
+
+    .page-header h1 {
+      font-size: 25px;
+    }
+
+    .filters {
+      padding: 12px;
+    }
+
+    .search-wrapper {
+      min-width: 100%;
+    }
+
+    .filters select,
+    .clear-btn {
+      flex-basis: 100%;
+      width: 100%;
+    }
+
+    .pagination {
+      gap: 8px;
+    }
+
+    .pagination button {
+      padding: 0 10px;
+    }
+  }
+</style>

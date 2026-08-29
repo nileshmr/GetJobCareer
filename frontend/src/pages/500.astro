@@ -1,0 +1,248 @@
+---
+import Layout from "../layouts/Layout.astro";
+
+const title = "Something Went Wrong - GetJobCareer";
+const description =
+  "Something went wrong while loading this page. Please try again or return to GetJobCareer.";
+
+interface Props {
+  error: unknown;
+}
+
+const { error } = Astro.props;
+---
+
+<Layout title={title} description={description}>
+  <main class="error-page">
+    <div class="error-container">
+
+      <div class="error-illustration" aria-hidden="true">
+        <span class="error-number">500</span>
+      </div>
+
+      <span class="error-badge">Server Error</span>
+
+      <h1>Something went wrong.</h1>
+
+      <p>
+        We're having trouble loading this page right now.
+        Please try again in a moment.
+      </p>
+
+      <div class="error-actions">
+
+        <a
+          href="/"
+          class="primary-btn"
+        >
+          <span>←</span>
+          Go to Homepage
+        </a>
+
+        <button
+          type="button"
+          class="secondary-btn"
+          onclick="window.location.reload()"
+        >
+          Try Again
+          <span>↻</span>
+        </button>
+
+      </div>
+
+      <div class="help-text">
+        <span>If the problem continues,</span>
+        <a href="/jobs">Browse Jobs & Internships</a>
+      </div>
+
+    </div>
+  </main>
+</Layout>
+
+<style>
+  .error-page {
+    min-height: calc(100vh - 68px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 70px 20px;
+    background:
+      radial-gradient(
+        circle at 50% 10%,
+        rgba(20, 184, 166, 0.10),
+        transparent 45%
+      ),
+      linear-gradient(
+        135deg,
+        #ffffff 0%,
+        #f8fafc 100%
+      );
+  }
+
+  .error-container {
+    width: 100%;
+    max-width: 720px;
+    text-align: center;
+  }
+
+  .error-illustration {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 22px;
+  }
+
+  .error-number {
+    color: #0f766e;
+    font-size: clamp(6rem, 18vw, 11rem);
+    line-height: 0.9;
+    font-weight: 900;
+    letter-spacing: -8px;
+    opacity: 0.12;
+    user-select: none;
+  }
+
+  .error-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8px 16px;
+    border-radius: 999px;
+    background: #f0fdfa;
+    color: #0f766e;
+    font-size: 14px;
+    font-weight: 700;
+  }
+
+  .error-container h1 {
+    margin: 18px 0 12px;
+    color: #0f172a;
+    font-size: clamp(2rem, 5vw, 3.2rem);
+    line-height: 1.15;
+    font-weight: 800;
+    letter-spacing: -1px;
+  }
+
+  .error-container p {
+    max-width: 580px;
+    margin: 0 auto;
+    color: #64748b;
+    font-size: 16px;
+    line-height: 1.7;
+  }
+
+  .error-actions {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 30px;
+  }
+
+  .primary-btn,
+  .secondary-btn {
+    min-height: 46px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 9px;
+    padding: 0 20px;
+    border-radius: 9px;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    transition:
+      transform 0.2s ease,
+      box-shadow 0.2s ease,
+      background 0.2s ease;
+  }
+
+  .primary-btn {
+    color: #ffffff;
+    background: linear-gradient(
+      135deg,
+      #14b8a6,
+      #059669
+    );
+    border: 0;
+    box-shadow:
+      0 5px 14px rgba(5, 150, 105, 0.18);
+  }
+
+  .primary-btn:hover {
+    transform: translateY(-2px);
+    box-shadow:
+      0 8px 18px rgba(5, 150, 105, 0.25);
+  }
+
+  .secondary-btn {
+    color: #0f766e;
+    background: #ffffff;
+    border: 1px solid #cbd5e1;
+  }
+
+  .secondary-btn:hover {
+    transform: translateY(-2px);
+    background: #f0fdfa;
+    border-color: #99f6e4;
+  }
+
+  .help-text {
+    margin-top: 28px;
+    color: #94a3b8;
+    font-size: 14px;
+  }
+
+  .help-text a {
+    margin-left: 5px;
+    color: #0d9488;
+    font-weight: 600;
+    text-decoration: none;
+  }
+
+  .help-text a:hover {
+    text-decoration: underline;
+  }
+
+  @media (max-width: 600px) {
+    .error-page {
+      min-height: calc(100vh - 64px);
+      padding: 50px 18px;
+    }
+
+    .error-number {
+      font-size: 7rem;
+      letter-spacing: -5px;
+    }
+
+    .error-container h1 {
+      font-size: 2rem;
+    }
+
+    .error-container p {
+      font-size: 15px;
+    }
+
+    .error-actions {
+      flex-direction: column;
+      width: 100%;
+    }
+
+    .primary-btn,
+    .secondary-btn {
+      width: 100%;
+      max-width: 300px;
+    }
+
+    .help-text {
+      line-height: 1.7;
+    }
+
+    .help-text a {
+      display: block;
+      margin-left: 0;
+    }
+  }
+</style>

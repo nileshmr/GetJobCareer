@@ -1,0 +1,600 @@
+---
+
+import Layout from "../layouts/Layout.astro";
+import "../styles/global.css";
+---
+
+<Layout
+title="About Us - JobPortal"
+description="Learn about JobPortal, our mission, values and journey to connect students with genuine career opportunities."
+
+>
+
+  <!-- Hero -->
+
+  <section class="about-hero">
+    <div class="hero-glow"></div>
+
+
+<div class="hero-content">
+  <span class="badge">About JobPortal</span>
+
+  <h1>
+    Bridging the gap between
+    <span>talent and opportunity</span>
+  </h1>
+
+  <p>
+    We make it easier for students and early-career professionals to
+    discover genuine jobs, internships and career opportunities from
+    trusted companies.
+  </p>
+</div>
+
+
+  </section>
+
+  <!-- Mission / Community / Impact -->
+
+  <section class="overview">
+    <div class="overview-grid">
+      <article class="info-card">
+        <div class="icon-box">🎯</div>
+        <h2>Our Mission</h2>
+        <p>
+          To make genuine career opportunities accessible to every student
+          and early-career professional looking to start their career.
+        </p>
+      </article>
+
+
+  <article class="info-card">
+    <div class="icon-box">👥</div>
+    <h2>Our Community</h2>
+    <p>
+      We are building a growing community of students, job seekers,
+      companies and professionals working together to create better
+      career opportunities.
+    </p>
+  </article>
+
+  <article class="info-card">
+    <div class="icon-box">📈</div>
+    <h2>Our Impact</h2>
+    <p>
+      Our goal is to connect talented candidates with quality
+      opportunities while making the job search simple, transparent
+      and accessible.
+    </p>
+  </article>
+</div>
+
+
+  </section>
+
+  <!-- Values -->
+
+  <section class="values-section">
+    <div class="section-heading">
+      <h2>What We Stand For</h2>
+      <p>The principles that guide everything we do</p>
+    </div>
+
+
+<div class="values-grid">
+  <article class="value-card">
+    <div class="value-icon">✓</div>
+    <div>
+      <h3>Verified Opportunities</h3>
+      <p>
+        We focus on providing genuine job and internship opportunities
+        so candidates can search with greater confidence.
+      </p>
+    </div>
+  </article>
+
+  <article class="value-card">
+    <div class="value-icon">♥</div>
+    <div>
+      <h3>Student First</h3>
+      <p>
+        We keep students and early-career professionals at the center
+        of the platform and their career journey.
+      </p>
+    </div>
+  </article>
+
+  <article class="value-card">
+    <div class="value-icon">⚡</div>
+    <div>
+      <h3>Fast & Simple</h3>
+      <p>
+        Finding an opportunity should not be complicated. We aim to make
+        searching and applying as simple as possible.
+      </p>
+    </div>
+  </article>
+
+  <article class="value-card">
+    <div class="value-icon">★</div>
+    <div>
+      <h3>Career Growth</h3>
+      <p>
+        Beyond job listings, our goal is to help candidates discover
+        opportunities that support their long-term career growth.
+      </p>
+    </div>
+  </article>
+</div>
+
+
+  </section>
+
+  <!-- Journey -->
+
+  <section class="journey-section">
+    <div class="section-heading">
+      <h2>Our Journey</h2>
+      <p>Building a better way to discover career opportunities</p>
+    </div>
+
+
+<div class="timeline">
+  <article class="timeline-item">
+    <div class="timeline-number">01</div>
+    <div class="timeline-card">
+      <span>Getting Started</span>
+      <h3>A simple idea</h3>
+      <p>
+        JobPortal started with a simple goal — make it easier for
+        students and freshers to find relevant career opportunities.
+      </p>
+    </div>
+  </article>
+
+  <article class="timeline-item">
+    <div class="timeline-number">02</div>
+    <div class="timeline-card">
+      <span>Growing</span>
+      <h3>Connecting talent with companies</h3>
+      <p>
+        We continue to bring together candidates and organizations
+        offering jobs and internships across different industries.
+      </p>
+    </div>
+  </article>
+
+  <article class="timeline-item">
+    <div class="timeline-number">03</div>
+    <div class="timeline-card">
+      <span>Today</span>
+      <h3>Making job search simpler</h3>
+      <p>
+        Our focus remains on creating a straightforward platform where
+        candidates can discover opportunities without unnecessary
+        complexity.
+      </p>
+    </div>
+  </article>
+
+  <article class="timeline-item">
+    <div class="timeline-number">04</div>
+    <div class="timeline-card">
+      <span>Future</span>
+      <h3>Helping more careers take off</h3>
+      <p>
+        We want to keep improving the platform and help more students
+        and professionals take their next step with confidence.
+      </p>
+    </div>
+  </article>
+</div>
+
+
+  </section>
+
+  <!-- CTA -->
+
+  <section class="cta-section">
+    <div class="cta-card">
+      <div class="cta-content">
+        <h2>Ready to take the next step?</h2>
+        <p>
+          Explore jobs and internships and find an opportunity that matches
+          your career goals.
+        </p>
+
+
+    <a href="/jobs" class="cta-button">
+      Explore Jobs
+      <span>→</span>
+    </a>
+  </div>
+</div>
+
+
+  </section>
+</Layout>
+
+<style>
+  /* Hero */
+  .about-hero {
+    position: relative;
+    overflow: hidden;
+    padding: 90px 5%;
+    background: linear-gradient(135deg, #f0fdfa, #ffffff 55%, #ecfdf5);
+  }
+
+  .hero-glow {
+    position: absolute;
+    top: -180px;
+    left: 35%;
+    width: 500px;
+    height: 500px;
+    border-radius: 50%;
+    background: rgba(45, 212, 191, 0.16);
+    filter: blur(80px);
+  }
+
+  .hero-content {
+    position: relative;
+    max-width: 850px;
+    margin: auto;
+    text-align: center;
+  }
+
+  .badge {
+    display: inline-block;
+    padding: 7px 14px;
+    border-radius: 999px;
+    background: #ccfbf1;
+    color: #0f766e;
+    font-size: 13px;
+    font-weight: 600;
+    margin-bottom: 22px;
+  }
+
+  .hero-content h1 {
+    max-width: 800px;
+    margin: auto;
+    color: #0f172a;
+    font-size: clamp(2.5rem, 6vw, 4.3rem);
+    line-height: 1.08;
+    letter-spacing: -0.04em;
+  }
+
+  .hero-content h1 span {
+    display: block;
+    background: linear-gradient(90deg, #0d9488, #059669);
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
+  }
+
+  .hero-content p {
+    max-width: 680px;
+    margin: 24px auto 0;
+    color: #64748b;
+    font-size: 1.05rem;
+    line-height: 1.8;
+  }
+
+  /* Overview */
+  .overview {
+    max-width: 1100px;
+    margin: auto;
+    padding: 65px 5%;
+  }
+
+  .overview-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+  }
+
+  .info-card {
+    padding: 26px;
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 16px;
+    transition: 0.25s ease;
+  }
+
+  .info-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 30px rgba(15, 23, 42, 0.08);
+  }
+
+  .icon-box {
+    width: 48px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 17px;
+    border-radius: 12px;
+    background: #f0fdfa;
+    font-size: 22px;
+  }
+
+  .info-card h2 {
+    margin: 0 0 9px;
+    color: #0f172a;
+    font-size: 18px;
+  }
+
+  .info-card p {
+    margin: 0;
+    color: #64748b;
+    font-size: 14px;
+    line-height: 1.7;
+  }
+
+  /* Values */
+  .values-section {
+    padding: 75px 5%;
+    background: #f8fafc;
+  }
+
+  .section-heading {
+    max-width: 700px;
+    margin: 0 auto 40px;
+    text-align: center;
+  }
+
+  .section-heading h2 {
+    margin: 0;
+    color: #0f172a;
+    font-size: 30px;
+    letter-spacing: -0.02em;
+  }
+
+  .section-heading p {
+    margin: 9px 0 0;
+    color: #64748b;
+    font-size: 14px;
+  }
+
+  .values-grid {
+    max-width: 1100px;
+    margin: auto;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 18px;
+  }
+
+  .value-card {
+    display: flex;
+    gap: 16px;
+    padding: 24px;
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 16px;
+  }
+
+  .value-icon {
+    width: 46px;
+    height: 46px;
+    min-width: 46px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 12px;
+    background: #f0fdfa;
+    color: #0d9488;
+    font-size: 20px;
+    font-weight: 700;
+  }
+
+  .value-card h3 {
+    margin: 2px 0 7px;
+    color: #0f172a;
+    font-size: 17px;
+  }
+
+  .value-card p {
+    margin: 0;
+    color: #64748b;
+    font-size: 14px;
+    line-height: 1.7;
+  }
+
+  /* Journey */
+  .journey-section {
+    max-width: 900px;
+    margin: auto;
+    padding: 75px 5%;
+  }
+
+  .timeline {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+
+  .timeline::before {
+    content: "";
+    position: absolute;
+    left: 23px;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: #99f6e4;
+  }
+
+  .timeline-item {
+    position: relative;
+    display: flex;
+    align-items: flex-start;
+    gap: 20px;
+  }
+
+  .timeline-number {
+    position: relative;
+    z-index: 2;
+    width: 48px;
+    height: 48px;
+    min-width: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: #0d9488;
+    color: white;
+    font-size: 13px;
+    font-weight: 700;
+    box-shadow: 0 0 0 5px white;
+  }
+
+  .timeline-card {
+    flex: 1;
+    padding: 22px;
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 16px;
+    transition: 0.25s ease;
+  }
+
+  .timeline-card:hover {
+    box-shadow: 0 10px 25px rgba(15, 23, 42, 0.07);
+  }
+
+  .timeline-card span {
+    color: #0d9488;
+    font-size: 13px;
+    font-weight: 700;
+  }
+
+  .timeline-card h3 {
+    margin: 5px 0 7px;
+    color: #0f172a;
+    font-size: 18px;
+  }
+
+  .timeline-card p {
+    margin: 0;
+    color: #64748b;
+    font-size: 14px;
+    line-height: 1.7;
+  }
+
+  /* CTA */
+  .cta-section {
+    max-width: 1100px;
+    margin: auto;
+    padding: 0 5% 75px;
+  }
+
+  .cta-card {
+    position: relative;
+    overflow: hidden;
+    border-radius: 22px;
+    background: linear-gradient(135deg, #0d9488, #047857);
+    padding: 55px 30px;
+    text-align: center;
+  }
+
+  .cta-card::before,
+  .cta-card::after {
+    content: "";
+    position: absolute;
+    width: 220px;
+    height: 220px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.08);
+    filter: blur(20px);
+  }
+
+  .cta-card::before {
+    top: -120px;
+    left: -80px;
+  }
+
+  .cta-card::after {
+    right: -80px;
+    bottom: -120px;
+  }
+
+  .cta-content {
+    position: relative;
+    z-index: 1;
+  }
+
+  .cta-content h2 {
+    margin: 0 0 12px;
+    color: white;
+    font-size: clamp(1.8rem, 4vw, 2.5rem);
+  }
+
+  .cta-content p {
+    max-width: 580px;
+    margin: 0 auto 25px;
+    color: #ccfbf1;
+    line-height: 1.7;
+  }
+
+  .cta-button {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 22px;
+    border-radius: 9px;
+    background: white;
+    color: #0f766e;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 700;
+    transition: 0.2s ease;
+  }
+
+  .cta-button:hover {
+    transform: translateY(-2px);
+    background: #f0fdfa;
+  }
+
+  /* Responsive */
+  @media (max-width: 768px) {
+    .about-hero {
+      padding: 70px 5%;
+    }
+
+    .overview-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .values-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .journey-section {
+      padding-top: 60px;
+    }
+
+    .cta-section {
+      padding-bottom: 55px;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .hero-content h1 {
+      font-size: 2.35rem;
+    }
+
+    .hero-content p {
+      font-size: 0.95rem;
+    }
+
+    .value-card {
+      padding: 20px;
+    }
+
+    .timeline-card {
+      padding: 18px;
+    }
+
+    .cta-card {
+      padding: 42px 20px;
+    }
+  }
+</style>

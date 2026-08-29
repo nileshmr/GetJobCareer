@@ -1,0 +1,1766 @@
+---
+import Layout from "../../layouts/Layout.astro";
+
+export const prerender = false;
+
+const API_URL =
+  import.meta.env.PUBLIC_API_URL || "http://localhost:5000/api";
+
+const slug = Astro.params.slug;
+
+let job: any = null;
+
+try {
+  if (slug) {
+    const response = await fetch(
+      `${API_URL}/jobs/${encodeURIComponent(slug)}`
+    );
+
+    if (response.ok) {
+      const data = await response.json();
+      job = data.job || data;
+    }
+  }
+} catch (error) {
+  console.error("Failed to fetch job for SEO:", error);
+}
+---
+
+<Layout
+  title={
+    job?.metaTitle ||
+    (job?.title
+      ? `${job.title} at ${job.companyName} - GetJobCareer`
+      : "Job Details - GetJobCareer")
+  }
+  description={
+    job?.metaDescription ||
+    (job?.title
+      ? `Apply for ${job.title} at ${job.companyName}. Check job details, eligibility, skills, location and application information.`
+      : "View complete job details and requirements.")
+  }
+  keywords={(job?.keywords || []).join(", ")}
+  canonical={`https://getjobcareer.com/jobs/${slug}`}
+>
+  <main class="job-page">
+
+    <!-- LOADING -->
+    <div id="loading" class="loading-state">
+      <div class="loader"></div>
+      <p>Loading job details...</p>
+    </div>
+
+    <!-- ERROR -->
+    <div id="errorMessage" class="error-state hidden"></div>
+
+    <!-- JOB CONTENT -->
+    <div id="jobDetails" class="job-container hidden">
+
+      <!-- =========================
+           BREADCRUMB
+      ========================== -->
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="/">Home</a>
+        <span>›</span>
+        <a href="/jobs">Jobs & Internships</a>
+        <span>›</span>
+        <span>Job Details</span>
+      </nav>
+
+      <!-- =========================
+           HERO
+      ========================== -->
+      <section class="job-hero">
+
+        <div class="hero-top">
+
+          <div class="company-logo" id="companyLogo">
+            C
+          </div>
+
+          <div class="hero-info">
+
+            <span class="category-badge" id="category">
+              Job
+            </span>
+
+            <h1 id="title">
+              Job Title
+            </h1>
+
+            <div class="company-name">
+              <span class="company-icon">🏢</span>
+              <span id="companyName">Company</span>
+            </div>
+
+          </div>
+
+        </div>
+
+        <div class="hero-meta">
+
+          <div class="meta-item">
+            <span class="meta-icon">📍</span>
+            <div>
+              <small>Location</small>
+              <strong id="location">-</strong>
+            </div>
+          </div>
+
+          <div class="meta-item">
+            <span class="meta-icon">💼</span>
+            <div>
+              <small>Job Type</small>
+              <strong id="jobType">-</strong>
+            </div>
+          </div>
+
+          <div class="meta-item">
+            <span class="meta-icon">🏠</span>
+            <div>
+              <small>Work Mode</small>
+              <strong id="workMode">-</strong>
+            </div>
+          </div>
+
+        </div>
+
+      </section>
+
+      <!-- =========================
+           MAIN GRID
+      ========================== -->
+      <div class="content-grid">
+
+        <!-- =========================
+             LEFT
+        ========================== -->
+        <div class="main-column">
+
+          <!-- DESCRIPTION -->
+          <section class="content-card">
+            <div class="section-heading">
+              <div class="heading-icon">📄</div>
+              <div>
+                <h2>Job Description</h2>
+                <p>About this opportunity</p>
+              </div>
+            </div>
+
+            <p id="description" class="description-text"></p>
+          </section>
+
+          <!-- RESPONSIBILITIES -->
+          <section
+            class="content-card"
+            id="responsibilitiesSection"
+          >
+            <div class="section-heading">
+              <div class="heading-icon">🎯</div>
+              <div>
+                <h2>Responsibilities</h2>
+                <p>What you will be doing</p>
+              </div>
+            </div>
+
+            <ul id="responsibilities" class="job-list"></ul>
+          </section>
+
+          <!-- REQUIREMENTS -->
+          <section
+            class="content-card"
+            id="requirementsSection"
+          >
+            <div class="section-heading">
+              <div class="heading-icon">✓</div>
+              <div>
+                <h2>Requirements</h2>
+                <p>What we are looking for</p>
+              </div>
+            </div>
+
+            <ul id="requirements" class="job-list"></ul>
+          </section>
+
+          <!-- BENEFITS -->
+          <section
+            class="content-card"
+            id="benefitsSection"
+          >
+            <div class="section-heading">
+              <div class="heading-icon">🎁</div>
+              <div>
+                <h2>Benefits</h2>
+                <p>What you can expect</p>
+              </div>
+            </div>
+
+            <ul id="benefits" class="job-list"></ul>
+          </section>
+
+          <!-- SELECTION PROCESS -->
+          <section
+            class="content-card"
+            id="selectionSection"
+          >
+            <div class="section-heading">
+              <div class="heading-icon">🚀</div>
+              <div>
+                <h2>Selection Process</h2>
+                <p>Hiring process</p>
+              </div>
+            </div>
+
+            <ol id="selectionProcess" class="process-list"></ol>
+          </section>
+
+          <!-- HOW TO APPLY -->
+          <section
+            class="content-card"
+            id="howToApplySection"
+          >
+            <div class="section-heading">
+              <div class="heading-icon">📝</div>
+              <div>
+                <h2>How to Apply</h2>
+                <p>Application instructions</p>
+              </div>
+            </div>
+
+            <p id="howToApply" class="description-text"></p>
+          </section>
+
+        </div>
+
+        <!-- =========================
+     SIDEBAR
+========================== -->
+<aside class="sidebar">
+
+  <!-- JOB DETAILS -->
+  <div class="sidebar-card">
+
+    <div class="sidebar-title">
+      <span>📋</span>
+      <h2>Job Details</h2>
+    </div>
+
+    <div class="detail-list">
+
+      <div class="detail-item">
+        <span class="detail-label">Salary</span>
+        <strong id="salary">-</strong>
+      </div>
+
+      <div class="detail-item">
+        <span class="detail-label">Experience</span>
+        <strong id="experience">-</strong>
+      </div>
+
+      <div class="detail-item">
+        <span class="detail-label">Qualification</span>
+        <strong id="qualification">-</strong>
+      </div>
+
+      <div class="detail-item">
+        <span class="detail-label">Location</span>
+        <strong id="sideLocation">-</strong>
+      </div>
+
+      <div class="detail-item">
+        <span class="detail-label">Job Type</span>
+        <strong id="sideJobType">-</strong>
+      </div>
+
+      <div class="detail-item">
+        <span class="detail-label">Work Mode</span>
+        <strong id="sideWorkMode">-</strong>
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <!-- SKILLS -->
+  <div
+    class="sidebar-card"
+    id="skillsSection"
+  >
+
+    <div class="sidebar-title">
+      <span>⚡</span>
+      <h2>Skills</h2>
+    </div>
+
+    <div id="skills" class="skills"></div>
+
+  </div>
+
+
+  <!-- APPLICATION DATES -->
+  <div
+    class="sidebar-card"
+    id="datesSection"
+  >
+
+    <div class="sidebar-title">
+      <span>📅</span>
+      <h2>Application Dates</h2>
+    </div>
+
+    <div class="date-box">
+
+      <div class="date-item">
+        <span>Application Starts</span>
+        <strong id="startDate">-</strong>
+      </div>
+
+      <div class="date-divider"></div>
+
+      <div class="date-item">
+        <span>Application Ends</span>
+        <strong id="endDate">-</strong>
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <!-- APPLY CARD — LAST -->
+  <div class="apply-card">
+
+    <div class="apply-card-top">
+
+      <span class="apply-label">
+        Interested in this job?
+      </span>
+
+      <h2>Ready to apply?</h2>
+
+      <p>
+        Submit your application through the official
+        application link.
+      </p>
+
+    </div>
+
+    <a
+      id="applyButton"
+      href="#"
+      target="_blank"
+      rel="noopener noreferrer"
+      class="apply-button"
+    >
+      Apply Now
+      <span>→</span>
+    </a>
+
+    <div class="secure-note">
+      <span>🔗</span>
+      You will be redirected to the official application page.
+    </div>
+
+  </div>
+
+</aside>
+
+      </div>
+
+    </div>
+  </main>
+</Layout>
+
+<script>
+  const API_URL =
+    "http://localhost:5000/api";
+
+  const slug = window.location.pathname
+    .split("/")
+    .filter(Boolean)
+    .pop();
+
+  const loading =
+    document.getElementById("loading");
+
+  const errorMessage =
+    document.getElementById("errorMessage");
+
+  const jobDetails =
+    document.getElementById("jobDetails");
+
+  function formatDate(
+    date: string | undefined
+  ) {
+    if (!date) return "-";
+
+    const parsed = new Date(date);
+
+    if (Number.isNaN(parsed.getTime())) {
+      return "-";
+    }
+
+    return parsed.toLocaleDateString(
+      "en-IN",
+      {
+        day: "numeric",
+        month: "short",
+        year: "numeric",
+      }
+    );
+  }
+
+  function getCompanyInitial(
+    name: string | undefined
+  ) {
+    if (!name) return "C";
+
+    return name
+      .trim()
+      .charAt(0)
+      .toUpperCase();
+  }
+
+  function showList(
+    elementId: string,
+    sectionId: string,
+    items: unknown
+  ) {
+    const element =
+      document.getElementById(elementId);
+
+    const section =
+      document.getElementById(sectionId);
+
+    if (!element || !section) return;
+
+    if (
+      !Array.isArray(items) ||
+      items.length === 0
+    ) {
+      section.classList.add("hidden");
+      return;
+    }
+
+    section.classList.remove("hidden");
+
+    element.innerHTML = "";
+
+    items.forEach((item) => {
+      const li =
+        document.createElement("li");
+
+      const marker =
+        document.createElement("span");
+
+      marker.className = "list-marker";
+      marker.textContent = "✓";
+
+      const text =
+        document.createElement("span");
+
+      text.textContent = String(item);
+
+      li.appendChild(marker);
+      li.appendChild(text);
+
+      element.appendChild(li);
+    });
+  }
+
+  function showProcess(
+    items: unknown
+  ) {
+    const section =
+      document.getElementById(
+        "selectionSection"
+      );
+
+    const element =
+      document.getElementById(
+        "selectionProcess"
+      );
+
+    if (!section || !element) return;
+
+    if (
+      !Array.isArray(items) ||
+      items.length === 0
+    ) {
+      section.classList.add("hidden");
+      return;
+    }
+
+    section.classList.remove("hidden");
+
+    element.innerHTML = "";
+
+    items.forEach((item, index) => {
+      const li =
+        document.createElement("li");
+
+      const number =
+        document.createElement("span");
+
+      number.className =
+        "process-number";
+
+      number.textContent =
+        String(index + 1);
+
+      const text =
+        document.createElement("span");
+
+      text.textContent = String(item);
+
+      li.appendChild(number);
+      li.appendChild(text);
+
+      element.appendChild(li);
+    });
+  }
+
+  function showSkills(
+    skills: unknown
+  ) {
+    const section =
+      document.getElementById(
+        "skillsSection"
+      );
+
+    const container =
+      document.getElementById(
+        "skills"
+      );
+
+    if (!section || !container) return;
+
+    if (
+      !Array.isArray(skills) ||
+      skills.length === 0
+    ) {
+      section.classList.add("hidden");
+      return;
+    }
+
+    section.classList.remove("hidden");
+
+    container.innerHTML = "";
+
+    skills.forEach((skill) => {
+      const span =
+        document.createElement("span");
+
+      span.textContent = String(skill);
+
+      container.appendChild(span);
+    });
+  }
+
+  async function loadJob() {
+    try {
+      if (!slug) {
+        throw new Error(
+          "Invalid job URL"
+        );
+      }
+
+      const response =
+        await fetch(
+          `${API_URL}/jobs/${encodeURIComponent(slug)}`
+        );
+
+      const data =
+        await response.json();
+
+      if (!response.ok) {
+        throw new Error(
+          data.message ||
+          "Job not found"
+        );
+      }
+
+      const job =
+        data.job || data;
+
+      /* BASIC */
+
+      const titleElement =
+        document.getElementById("title");
+
+      const companyNameElement =
+        document.getElementById(
+          "companyName"
+        );
+
+      const categoryElement =
+        document.getElementById(
+          "category"
+        );
+
+      const companyLogoElement =
+        document.getElementById(
+          "companyLogo"
+        );
+
+      const descriptionElement =
+        document.getElementById(
+          "description"
+        );
+
+      if (titleElement) {
+        titleElement.textContent =
+          job.title ||
+          "Untitled Job";
+      }
+
+      if (companyNameElement) {
+        companyNameElement.textContent =
+          job.companyName ||
+          "Company";
+      }
+
+      if (categoryElement) {
+        categoryElement.textContent =
+          job.category ||
+          "Job";
+      }
+
+      if (companyLogoElement) {
+        companyLogoElement.textContent =
+          getCompanyInitial(
+            job.companyName
+          );
+      }
+
+      if (descriptionElement) {
+        descriptionElement.textContent =
+          job.description ||
+          "No description available.";
+      }
+
+      /* HERO META */
+
+      const locationElement =
+        document.getElementById(
+          "location"
+        );
+
+      const jobTypeElement =
+        document.getElementById(
+          "jobType"
+        );
+
+      const workModeElement =
+        document.getElementById(
+          "workMode"
+        );
+
+      if (locationElement) {
+        locationElement.textContent =
+          job.location || "-";
+      }
+
+      if (jobTypeElement) {
+        jobTypeElement.textContent =
+          job.jobType || "-";
+      }
+
+      if (workModeElement) {
+        workModeElement.textContent =
+          job.workMode || "-";
+      }
+
+      /* SIDEBAR DETAILS */
+
+      const salaryElement =
+        document.getElementById("salary");
+
+      const experienceElement =
+        document.getElementById(
+          "experience"
+        );
+
+      const qualificationElement =
+        document.getElementById(
+          "qualification"
+        );
+
+      const sideLocationElement =
+        document.getElementById(
+          "sideLocation"
+        );
+
+      const sideJobTypeElement =
+        document.getElementById(
+          "sideJobType"
+        );
+
+      const sideWorkModeElement =
+        document.getElementById(
+          "sideWorkMode"
+        );
+
+      if (salaryElement) {
+        salaryElement.textContent =
+          job.salary || "-";
+      }
+
+      if (experienceElement) {
+        experienceElement.textContent =
+          job.experience || "-";
+      }
+
+      if (qualificationElement) {
+        qualificationElement.textContent =
+          job.qualification || "-";
+      }
+
+      if (sideLocationElement) {
+        sideLocationElement.textContent =
+          job.location || "-";
+      }
+
+      if (sideJobTypeElement) {
+        sideJobTypeElement.textContent =
+          job.jobType || "-";
+      }
+
+      if (sideWorkModeElement) {
+        sideWorkModeElement.textContent =
+          job.workMode || "-";
+      }
+
+      /* LISTS */
+
+      showList(
+        "responsibilities",
+        "responsibilitiesSection",
+        job.responsibilities
+      );
+
+      showList(
+        "requirements",
+        "requirementsSection",
+        job.requirements
+      );
+
+      showList(
+        "benefits",
+        "benefitsSection",
+        job.benefits
+      );
+
+      showProcess(
+        job.selectionProcess
+      );
+
+      /* SKILLS */
+
+      showSkills(job.skills);
+
+      /* HOW TO APPLY */
+
+      const howToApplySection =
+        document.getElementById(
+          "howToApplySection"
+        );
+
+      const howToApply =
+        document.getElementById(
+          "howToApply"
+        );
+
+      if (
+        howToApplySection &&
+        howToApply
+      ) {
+        if (job.howToApply) {
+          howToApply.textContent =
+            job.howToApply;
+
+          howToApplySection.classList.remove(
+            "hidden"
+          );
+        } else {
+          howToApplySection.classList.add(
+            "hidden"
+          );
+        }
+      }
+
+      /* DATES */
+
+      const startDate =
+        job.importantDates
+          ?.applicationStartDate;
+
+      const endDate =
+        job.importantDates
+          ?.applicationEndDate;
+
+      const datesSection =
+        document.getElementById(
+          "datesSection"
+        );
+
+      const startDateElement =
+        document.getElementById(
+          "startDate"
+        );
+
+      const endDateElement =
+        document.getElementById(
+          "endDate"
+        );
+
+      if (
+        datesSection &&
+        startDateElement &&
+        endDateElement
+      ) {
+        if (
+          startDate ||
+          endDate
+        ) {
+          datesSection.classList.remove(
+            "hidden"
+          );
+
+          startDateElement.textContent =
+            formatDate(startDate);
+
+          endDateElement.textContent =
+            formatDate(endDate);
+        } else {
+          datesSection.classList.add(
+            "hidden"
+          );
+        }
+      }
+
+      /* APPLY */
+
+      const applyButton =
+        document.getElementById(
+          "applyButton"
+        );
+
+      if (applyButton) {
+        if (job.applyLink) {
+          let applyLink =
+            String(
+              job.applyLink
+            ).trim();
+
+          if (
+            !applyLink.startsWith(
+              "http://"
+            ) &&
+            !applyLink.startsWith(
+              "https://"
+            )
+          ) {
+            applyLink =
+              `https://${applyLink}`;
+          }
+
+          applyButton.setAttribute(
+            "href",
+            applyLink
+          );
+
+          applyButton.classList.remove(
+            "hidden"
+          );
+        } else {
+          applyButton.classList.add(
+            "hidden"
+          );
+        }
+      }
+
+      /* SHOW */
+
+      if (loading) {
+        loading.classList.add(
+          "hidden"
+        );
+      }
+
+      if (jobDetails) {
+        jobDetails.classList.remove(
+          "hidden"
+        );
+      }
+
+      document.title =
+        `${job.title || "Job"} - GetJobCareer`;
+
+    } catch (error) {
+      console.error(
+        "Job details error:",
+        error
+      );
+
+      if (loading) {
+        loading.classList.add(
+          "hidden"
+        );
+      }
+
+      if (errorMessage) {
+        errorMessage.textContent =
+          error instanceof Error
+            ? error.message
+            : "Unable to load job details.";
+
+        errorMessage.classList.remove(
+          "hidden"
+        );
+      }
+    }
+  }
+
+  loadJob();
+</script>
+
+<style>
+  /* =====================================================
+     GLOBAL
+  ===================================================== */
+
+  :global(html),
+  :global(body) {
+    width: 100%;
+    max-width: 100%;
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden !important;
+  }
+
+  :global(*) {
+    box-sizing: border-box;
+  }
+
+  /* =====================================================
+     PAGE
+  ===================================================== */
+
+  .job-page {
+    width: 100%;
+    min-width: 0;
+    min-height: 100vh;
+    background:
+      linear-gradient(
+        180deg,
+        #f0fdfa 0,
+        #f8fafc 280px,
+        #f8fafc 100%
+      );
+    padding: 38px 20px 90px;
+    overflow-x: hidden;
+  }
+
+  .job-container {
+    width: 100%;
+    max-width: 1180px;
+    margin: 0 auto;
+    min-width: 0;
+  }
+
+  /* =====================================================
+     BREADCRUMB
+  ===================================================== */
+
+  .breadcrumb {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 9px;
+    margin-bottom: 22px;
+    color: #64748b;
+    font-size: 13px;
+  }
+
+  .breadcrumb a {
+    color: #64748b;
+    text-decoration: none;
+    transition: color 0.2s ease;
+  }
+
+  .breadcrumb a:hover {
+    color: #0f9f8f;
+  }
+
+  .breadcrumb span:last-child {
+    color: #94a3b8;
+  }
+
+  /* =====================================================
+     HERO
+  ===================================================== */
+
+  .job-hero {
+    width: 100%;
+    background: #ffffff;
+    border: 1px solid #dce7e5;
+    border-radius: 24px;
+    padding: 32px;
+    margin-bottom: 24px;
+    box-shadow:
+      0 10px 35px rgba(15, 23, 42, 0.06);
+    overflow: hidden;
+  }
+
+  .hero-top {
+    display: flex;
+    align-items: flex-start;
+    gap: 24px;
+    min-width: 0;
+  }
+
+  .company-logo {
+    width: 88px;
+    height: 88px;
+    min-width: 88px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 22px;
+    background:
+      linear-gradient(
+        135deg,
+        #dffaf5,
+        #c7f3ec
+      );
+    color: #079985;
+    font-size: 38px;
+    font-weight: 800;
+    border: 1px solid #b9ebe3;
+    box-shadow:
+      0 8px 20px rgba(13, 148, 136, 0.12);
+  }
+
+  .hero-info {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .category-badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 7px 13px;
+    border-radius: 999px;
+    background: #e8faf7;
+    color: #087f73;
+    border: 1px solid #c8eee8;
+    font-size: 12px;
+    font-weight: 800;
+    letter-spacing: 0.2px;
+  }
+
+  .hero-info h1 {
+    margin: 12px 0 7px;
+    color: #0f172a;
+    font-size: clamp(28px, 4vw, 42px);
+    line-height: 1.15;
+    font-weight: 800;
+    letter-spacing: -0.8px;
+    overflow-wrap: anywhere;
+    word-break: break-word;
+  }
+
+  .company-name {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: #64748b;
+    font-size: 17px;
+    font-weight: 600;
+  }
+
+  .company-icon {
+    font-size: 16px;
+  }
+
+  /* =====================================================
+     HERO META
+  ===================================================== */
+
+  .hero-meta {
+    display: grid;
+    grid-template-columns:
+      repeat(3, minmax(0, 1fr));
+    gap: 14px;
+    margin-top: 30px;
+    padding-top: 24px;
+    border-top: 1px solid #edf2f1;
+  }
+
+  .meta-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    min-width: 0;
+    padding: 13px 15px;
+    background: #f8fafc;
+    border: 1px solid #edf2f1;
+    border-radius: 13px;
+  }
+
+  .meta-icon {
+    width: 38px;
+    height: 38px;
+    min-width: 38px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #ffffff;
+    border-radius: 10px;
+    font-size: 17px;
+  }
+
+  .meta-item div {
+    min-width: 0;
+  }
+
+  .meta-item small {
+    display: block;
+    margin-bottom: 3px;
+    color: #94a3b8;
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  .meta-item strong {
+    display: block;
+    color: #334155;
+    font-size: 14px;
+    overflow-wrap: anywhere;
+    word-break: break-word;
+  }
+
+  /* =====================================================
+     CONTENT GRID
+  ===================================================== */
+
+  .content-grid {
+    display: grid;
+    grid-template-columns:
+      minmax(0, 1fr)
+      350px;
+    gap: 24px;
+    align-items: start;
+  }
+
+  .main-column {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    min-width: 0;
+  }
+
+  /* =====================================================
+     CONTENT CARDS
+  ===================================================== */
+
+  .content-card,
+  .sidebar-card {
+    width: 100%;
+    min-width: 0;
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 18px;
+    padding: 27px;
+    box-shadow:
+      0 5px 20px rgba(15, 23, 42, 0.035);
+  }
+
+  .content-card {
+    transition:
+      box-shadow 0.2s ease,
+      transform 0.2s ease;
+  }
+
+  .content-card:hover {
+    box-shadow:
+      0 10px 30px rgba(15, 23, 42, 0.055);
+  }
+
+  /* =====================================================
+     SECTION HEADING
+  ===================================================== */
+
+  .section-heading {
+    display: flex;
+    align-items: center;
+    gap: 13px;
+    margin-bottom: 20px;
+  }
+
+  .heading-icon {
+    width: 43px;
+    height: 43px;
+    min-width: 43px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 12px;
+    background: #eafaf7;
+    color: #079985;
+    font-size: 18px;
+  }
+
+  .section-heading h2 {
+    margin: 0;
+    color: #0f172a;
+    font-size: 21px;
+    line-height: 1.25;
+    font-weight: 800;
+  }
+
+  .section-heading p {
+    margin: 4px 0 0;
+    color: #94a3b8;
+    font-size: 12px;
+  }
+
+  /* =====================================================
+     DESCRIPTION
+  ===================================================== */
+
+  .description-text {
+    margin: 0;
+    color: #475569;
+    font-size: 15px;
+    line-height: 1.9;
+    white-space: pre-line;
+    overflow-wrap: anywhere;
+    word-break: break-word;
+  }
+
+  /* =====================================================
+     LISTS
+  ===================================================== */
+
+  .job-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .job-list li {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    color: #475569;
+    font-size: 15px;
+    line-height: 1.7;
+    overflow-wrap: anywhere;
+    word-break: break-word;
+  }
+
+  .list-marker {
+    width: 23px;
+    height: 23px;
+    min-width: 23px;
+    margin-top: 2px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: #e8faf7;
+    color: #079985;
+    font-size: 11px;
+    font-weight: 800;
+  }
+
+  /* =====================================================
+     PROCESS
+  ===================================================== */
+
+  .process-list {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    counter-reset: process;
+  }
+
+  .process-list li {
+    display: flex;
+    align-items: flex-start;
+    gap: 13px;
+    color: #475569;
+    font-size: 15px;
+    line-height: 1.7;
+    overflow-wrap: anywhere;
+    word-break: break-word;
+  }
+
+  .process-number {
+    width: 30px;
+    height: 30px;
+    min-width: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: #0f9f8f;
+    color: #ffffff;
+    font-size: 12px;
+    font-weight: 800;
+  }
+
+  /* =====================================================
+     SIDEBAR
+  ===================================================== */
+
+  .sidebar {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    min-width: 0;
+    position: sticky;
+    top: 20px;
+  }
+
+  /* =====================================================
+     APPLY CARD
+  ===================================================== */
+
+  .apply-card {
+    width: 100%;
+    padding: 26px;
+    border-radius: 20px;
+    background:
+      linear-gradient(
+        145deg,
+        #073f3a,
+        #087f73
+      );
+    color: #ffffff;
+    box-shadow:
+      0 15px 35px rgba(8, 127, 115, 0.22);
+  }
+
+  .apply-label {
+    display: inline-block;
+    margin-bottom: 9px;
+    color: #a7eee5;
+    font-size: 12px;
+    font-weight: 700;
+  }
+
+  .apply-card h2 {
+    margin: 0 0 8px;
+    font-size: 23px;
+    line-height: 1.25;
+    font-weight: 800;
+  }
+
+  .apply-card p {
+    margin: 0 0 20px;
+    color: #d2f3ef;
+    font-size: 13px;
+    line-height: 1.65;
+  }
+
+  .apply-button {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    min-height: 50px;
+    padding: 13px 18px;
+    border-radius: 11px;
+    background: #ffffff;
+    color: #087f73;
+    text-decoration: none;
+    font-size: 15px;
+    font-weight: 800;
+    transition:
+      transform 0.2s ease,
+      box-shadow 0.2s ease;
+  }
+
+  .apply-button:hover {
+    transform: translateY(-2px);
+    box-shadow:
+      0 8px 20px rgba(0, 0, 0, 0.15);
+  }
+
+  .apply-button span {
+    font-size: 20px;
+    line-height: 1;
+  }
+
+  .secure-note {
+    display: flex;
+    align-items: flex-start;
+    gap: 7px;
+    margin-top: 14px;
+    color: #bce9e4;
+    font-size: 10px;
+    line-height: 1.5;
+  }
+
+  /* =====================================================
+     SIDEBAR CARD
+  ===================================================== */
+
+  .sidebar-card {
+    padding: 23px;
+  }
+
+  .sidebar-title {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding-bottom: 17px;
+    margin-bottom: 4px;
+    border-bottom: 1px solid #eef2f1;
+  }
+
+  .sidebar-title > span {
+    font-size: 17px;
+  }
+
+  .sidebar-title h2 {
+    margin: 0;
+    color: #0f172a;
+    font-size: 18px;
+    font-weight: 800;
+  }
+
+  /* =====================================================
+     DETAIL LIST
+  ===================================================== */
+
+  .detail-list {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .detail-item {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 15px;
+    padding: 14px 0;
+    border-bottom: 1px solid #f1f5f9;
+  }
+
+  .detail-item:last-child {
+    border-bottom: none;
+    padding-bottom: 2px;
+  }
+
+  .detail-label {
+    color: #64748b;
+    font-size: 13px;
+    flex-shrink: 0;
+  }
+
+  .detail-item strong {
+    max-width: 62%;
+    color: #1e293b;
+    font-size: 13px;
+    font-weight: 700;
+    text-align: right;
+    overflow-wrap: anywhere;
+    word-break: break-word;
+  }
+
+  /* =====================================================
+     SKILLS
+  ===================================================== */
+
+  .skills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    padding-top: 15px;
+  }
+
+  .skills span {
+    display: inline-flex;
+    align-items: center;
+    padding: 7px 10px;
+    border-radius: 8px;
+    background: #ecfdf9;
+    border: 1px solid #c9eee8;
+    color: #087f73;
+    font-size: 12px;
+    font-weight: 700;
+    overflow-wrap: anywhere;
+    word-break: break-word;
+  }
+
+  /* =====================================================
+     DATES
+  ===================================================== */
+
+  .date-box {
+    margin-top: 15px;
+    padding: 15px;
+    border-radius: 12px;
+    background: #f8fafc;
+  }
+
+  .date-item {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+
+  .date-item span {
+    color: #94a3b8;
+    font-size: 11px;
+    font-weight: 600;
+  }
+
+  .date-item strong {
+    color: #1e293b;
+    font-size: 14px;
+  }
+
+  .date-divider {
+    height: 1px;
+    margin: 14px 0;
+    background: #e2e8f0;
+  }
+
+  /* =====================================================
+     LOADING
+  ===================================================== */
+
+  .loading-state {
+    max-width: 1180px;
+    margin: 0 auto;
+    min-height: 420px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: #64748b;
+  }
+
+  .loading-state p {
+    margin-top: 15px;
+    font-size: 14px;
+  }
+
+  .loader {
+    width: 38px;
+    height: 38px;
+    border: 3px solid #d8efec;
+    border-top-color: #0f9f8f;
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+  }
+
+  @keyframes spin {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+
+  /* =====================================================
+     ERROR
+  ===================================================== */
+
+  .error-state {
+    max-width: 700px;
+    margin: 80px auto;
+    padding: 30px;
+    border-radius: 16px;
+    background: #fff7f7;
+    border: 1px solid #fecaca;
+    color: #b91c1c;
+    text-align: center;
+    font-size: 15px;
+  }
+
+  /* =====================================================
+     HIDDEN
+  ===================================================== */
+
+  .hidden {
+    display: none !important;
+  }
+
+  /* =====================================================
+     TABLET
+  ===================================================== */
+
+  @media (max-width: 1000px) {
+    .content-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .sidebar {
+      position: static;
+      display: grid;
+      grid-template-columns:
+        repeat(2, minmax(0, 1fr));
+      align-items: start;
+    }
+
+    .apply-card {
+      grid-column: 1 / -1;
+    }
+  }
+
+  /* =====================================================
+     MOBILE
+  ===================================================== */
+
+  @media (max-width: 700px) {
+    .job-page {
+      padding: 24px 14px 60px;
+    }
+
+    .breadcrumb {
+      margin-bottom: 16px;
+      font-size: 12px;
+    }
+
+    .job-hero {
+      padding: 22px;
+      border-radius: 18px;
+    }
+
+    .hero-top {
+      flex-direction: column;
+      gap: 17px;
+    }
+
+    .company-logo {
+      width: 66px;
+      height: 66px;
+      min-width: 66px;
+      border-radius: 17px;
+      font-size: 29px;
+    }
+
+    .hero-info h1 {
+      margin-top: 11px;
+      font-size: 29px;
+      letter-spacing: -0.5px;
+    }
+
+    .company-name {
+      font-size: 15px;
+    }
+
+    .hero-meta {
+      grid-template-columns: 1fr;
+      gap: 9px;
+      margin-top: 22px;
+      padding-top: 19px;
+    }
+
+    .meta-item {
+      padding: 11px 12px;
+    }
+
+    .content-grid {
+      gap: 18px;
+    }
+
+    .main-column {
+      gap: 16px;
+    }
+
+    .content-card,
+    .sidebar-card {
+      padding: 21px;
+      border-radius: 16px;
+    }
+
+    .section-heading {
+      gap: 10px;
+      margin-bottom: 17px;
+    }
+
+    .heading-icon {
+      width: 38px;
+      height: 38px;
+      min-width: 38px;
+      border-radius: 10px;
+      font-size: 15px;
+    }
+
+    .section-heading h2 {
+      font-size: 19px;
+    }
+
+    .description-text,
+    .job-list li,
+    .process-list li {
+      font-size: 14px;
+    }
+
+    .sidebar {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .apply-card {
+      padding: 22px;
+    }
+
+    .apply-card h2 {
+      font-size: 21px;
+    }
+  }
+
+  /* =====================================================
+     SMALL MOBILE
+  ===================================================== */
+
+  @media (max-width: 420px) {
+    .job-page {
+      padding-left: 10px;
+      padding-right: 10px;
+    }
+
+    .job-hero {
+      padding: 18px;
+    }
+
+    .hero-info h1 {
+      font-size: 25px;
+    }
+
+    .content-card,
+    .sidebar-card,
+    .apply-card {
+      padding: 18px;
+    }
+
+    .detail-item {
+      gap: 10px;
+    }
+
+    .detail-item strong {
+      max-width: 58%;
+    }
+
+    .apply-button {
+      min-height: 48px;
+    }
+  }
+</style>

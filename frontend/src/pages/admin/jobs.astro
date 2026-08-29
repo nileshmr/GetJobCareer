@@ -1,0 +1,1736 @@
+---
+import Layout from "../../layouts/Layout.astro";
+---
+
+<Layout title="Manage Jobs - JobPortal">
+  <div class="jobs-page">
+    <div class="page-header">
+      <div>
+        <h1>Jobs</h1>
+        <p>Manage all jobs posted on JobPortal.</p>
+      </div>
+
+      <button class="add-btn" id="addJobBtn">+ Add New Job</button>
+    </div>
+
+    <div class="filters-card">
+      <input
+        type="text"
+        id="searchInput"
+        placeholder="Search by job title or company..."
+      />
+
+      <select id="categoryFilter">
+        <option value="">All Categories</option>
+      </select>
+
+      <select id="jobTypeFilter">
+        <option value="">All Job Types</option>
+        <option value="Full Time">Full Time</option>
+        <option value="Part Time">Part Time</option>
+        <option value="Internship">Internship</option>
+        <option value="Contract">Contract</option>
+        <option value="Freelance">Freelance</option>
+      </select>
+
+      <select id="workModeFilter">
+        <option value="">All Work Modes</option>
+        <option value="On-site">On-site</option>
+        <option value="Remote">Remote</option>
+        <option value="Hybrid">Hybrid</option>
+      </select>
+
+      <select id="statusFilter">
+        <option value="">All Status</option>
+        <option value="true">Published</option>
+        <option value="false">Unpublished</option>
+      </select>
+
+      <button id="clearFilters" class="clear-btn">Clear</button>
+    </div>
+
+    <div class="jobs-info">
+      <h2>All Jobs</h2>
+      <span id="jobCount">0 jobs found</span>
+    </div>
+
+    <div class="table-card">
+      <div class="table-wrapper">
+        <table>
+          <thead>
+            <tr>
+              <th>Job</th>
+              <th>Company</th>
+              <th>Category</th>
+              <th>Type</th>
+              <th>Work Mode</th>
+              <th>Location</th>
+              <th>Status</th>
+              <th>Created</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+
+          <tbody id="jobsTableBody">
+            <tr>
+              <td colspan="9" class="loading">Loading jobs...</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-overlay" id="jobModal">
+    <div class="modal">
+      <div class="modal-header">
+        <div>
+          <h2 id="modalTitle">Add New Job</h2>
+          <p>Create or update a job posting.</p>
+        </div>
+
+        <button type="button" class="close-btn" id="closeModal">×</button>
+      </div>
+
+      <form id="jobForm">
+        <input type="hidden" id="jobId" />
+
+        <div class="form-grid">
+          <div class="form-group full">
+            <label for="title">Job Title *</label>
+            <input
+              type="text"
+              id="title"
+              required
+              placeholder="e.g. MERN Stack Developer Intern"
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="companyName">Company Name *</label>
+            <input
+              type="text"
+              id="companyName"
+              required
+              placeholder="ABC Technologies"
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="slug">Slug *</label>
+            <input
+              type="text"
+              id="slug"
+              required
+              placeholder="mern-stack-developer-intern"
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="category">Category *</label>
+            <input
+              type="text"
+              id="category"
+              required
+              placeholder="IT Jobs"
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="jobType">Job Type</label>
+            <select id="jobType">
+              <option value="Full Time">Full Time</option>
+              <option value="Part Time">Part Time</option>
+              <option value="Internship">Internship</option>
+              <option value="Contract">Contract</option>
+              <option value="Freelance">Freelance</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="workMode">Work Mode</label>
+            <select id="workMode">
+              <option value="On-site">On-site</option>
+              <option value="Remote">Remote</option>
+              <option value="Hybrid">Hybrid</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="location">Location</label>
+            <input type="text" id="location" placeholder="Bangalore" />
+          </div>
+
+          <div class="form-group">
+            <label for="salary">Salary</label>
+            <input
+              type="text"
+              id="salary"
+              placeholder="₹20,000 - ₹30,000"
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="experience">Experience</label>
+            <input
+              type="text"
+              id="experience"
+              placeholder="0-2 Years"
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="qualification">Qualification</label>
+            <input
+              type="text"
+              id="qualification"
+              placeholder="BCA / B.Tech / MCA"
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="companyLogo">Company Logo URL</label>
+            <input
+              type="url"
+              id="companyLogo"
+              placeholder="https://..."
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="featuredImage">Featured Image URL</label>
+            <input
+              type="url"
+              id="featuredImage"
+              placeholder="https://..."
+            />
+          </div>
+
+          <div class="form-group full">
+            <label for="skills">Skills</label>
+            <input
+              type="text"
+              id="skills"
+              placeholder="React, Node.js, MongoDB, Express"
+            />
+            <small>Separate skills with commas.</small>
+          </div>
+
+          <div class="form-group full">
+            <label for="description">Description *</label>
+            <textarea
+              id="description"
+              rows="5"
+              required
+              placeholder="Describe the job..."
+            ></textarea>
+          </div>
+
+          <div class="form-group full">
+            <label for="responsibilities">Responsibilities</label>
+            <textarea
+              id="responsibilities"
+              rows="4"
+              placeholder="Develop applications, fix bugs, collaborate with team"
+            ></textarea>
+            <small>Separate items with commas.</small>
+          </div>
+
+          <div class="form-group full">
+            <label for="requirements">Requirements</label>
+            <textarea
+              id="requirements"
+              rows="4"
+              placeholder="JavaScript knowledge, React experience..."
+            ></textarea>
+            <small>Separate items with commas.</small>
+          </div>
+
+          <div class="form-group full">
+            <label for="benefits">Benefits</label>
+            <textarea
+              id="benefits"
+              rows="3"
+              placeholder="Certificate, Flexible hours, Work from home"
+            ></textarea>
+            <small>Separate items with commas.</small>
+          </div>
+
+          <div class="form-group">
+            <label for="applicationStartDate">Application Start Date</label>
+            <input type="date" id="applicationStartDate" />
+          </div>
+
+          <div class="form-group">
+            <label for="applicationEndDate">Application End Date</label>
+            <input type="date" id="applicationEndDate" />
+          </div>
+
+          <div class="form-group full">
+            <label for="selectionProcess">Selection Process</label>
+            <input
+              type="text"
+              id="selectionProcess"
+              placeholder="Online Test, Technical Interview, HR Interview"
+            />
+            <small>Separate steps with commas.</small>
+          </div>
+
+          <div class="form-group full">
+            <label for="howToApply">How to Apply</label>
+            <textarea
+              id="howToApply"
+              rows="3"
+              placeholder="Click the Apply button and submit your application."
+            ></textarea>
+          </div>
+
+          <div class="form-group full">
+            <label for="applyLink">Apply Link *</label>
+            <input
+              type="url"
+              id="applyLink"
+              required
+              placeholder="https://company.com/apply"
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="metaTitle">Meta Title</label>
+            <input type="text" id="metaTitle" />
+          </div>
+
+          <div class="form-group">
+            <label for="metaDescription">Meta Description</label>
+            <input type="text" id="metaDescription" />
+          </div>
+
+          <div class="form-group full">
+            <label for="keywords">Keywords</label>
+            <input
+              type="text"
+              id="keywords"
+              placeholder="mern jobs, react jobs, developer internship"
+            />
+          </div>
+
+          <div class="checkbox-group">
+            <label>
+              <input type="checkbox" id="isPublished" />
+              Published
+            </label>
+
+            <label>
+              <input type="checkbox" id="isFeatured" />
+              Featured Job
+            </label>
+          </div>
+        </div>
+
+        <div class="modal-actions">
+          <button type="button" class="cancel-btn" id="cancelBtn">
+            Cancel
+          </button>
+
+          <button type="submit" class="save-btn">
+            Save Job
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</Layout>
+
+<script>
+  const API_URL = "http://localhost:5000/api";
+
+  interface JobImportantDates {
+    applicationStartDate?: string;
+    applicationEndDate?: string;
+  }
+
+  interface Job {
+    _id: string;
+    title: string;
+    companyName: string;
+    slug: string;
+    category: string;
+    jobType: string;
+    workMode: string;
+    location?: string;
+    salary?: string;
+    experience?: string;
+    qualification?: string;
+    companyLogo?: string;
+    featuredImage?: string;
+    skills?: string[];
+    description?: string;
+    responsibilities?: string[];
+    requirements?: string[];
+    benefits?: string[];
+    importantDates?: JobImportantDates;
+    selectionProcess?: string[];
+    howToApply?: string;
+    applyLink?: string;
+    metaTitle?: string;
+    metaDescription?: string;
+    keywords?: string[];
+    isPublished?: boolean;
+    isFeatured?: boolean;
+    createdAt?: string;
+  }
+
+  interface JobsResponse {
+    jobs?: Job[];
+    message?: string;
+  }
+
+  let jobs: Job[] = [];
+  let editingJobId: string | null = null;
+
+  const getElement = <T extends HTMLElement>(id: string): T => {
+    const element = document.getElementById(id);
+
+    if (!element) {
+      throw new Error(`Element #${id} not found`);
+    }
+
+    return element as T;
+  };
+
+  const modal = getElement<HTMLDivElement>("jobModal");
+  const jobForm = getElement<HTMLFormElement>("jobForm");
+
+  const searchInput =
+    getElement<HTMLInputElement>("searchInput");
+
+  const categoryFilter =
+    getElement<HTMLSelectElement>("categoryFilter");
+
+  const jobTypeFilter =
+    getElement<HTMLSelectElement>("jobTypeFilter");
+
+  const workModeFilter =
+    getElement<HTMLSelectElement>("workModeFilter");
+
+  const statusFilter =
+    getElement<HTMLSelectElement>("statusFilter");
+
+  const jobsTableBody =
+    getElement<HTMLTableSectionElement>("jobsTableBody");
+
+  const jobCount =
+    getElement<HTMLSpanElement>("jobCount");
+
+  function getToken(): string | null {
+    return localStorage.getItem("token");
+  }
+
+  function authHeaders(): HeadersInit {
+    const token = getToken();
+
+    return {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token ?? ""}`,
+    };
+  }
+
+  async function loadJobs(): Promise<void> {
+    try {
+      const params = new URLSearchParams();
+
+      const search = searchInput.value.trim();
+      const category = categoryFilter.value;
+      const jobType = jobTypeFilter.value;
+      const workMode = workModeFilter.value;
+      const status = statusFilter.value;
+
+      if (search) {
+        params.append("search", search);
+      }
+
+      if (category) {
+        params.append("category", category);
+      }
+
+      if (jobType) {
+        params.append("jobType", jobType);
+      }
+
+      if (workMode) {
+        params.append("workMode", workMode);
+      }
+
+      const queryString = params.toString();
+
+      const response = await fetch(
+        `${API_URL}/jobs/admin${queryString ? `?${queryString}` : ""}`,
+        {
+          headers: authHeaders(),
+        }
+      );
+
+      const data = (await response.json()) as JobsResponse;
+
+      if (!response.ok) {
+        throw new Error(data.message || "Failed to load jobs");
+      }
+
+      jobs = Array.isArray(data.jobs) ? data.jobs : [];
+
+      if (status !== "") {
+        jobs = jobs.filter(
+          (job: Job) =>
+            String(Boolean(job.isPublished)) === status
+        );
+      }
+
+      jobs.sort((a: Job, b: Job) => {
+        return (
+          new Date(b.createdAt || 0).getTime() -
+          new Date(a.createdAt || 0).getTime()
+        );
+      });
+
+      renderJobs();
+      populateFilters();
+    } catch (error: unknown) {
+      console.error("Load jobs error:", error);
+
+      const message =
+        error instanceof Error
+          ? error.message
+          : "Failed to load jobs";
+
+      jobsTableBody.innerHTML = `
+        <tr>
+          <td colspan="9" class="error">
+            ${escapeHtml(message)}
+          </td>
+        </tr>
+      `;
+    }
+  }
+
+  function renderJobs(): void {
+    jobCount.textContent = `${jobs.length} ${
+      jobs.length === 1 ? "job" : "jobs"
+    } found`;
+
+    if (!jobs.length) {
+      jobsTableBody.innerHTML = `
+        <tr>
+          <td colspan="9" class="empty">
+            No jobs found.
+          </td>
+        </tr>
+      `;
+
+      return;
+    }
+
+    jobsTableBody.innerHTML = jobs
+      .map((job: Job) => {
+        const date = job.createdAt
+          ? new Date(job.createdAt).toLocaleDateString("en-IN")
+          : "-";
+
+        return `
+          <tr>
+            <td>
+              <div class="job-title">
+                ${escapeHtml(job.title)}
+              </div>
+
+              ${
+                job.isFeatured
+                  ? `<span class="featured">Featured</span>`
+                  : ""
+              }
+            </td>
+
+            <td>${escapeHtml(job.companyName)}</td>
+
+            <td>${escapeHtml(job.category)}</td>
+
+            <td>${escapeHtml(job.jobType)}</td>
+
+            <td>${escapeHtml(job.workMode)}</td>
+
+            <td>${escapeHtml(job.location || "-")}</td>
+
+            <td>
+              <span class="status ${
+                job.isPublished
+                  ? "published"
+                  : "unpublished"
+              }">
+                ${
+                  job.isPublished
+                    ? "Published"
+                    : "Unpublished"
+                }
+              </span>
+            </td>
+
+            <td>${date}</td>
+
+            <td>
+              <div class="actions">
+                <button
+                  type="button"
+                  class="action edit"
+                  data-action="edit"
+                  data-id="${escapeHtml(job._id)}"
+                >
+                  Edit
+                </button>
+
+                <button
+                  type="button"
+                  class="action publish"
+                  data-action="publish"
+                  data-id="${escapeHtml(job._id)}"
+                >
+                  ${
+                    job.isPublished
+                      ? "Unpublish"
+                      : "Publish"
+                  }
+                </button>
+
+                <button
+                  type="button"
+                  class="action delete"
+                  data-action="delete"
+                  data-id="${escapeHtml(job._id)}"
+                >
+                  Delete
+                </button>
+              </div>
+            </td>
+          </tr>
+        `;
+      })
+      .join("");
+  }
+
+  function populateFilters(): void {
+    const currentCategory = categoryFilter.value;
+
+    const categories = [
+      ...new Set(
+        jobs
+          .map((job: Job) => job.category)
+          .filter(
+            (category: string | undefined): category is string =>
+              Boolean(category)
+          )
+      ),
+    ].sort();
+
+    categoryFilter.innerHTML =
+      `<option value="">All Categories</option>` +
+      categories
+        .map(
+          (category: string) =>
+            `<option value="${escapeHtml(category)}">${escapeHtml(
+              category
+            )}</option>`
+        )
+        .join("");
+
+    if (
+      categories.includes(currentCategory)
+    ) {
+      categoryFilter.value = currentCategory;
+    } else {
+      categoryFilter.value = "";
+    }
+  }
+
+  function openAddModal(): void {
+    editingJobId = null;
+
+    getElement<HTMLElement>("modalTitle").textContent =
+      "Add New Job";
+
+    jobForm.reset();
+
+    getElement<HTMLSelectElement>("jobType").value =
+      "Full Time";
+
+    getElement<HTMLSelectElement>("workMode").value =
+      "On-site";
+
+    modal.classList.add("show");
+  }
+
+  function openEditModal(job: Job): void {
+    editingJobId = job._id;
+
+    getElement<HTMLElement>("modalTitle").textContent =
+      "Edit Job";
+
+    getElement<HTMLInputElement>("jobId").value =
+      job._id || "";
+
+    getElement<HTMLInputElement>("title").value =
+      job.title || "";
+
+    getElement<HTMLInputElement>("companyName").value =
+      job.companyName || "";
+
+    getElement<HTMLInputElement>("slug").value =
+      job.slug || "";
+
+    getElement<HTMLInputElement>("category").value =
+      job.category || "";
+
+    getElement<HTMLSelectElement>("jobType").value =
+      job.jobType || "Full Time";
+
+    getElement<HTMLSelectElement>("workMode").value =
+      job.workMode || "On-site";
+
+    getElement<HTMLInputElement>("location").value =
+      job.location || "";
+
+    getElement<HTMLInputElement>("salary").value =
+      job.salary || "";
+
+    getElement<HTMLInputElement>("experience").value =
+      job.experience || "";
+
+    getElement<HTMLInputElement>("qualification").value =
+      job.qualification || "";
+
+    getElement<HTMLInputElement>("companyLogo").value =
+      job.companyLogo || "";
+
+    getElement<HTMLInputElement>("featuredImage").value =
+      job.featuredImage || "";
+
+    getElement<HTMLInputElement>("skills").value =
+      (job.skills || []).join(", ");
+
+    getElement<HTMLTextAreaElement>("description").value =
+      job.description || "";
+
+    getElement<HTMLTextAreaElement>(
+      "responsibilities"
+    ).value = (job.responsibilities || []).join(", ");
+
+    getElement<HTMLTextAreaElement>(
+      "requirements"
+    ).value = (job.requirements || []).join(", ");
+
+    getElement<HTMLTextAreaElement>(
+      "benefits"
+    ).value = (job.benefits || []).join(", ");
+
+    getElement<HTMLInputElement>(
+      "applicationStartDate"
+    ).value = formatDate(
+      job.importantDates?.applicationStartDate
+    );
+
+    getElement<HTMLInputElement>(
+      "applicationEndDate"
+    ).value = formatDate(
+      job.importantDates?.applicationEndDate
+    );
+
+    getElement<HTMLInputElement>(
+      "selectionProcess"
+    ).value = (job.selectionProcess || []).join(", ");
+
+    getElement<HTMLTextAreaElement>(
+      "howToApply"
+    ).value = job.howToApply || "";
+
+    getElement<HTMLInputElement>("applyLink").value =
+      job.applyLink || "";
+
+    getElement<HTMLInputElement>("metaTitle").value =
+      job.metaTitle || "";
+
+    getElement<HTMLInputElement>(
+      "metaDescription"
+    ).value = job.metaDescription || "";
+
+    getElement<HTMLInputElement>("keywords").value =
+      (job.keywords || []).join(", ");
+
+    getElement<HTMLInputElement>("isPublished").checked =
+      Boolean(job.isPublished);
+
+    getElement<HTMLInputElement>("isFeatured").checked =
+      Boolean(job.isFeatured);
+
+    modal.classList.add("show");
+  }
+
+  function closeModal(): void {
+    modal.classList.remove("show");
+    editingJobId = null;
+  }
+
+  function splitValues(value: string): string[] {
+    return value
+      .split(",")
+      .map((item: string) => item.trim())
+      .filter(Boolean);
+  }
+
+  function formatDate(
+    date: string | undefined
+  ): string {
+    if (!date) {
+      return "";
+    }
+
+    const parsedDate = new Date(date);
+
+    if (Number.isNaN(parsedDate.getTime())) {
+      return "";
+    }
+
+    return parsedDate.toISOString().split("T")[0];
+  }
+
+  function buildJobData() {
+    const startDate =
+      getElement<HTMLInputElement>(
+        "applicationStartDate"
+      ).value;
+
+    const endDate =
+      getElement<HTMLInputElement>(
+        "applicationEndDate"
+      ).value;
+
+    return {
+      title: getElement<HTMLInputElement>(
+        "title"
+      ).value.trim(),
+
+      companyName: getElement<HTMLInputElement>(
+        "companyName"
+      ).value.trim(),
+
+      slug: getElement<HTMLInputElement>(
+        "slug"
+      ).value.trim(),
+
+      category: getElement<HTMLInputElement>(
+        "category"
+      ).value.trim(),
+
+      jobType:
+        getElement<HTMLSelectElement>("jobType").value,
+
+      workMode:
+        getElement<HTMLSelectElement>("workMode").value,
+
+      location: getElement<HTMLInputElement>(
+        "location"
+      ).value.trim(),
+
+      salary: getElement<HTMLInputElement>(
+        "salary"
+      ).value.trim(),
+
+      experience: getElement<HTMLInputElement>(
+        "experience"
+      ).value.trim(),
+
+      qualification: getElement<HTMLInputElement>(
+        "qualification"
+      ).value.trim(),
+
+      companyLogo: getElement<HTMLInputElement>(
+        "companyLogo"
+      ).value.trim(),
+
+      featuredImage: getElement<HTMLInputElement>(
+        "featuredImage"
+      ).value.trim(),
+
+      skills: splitValues(
+        getElement<HTMLInputElement>("skills").value
+      ),
+
+      description: getElement<HTMLTextAreaElement>(
+        "description"
+      ).value.trim(),
+
+      responsibilities: splitValues(
+        getElement<HTMLTextAreaElement>(
+          "responsibilities"
+        ).value
+      ),
+
+      requirements: splitValues(
+        getElement<HTMLTextAreaElement>(
+          "requirements"
+        ).value
+      ),
+
+      benefits: splitValues(
+        getElement<HTMLTextAreaElement>(
+          "benefits"
+        ).value
+      ),
+
+      importantDates: {
+        applicationStartDate:
+          startDate || undefined,
+
+        applicationEndDate:
+          endDate || undefined,
+      },
+
+      selectionProcess: splitValues(
+        getElement<HTMLInputElement>(
+          "selectionProcess"
+        ).value
+      ),
+
+      howToApply: getElement<HTMLTextAreaElement>(
+        "howToApply"
+      ).value.trim(),
+
+      applyLink: getElement<HTMLInputElement>(
+        "applyLink"
+      ).value.trim(),
+
+      metaTitle: getElement<HTMLInputElement>(
+        "metaTitle"
+      ).value.trim(),
+
+      metaDescription:
+        getElement<HTMLInputElement>(
+          "metaDescription"
+        ).value.trim(),
+
+      keywords: splitValues(
+        getElement<HTMLInputElement>("keywords").value
+      ),
+
+      isPublished:
+        getElement<HTMLInputElement>(
+          "isPublished"
+        ).checked,
+
+      isFeatured:
+        getElement<HTMLInputElement>(
+          "isFeatured"
+        ).checked,
+    };
+  }
+
+  async function saveJob(
+    event: SubmitEvent
+  ): Promise<void> {
+    event.preventDefault();
+
+    try {
+      const jobData = buildJobData();
+
+      const url = editingJobId
+        ? `${API_URL}/jobs/${editingJobId}`
+        : `${API_URL}/jobs`;
+
+      const method = editingJobId
+        ? "PUT"
+        : "POST";
+
+      const response = await fetch(url, {
+        method,
+        headers: authHeaders(),
+        body: JSON.stringify(jobData),
+      });
+
+      const data = (await response.json()) as {
+        message?: string;
+      };
+
+      if (!response.ok) {
+        throw new Error(
+          data.message || "Failed to save job"
+        );
+      }
+
+      alert(
+        editingJobId
+          ? "Job updated successfully"
+          : "Job created successfully"
+      );
+
+      closeModal();
+      await loadJobs();
+    } catch (error: unknown) {
+      alert(
+        error instanceof Error
+          ? error.message
+          : "Failed to save job"
+      );
+    }
+  }
+
+  async function togglePublish(
+    id: string
+  ): Promise<void> {
+    try {
+      const response = await fetch(
+        `${API_URL}/jobs/${id}/publish`,
+        {
+          method: "PATCH",
+          headers: authHeaders(),
+        }
+      );
+
+      const data = (await response.json()) as {
+        message?: string;
+      };
+
+      if (!response.ok) {
+        throw new Error(
+          data.message || "Failed to update status"
+        );
+      }
+
+      alert(
+        data.message || "Job status updated successfully"
+      );
+
+      await loadJobs();
+    } catch (error: unknown) {
+      alert(
+        error instanceof Error
+          ? error.message
+          : "Failed to update status"
+      );
+    }
+  }
+
+  async function deleteJob(
+    id: string
+  ): Promise<void> {
+    const confirmed = confirm(
+      "Are you sure you want to delete this job?"
+    );
+
+    if (!confirmed) {
+      return;
+    }
+
+    try {
+      const response = await fetch(
+        `${API_URL}/jobs/${id}`,
+        {
+          method: "DELETE",
+          headers: authHeaders(),
+        }
+      );
+
+      const data = (await response.json()) as {
+        message?: string;
+      };
+
+      if (!response.ok) {
+        throw new Error(
+          data.message || "Failed to delete job"
+        );
+      }
+
+      alert("Job deleted successfully");
+
+      await loadJobs();
+    } catch (error: unknown) {
+      alert(
+        error instanceof Error
+          ? error.message
+          : "Failed to delete job"
+      );
+    }
+  }
+
+  function escapeHtml(value: unknown): string {
+    return String(value ?? "")
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&#039;");
+  }
+
+  getElement<HTMLButtonElement>(
+    "addJobBtn"
+  ).addEventListener(
+    "click",
+    openAddModal
+  );
+
+  getElement<HTMLButtonElement>(
+    "closeModal"
+  ).addEventListener(
+    "click",
+    closeModal
+  );
+
+  getElement<HTMLButtonElement>(
+    "cancelBtn"
+  ).addEventListener(
+    "click",
+    closeModal
+  );
+
+  jobForm.addEventListener(
+    "submit",
+    saveJob
+  );
+
+  let searchTimer: ReturnType<
+    typeof setTimeout
+  > | undefined;
+
+  searchInput.addEventListener(
+    "input",
+    () => {
+      if (searchTimer) {
+        clearTimeout(searchTimer);
+      }
+
+      searchTimer = setTimeout(
+        () => {
+          loadJobs();
+        },
+        400
+      );
+    }
+  );
+
+  categoryFilter.addEventListener(
+    "change",
+    loadJobs
+  );
+
+  jobTypeFilter.addEventListener(
+    "change",
+    loadJobs
+  );
+
+  workModeFilter.addEventListener(
+    "change",
+    loadJobs
+  );
+
+  statusFilter.addEventListener(
+    "change",
+    loadJobs
+  );
+
+  getElement<HTMLButtonElement>(
+    "clearFilters"
+  ).addEventListener(
+    "click",
+    () => {
+      searchInput.value = "";
+      categoryFilter.value = "";
+      jobTypeFilter.value = "";
+      workModeFilter.value = "";
+      statusFilter.value = "";
+
+      loadJobs();
+    }
+  );
+
+  getElement<HTMLInputElement>(
+    "title"
+  ).addEventListener(
+    "input",
+    (event: Event) => {
+      if (editingJobId) {
+        return;
+      }
+
+      const input =
+        event.currentTarget as HTMLInputElement;
+
+      const title = input.value;
+
+      const slug = title
+        .toLowerCase()
+        .trim()
+        .replace(/[^a-z0-9]+/g, "-")
+        .replace(/^-+|-+$/g, "");
+
+      getElement<HTMLInputElement>(
+        "slug"
+      ).value = slug;
+    }
+  );
+
+  jobsTableBody.addEventListener(
+    "click",
+    (event: MouseEvent) => {
+      const target = event.target;
+
+      if (!(target instanceof HTMLElement)) {
+        return;
+      }
+
+      const button =
+        target.closest("button");
+
+      if (!(button instanceof HTMLButtonElement)) {
+        return;
+      }
+
+      const action =
+        button.dataset.action;
+
+      const id =
+        button.dataset.id;
+
+      if (!action || !id) {
+        return;
+      }
+
+      const job =
+        jobs.find(
+          (item: Job) =>
+            item._id === id
+        );
+
+      if (
+        action === "edit" &&
+        job
+      ) {
+        openEditModal(job);
+      }
+
+      if (
+        action === "publish"
+      ) {
+        togglePublish(id);
+      }
+
+      if (
+        action === "delete"
+      ) {
+        deleteJob(id);
+      }
+    }
+  );
+
+  modal.addEventListener(
+    "click",
+    (event: MouseEvent) => {
+      if (
+        event.target === modal
+      ) {
+        closeModal();
+      }
+    }
+  );
+
+  loadJobs();
+</script>
+
+<style>
+  .jobs-page {
+    padding: 38px;
+    background: #f8fafc;
+    min-height: calc(100vh - 70px);
+  }
+
+  .page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 28px;
+  }
+
+  .page-header h1 {
+    margin: 0;
+    font-size: 32px;
+    color: #111827;
+  }
+
+  .page-header p {
+    margin: 7px 0 0;
+    color: #64748b;
+  }
+
+  .add-btn {
+    border: none;
+    background: #4f46e5;
+    color: white;
+    padding: 13px 20px;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+  }
+
+  .add-btn:hover {
+    background: #4338ca;
+  }
+
+  .filters-card {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr 1fr auto;
+    gap: 10px;
+    background: white;
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+    padding: 16px;
+    margin-bottom: 28px;
+  }
+
+  .filters-card input,
+  .filters-card select {
+    width: 100%;
+    height: 43px;
+    border: 1px solid #dbe1ea;
+    border-radius: 7px;
+    padding: 0 12px;
+    outline: none;
+    background: white;
+    box-sizing: border-box;
+  }
+
+  .filters-card input:focus,
+  .filters-card select:focus {
+    border-color: #6366f1;
+  }
+
+  .clear-btn {
+    border: none;
+    background: #eef2ff;
+    color: #4338ca;
+    border-radius: 7px;
+    padding: 0 17px;
+    cursor: pointer;
+    font-weight: 600;
+  }
+
+  .clear-btn:hover {
+    background: #e0e7ff;
+  }
+
+  .jobs-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+  }
+
+  .jobs-info h2 {
+    margin: 0;
+    font-size: 21px;
+    color: #111827;
+  }
+
+  .jobs-info span {
+    color: #64748b;
+    font-size: 14px;
+  }
+
+  .table-card {
+    background: white;
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+    overflow: hidden;
+  }
+
+  .table-wrapper {
+    overflow-x: auto;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 1200px;
+  }
+
+  th {
+    background: #f8fafc;
+    color: #475569;
+    font-size: 13px;
+    font-weight: 600;
+    text-align: left;
+    padding: 15px;
+    border-bottom: 1px solid #e5e7eb;
+    white-space: nowrap;
+  }
+
+  td {
+    padding: 15px;
+    border-bottom: 1px solid #eef2f7;
+    color: #334155;
+    font-size: 14px;
+    vertical-align: middle;
+  }
+
+  tr:last-child td {
+    border-bottom: none;
+  }
+
+  tbody tr:hover {
+    background: #fafbff;
+  }
+
+  .job-title {
+    font-weight: 700;
+    color: #111827;
+    max-width: 220px;
+    line-height: 1.4;
+  }
+
+  .featured {
+    display: inline-block;
+    margin-top: 5px;
+    padding: 3px 7px;
+    border-radius: 5px;
+    background: #fef3c7;
+    color: #92400e;
+    font-size: 11px;
+    font-weight: 600;
+  }
+
+  .status {
+    display: inline-block;
+    padding: 5px 9px;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 600;
+    white-space: nowrap;
+  }
+
+  .published {
+    background: #dcfce7;
+    color: #166534;
+  }
+
+  .unpublished {
+    background: #fee2e2;
+    color: #991b1b;
+  }
+
+  .actions {
+    display: flex;
+    gap: 6px;
+    flex-wrap: nowrap;
+  }
+
+  .action {
+    border: none;
+    border-radius: 6px;
+    padding: 7px 9px;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    white-space: nowrap;
+  }
+
+  .action:hover {
+    transform: translateY(-1px);
+  }
+
+  .edit {
+    background: #eef2ff;
+    color: #4338ca;
+  }
+
+  .publish {
+    background: #ecfdf5;
+    color: #047857;
+  }
+
+  .delete {
+    background: #fef2f2;
+    color: #dc2626;
+  }
+
+  .loading,
+  .empty,
+  .error {
+    text-align: center;
+    padding: 40px;
+  }
+
+  .loading {
+    color: #64748b;
+  }
+
+  .empty {
+    color: #64748b;
+  }
+
+  .error {
+    color: #dc2626;
+  }
+
+  .modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(15, 23, 42, 0.55);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    padding: 20px;
+  }
+
+  .modal-overlay.show {
+    display: flex;
+  }
+
+  .modal {
+    width: min(1000px, 100%);
+    max-height: 92vh;
+    overflow-y: auto;
+    background: white;
+    border-radius: 14px;
+    box-shadow: 0 25px 60px rgba(0, 0, 0, 0.25);
+  }
+
+  .modal-header {
+    position: sticky;
+    top: 0;
+    z-index: 2;
+    background: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding: 22px 25px;
+    border-bottom: 1px solid #e5e7eb;
+  }
+
+  .modal-header h2 {
+    margin: 0;
+    font-size: 22px;
+    color: #111827;
+  }
+
+  .modal-header p {
+    margin: 5px 0 0;
+    color: #64748b;
+    font-size: 13px;
+  }
+
+  .close-btn {
+    border: none;
+    background: #f1f5f9;
+    color: #334155;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    font-size: 24px;
+    line-height: 1;
+    cursor: pointer;
+  }
+
+  .close-btn:hover {
+    background: #e2e8f0;
+  }
+
+  #jobForm {
+    padding: 25px;
+  }
+
+  .form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 18px;
+  }
+
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+  }
+
+  .form-group.full {
+    grid-column: 1 / -1;
+  }
+
+  .form-group label {
+    font-size: 13px;
+    font-weight: 600;
+    color: #334155;
+  }
+
+  .form-group input,
+  .form-group select,
+  .form-group textarea {
+    width: 100%;
+    border: 1px solid #dbe1ea;
+    border-radius: 7px;
+    padding: 11px 12px;
+    font-family: inherit;
+    outline: none;
+    font-size: 14px;
+    box-sizing: border-box;
+    background: white;
+    color: #111827;
+  }
+
+  .form-group textarea {
+    resize: vertical;
+    min-height: 90px;
+  }
+
+  .form-group input:focus,
+  .form-group select:focus,
+  .form-group textarea:focus {
+    border-color: #6366f1;
+    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.08);
+  }
+
+  .form-group small {
+    color: #94a3b8;
+    font-size: 11px;
+  }
+
+  .checkbox-group {
+    grid-column: 1 / -1;
+    display: flex;
+    gap: 25px;
+    padding: 5px 0;
+  }
+
+  .checkbox-group label {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    font-weight: 600;
+    font-size: 14px;
+    color: #334155;
+    cursor: pointer;
+  }
+
+  .checkbox-group input {
+    width: 16px;
+    height: 16px;
+    accent-color: #4f46e5;
+    cursor: pointer;
+  }
+
+  .modal-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    padding-top: 25px;
+    margin-top: 25px;
+    border-top: 1px solid #e5e7eb;
+  }
+
+  .cancel-btn,
+  .save-btn {
+    padding: 11px 20px;
+    border-radius: 7px;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 14px;
+  }
+
+  .cancel-btn {
+    border: 1px solid #dbe1ea;
+    background: white;
+    color: #475569;
+  }
+
+  .cancel-btn:hover {
+    background: #f8fafc;
+  }
+
+  .save-btn {
+    border: none;
+    background: #4f46e5;
+    color: white;
+  }
+
+  .save-btn:hover {
+    background: #4338ca;
+  }
+
+  @media (max-width: 1100px) {
+    .filters-card {
+      grid-template-columns: 1fr 1fr 1fr;
+    }
+  }
+
+  @media (max-width: 900px) {
+    .filters-card {
+      grid-template-columns: 1fr 1fr;
+    }
+
+    .form-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .form-group.full {
+      grid-column: auto;
+    }
+
+    .checkbox-group {
+      grid-column: auto;
+    }
+  }
+
+  @media (max-width: 600px) {
+    .jobs-page {
+      padding: 20px;
+    }
+
+    .page-header {
+      align-items: flex-start;
+      gap: 15px;
+      flex-direction: column;
+    }
+
+    .add-btn {
+      width: 100%;
+    }
+
+    .filters-card {
+      grid-template-columns: 1fr;
+    }
+
+    .jobs-info {
+      align-items: flex-start;
+      gap: 8px;
+      flex-direction: column;
+    }
+
+    #jobForm {
+      padding: 20px;
+    }
+
+    .modal-overlay {
+      padding: 10px;
+    }
+
+    .modal {
+      max-height: 95vh;
+    }
+
+    .checkbox-group {
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .modal-actions {
+      flex-direction: column-reverse;
+    }
+
+    .cancel-btn,
+    .save-btn {
+      width: 100%;
+    }
+  }
+</style>

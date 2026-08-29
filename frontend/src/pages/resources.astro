@@ -1,0 +1,960 @@
+---
+import Layout from "../layouts/Layout.astro";
+
+const resources = [
+  {
+    title: "Resume Building Guide",
+    description:
+      "Learn how to create a professional resume that highlights your skills, projects, education, and experience for recruiters.",
+    category: "Resume",
+    icon: "📄",
+    link: "/resources/resume-building-guide",
+  },
+  {
+    title: "Interview Preparation Guide",
+    description:
+      "Prepare for technical and HR interviews with practical interview questions, preparation strategies, and career tips.",
+    category: "Interview",
+    icon: "💬",
+    link: "/resources/interview-preparation-guide",
+  },
+  {
+    title: "LinkedIn Profile Optimization",
+    description:
+      "Improve your LinkedIn profile and build a professional online presence that helps recruiters discover your profile.",
+    category: "Career",
+    icon: "💼",
+    link: "/resources/linkedin-profile-optimization",
+  },
+  {
+    title: "Salary Negotiation Guide",
+    description:
+      "Understand how salary negotiation works and learn practical strategies to negotiate your first job offer confidently.",
+    category: "Salary",
+    icon: "📈",
+    link: "/resources/salary-negotiation-guide",
+  },
+  {
+    title: "DSA Preparation Guide",
+    description:
+      "Build your Data Structures and Algorithms fundamentals and prepare effectively for coding interviews and placements.",
+    category: "Programming",
+    icon: "💻",
+    link: "/resources/dsa-preparation-guide",
+  },
+  {
+    title: "System Design Primer",
+    description:
+      "Learn the fundamentals of system design, scalability, databases, APIs, caching, and distributed systems.",
+    category: "Programming",
+    icon: "🖥️",
+    link: "/resources/system-design-primer",
+  },
+  {
+    title: "Job Search Strategy",
+    description:
+      "Discover effective job search strategies for students, freshers, and developers looking for their first career opportunity.",
+    category: "Career",
+    icon: "🗺️",
+    link: "/resources/job-search-strategy",
+  },
+  {
+    title: "Technical Skills Roadmap",
+    description:
+      "Follow a practical roadmap to develop in-demand technical skills and become job-ready for software development roles.",
+    category: "Programming",
+    icon: "🚀",
+    link: "/resources/technical-skills-roadmap",
+  },
+  {
+    title: "Freshers Career Guide",
+    description:
+      "A practical career guide for freshers covering job applications, resumes, interviews, skills, and professional growth.",
+    category: "Career",
+    icon: "🎯",
+    link: "/resources/freshers-career-guide",
+  },
+];
+
+const categories = [
+  "All",
+  ...Array.from(
+    new Set(resources.map((resource) => resource.category))
+  ),
+];
+
+const pageTitle =
+  "Career Resources for Students & Freshers | Resume, Interview & Job Guides";
+
+const pageDescription =
+  "Explore free career resources for students and freshers including resume building, interview preparation, LinkedIn optimization, salary negotiation, DSA, system design, job search strategies, and career guidance.";
+
+const canonicalUrl = "https://getjobcareer.com/resources";
+
+const organizationSchema = {
+  "@context": "https://schema.org",
+  "@type": "CollectionPage",
+  name: "Career Resources for Students & Freshers",
+  description: pageDescription,
+  url: canonicalUrl,
+  mainEntity: {
+    "@type": "ItemList",
+    itemListElement: resources.map((resource, index) => ({
+      "@type": "ListItem",
+      position: index + 1,
+      name: resource.title,
+      url: `https://getjobcareer.com${resource.link}`,
+    })),
+  },
+};
+---
+
+<Layout title={pageTitle} description={pageDescription}>
+  <main>
+    <!-- SEO Structured Data -->
+    <script
+      type="application/ld+json"
+      set:html={JSON.stringify(organizationSchema)}
+    />
+
+    <!-- Hero -->
+    <section
+      class="hero-section"
+      aria-labelledby="resources-page-title"
+    >
+      <div class="container hero-content">
+        <span class="eyebrow">Career Resources</span>
+
+        <h1 id="resources-page-title">
+          Career Resources for Students &amp; Freshers
+        </h1>
+
+        <p class="hero-description">
+          Everything you need to prepare for your job search — from building
+          a professional resume and preparing for interviews to improving your
+          technical skills and planning your career.
+        </p>
+      </div>
+    </section>
+
+    <!-- Resources -->
+    <section
+      class="resources-section"
+      aria-labelledby="resources-heading"
+    >
+      <div class="container">
+
+        <!-- Category Navigation -->
+        <nav
+          class="category-navigation"
+          aria-label="Career resource categories"
+        >
+          <div
+            class="category-list"
+            id="categoryFilters"
+          >
+            {
+              categories.map((category, index) => (
+                <button
+                  type="button"
+                  class:list={[
+                    "category-button",
+                    { active: index === 0 },
+                  ]}
+                  data-category={category}
+                  aria-pressed={index === 0 ? "true" : "false"}
+                >
+                  {category}
+                </button>
+              ))
+            }
+          </div>
+        </nav>
+
+        <!-- Section Heading -->
+        <div class="section-heading">
+          <div>
+            <span class="section-label">
+              Learn &amp; Grow
+            </span>
+
+            <h2 id="resources-heading">
+              Career Guides &amp; Learning Resources
+            </h2>
+
+            <p>
+              Explore practical career resources designed to help students,
+              freshers, and job seekers become more confident and job-ready.
+            </p>
+          </div>
+
+          <span
+            class="resource-count"
+            id="resourceCount"
+            aria-live="polite"
+          >
+            {resources.length} resources
+          </span>
+        </div>
+
+        <!-- Resources Grid -->
+        <div
+          class="resources-grid"
+          id="resourcesGrid"
+        >
+          {
+            resources.map((resource) => (
+              <article
+                class="resource-card"
+                data-category={resource.category}
+              >
+                <div
+                  class="resource-icon"
+                  aria-hidden="true"
+                >
+                  {resource.icon}
+                </div>
+
+                <span class="resource-category">
+                  {resource.category}
+                </span>
+
+                <h3>
+                  {resource.title}
+                </h3>
+
+                <p>
+                  {resource.description}
+                </p>
+
+                <a
+                  href={resource.link}
+                  class="resource-link"
+                  aria-label={`Read ${resource.title}`}
+                >
+                  Read Guide
+                  <span aria-hidden="true">→</span>
+                </a>
+              </article>
+            ))
+          }
+        </div>
+
+        <!-- Empty State -->
+        <div
+          id="emptyState"
+          class="empty-state"
+          hidden
+        >
+          <div
+            class="empty-icon"
+            aria-hidden="true"
+          >
+            📚
+          </div>
+
+          <h2>
+            No resources found
+          </h2>
+
+          <p>
+            We couldn't find any resources in this category.
+            Please select another category.
+          </p>
+        </div>
+
+        <!-- Career CTA -->
+        <section
+          class="career-cta"
+          aria-labelledby="career-cta-heading"
+        >
+          <div class="cta-content">
+            <span class="cta-label">
+              Start Your Career
+            </span>
+
+            <h2 id="career-cta-heading">
+              Ready to Find Your Next Job?
+            </h2>
+
+            <p>
+              Explore verified job opportunities for students, freshers,
+              and experienced professionals and start applying today.
+            </p>
+
+            <div class="cta-actions">
+              <a
+                href="/jobs"
+                class="primary-button"
+              >
+                Browse Jobs
+                <span aria-hidden="true">→</span>
+              </a>
+
+              <a
+                href="/companies"
+                class="secondary-button"
+              >
+                Explore Companies
+              </a>
+            </div>
+          </div>
+        </section>
+      </div>
+    </section>
+
+    <!-- SEO Content -->
+    <section
+      class="seo-content-section"
+      aria-labelledby="career-resources-info"
+    >
+      <div class="container seo-content">
+        <span class="section-label">
+          Career Guidance
+        </span>
+
+        <h2 id="career-resources-info">
+          Free Career Resources for Students and Freshers
+        </h2>
+
+        <p>
+          Starting your career can be challenging, especially when you are
+          unsure how to create a strong resume, prepare for interviews,
+          find suitable job opportunities, or develop the right technical
+          skills. Our career resources are designed to provide practical
+          guidance for students, freshers, and job seekers.
+        </p>
+
+        <h3>
+          Build a Better Resume
+        </h3>
+
+        <p>
+          A well-structured resume helps recruiters quickly understand your
+          education, technical skills, projects, achievements, and experience.
+          Use our resume resources to learn how to create a professional
+          resume for internships and full-time jobs.
+        </p>
+
+        <h3>
+          Prepare for Job Interviews
+        </h3>
+
+        <p>
+          Interview preparation is an important part of your job search.
+          Learn how to prepare for technical interviews, HR interviews,
+          coding rounds, and common interview questions.
+        </p>
+
+        <h3>
+          Develop Job-Ready Skills
+        </h3>
+
+        <p>
+          Employers look for candidates with relevant technical and
+          professional skills. Explore our programming, DSA, system design,
+          and career resources to build skills that can help you become
+          job-ready.
+        </p>
+
+        <h3>
+          Find the Right Career Opportunities
+        </h3>
+
+        <p>
+          Finding the right job requires more than simply sending
+          applications. Learn how to search for suitable opportunities,
+          evaluate job descriptions, improve your professional profile,
+          and prepare for the hiring process.
+        </p>
+      </div>
+    </section>
+  </main>
+</Layout>
+
+<script>
+  const categoryButtons =
+    document.querySelectorAll<HTMLButtonElement>(
+      ".category-button"
+    );
+
+  const resourceCards =
+    document.querySelectorAll<HTMLElement>(
+      ".resource-card"
+    );
+
+  const resourceCount =
+    document.getElementById(
+      "resourceCount"
+    ) as HTMLSpanElement | null;
+
+  const emptyState =
+    document.getElementById(
+      "emptyState"
+    ) as HTMLDivElement | null;
+
+  function filterResources(category: string): void {
+    let visibleCount = 0;
+
+    resourceCards.forEach((card) => {
+      const cardCategory =
+        card.getAttribute("data-category") || "";
+
+      const shouldShow =
+        category === "All" ||
+        cardCategory === category;
+
+      card.hidden = !shouldShow;
+
+      if (shouldShow) {
+        visibleCount++;
+      }
+    });
+
+    if (resourceCount) {
+      resourceCount.textContent =
+        `${visibleCount} ${
+          visibleCount === 1
+            ? "resource"
+            : "resources"
+        }`;
+    }
+
+    if (emptyState) {
+      emptyState.hidden = visibleCount !== 0;
+    }
+
+    categoryButtons.forEach((button) => {
+      const buttonCategory =
+        button.getAttribute("data-category") || "";
+
+      const isActive =
+        buttonCategory === category;
+
+      button.classList.toggle(
+        "active",
+        isActive
+      );
+
+      button.setAttribute(
+        "aria-pressed",
+        String(isActive)
+      );
+    });
+  }
+
+  categoryButtons.forEach((button) => {
+    button.addEventListener("click", () => {
+      const category =
+        button.getAttribute("data-category") || "All";
+
+      filterResources(category);
+    });
+  });
+
+  filterResources("All");
+</script>
+
+<style>
+  :global(*) {
+    box-sizing: border-box;
+  }
+
+  :global(html) {
+    scroll-behavior: smooth;
+  }
+
+  :global(body) {
+    margin: 0;
+    background: #f8fafc;
+    color: #0f172a;
+    font-family:
+      Inter,
+      ui-sans-serif,
+      system-ui,
+      -apple-system,
+      BlinkMacSystemFont,
+      "Segoe UI",
+      sans-serif;
+  }
+
+  .container {
+    width: min(1180px, calc(100% - 32px));
+    margin-inline: auto;
+  }
+
+  /* =========================
+     HERO
+  ========================= */
+
+  .hero-section {
+    background:
+      linear-gradient(
+        180deg,
+        #ecfdf5 0%,
+        #f8fafc 100%
+      );
+    border-bottom: 1px solid #e2e8f0;
+  }
+
+  .hero-content {
+    padding: 72px 0 68px;
+    text-align: center;
+  }
+
+  .eyebrow,
+  .section-label,
+  .cta-label {
+    display: inline-block;
+    color: #0f766e;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .hero-content h1 {
+    max-width: 850px;
+    margin: 12px auto 0;
+    color: #0f172a;
+    font-size: clamp(34px, 5vw, 52px);
+    line-height: 1.1;
+    letter-spacing: -0.035em;
+    font-weight: 800;
+  }
+
+  .hero-description {
+    max-width: 720px;
+    margin: 20px auto 0;
+    color: #64748b;
+    font-size: 17px;
+    line-height: 1.7;
+  }
+
+  /* =========================
+     RESOURCES
+  ========================= */
+
+  .resources-section {
+    padding: 34px 0 80px;
+  }
+
+  .category-navigation {
+    margin-bottom: 46px;
+  }
+
+  .category-list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+  }
+
+  .category-button {
+    appearance: none;
+    border: 1px solid #e2e8f0;
+    background: #ffffff;
+    color: #475569;
+    border-radius: 12px;
+    padding: 12px 20px;
+    min-height: 44px;
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    user-select: none;
+    transition:
+      background 0.2s ease,
+      color 0.2s ease,
+      border-color 0.2s ease,
+      transform 0.2s ease,
+      box-shadow 0.2s ease;
+  }
+
+  .category-button:hover {
+    border-color: #5eead4;
+    color: #0f766e;
+    background: #f0fdfa;
+    transform: translateY(-1px);
+  }
+
+  .category-button:focus-visible {
+    outline: 3px solid rgba(20, 184, 166, 0.25);
+    outline-offset: 2px;
+  }
+
+  .category-button.active {
+    background: #0f766e;
+    border-color: #0f766e;
+    color: #ffffff;
+    box-shadow:
+      0 4px 12px rgba(15, 118, 110, 0.18);
+  }
+
+  .category-button.active:hover {
+    background: #115e59;
+    border-color: #115e59;
+    color: #ffffff;
+  }
+
+  .section-heading {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 30px;
+    margin-bottom: 25px;
+  }
+
+  .section-heading h2 {
+    margin: 8px 0;
+    color: #0f172a;
+    font-size: 28px;
+    line-height: 1.2;
+    letter-spacing: -0.025em;
+  }
+
+  .section-heading p {
+    max-width: 680px;
+    margin: 0;
+    color: #64748b;
+    font-size: 15px;
+    line-height: 1.65;
+  }
+
+  .resource-count {
+    flex-shrink: 0;
+    color: #64748b;
+    font-size: 14px;
+    font-weight: 600;
+  }
+
+  /* =========================
+     RESOURCE GRID
+  ========================= */
+
+  .resources-grid {
+    display: grid;
+    grid-template-columns:
+      repeat(3, minmax(0, 1fr));
+    gap: 20px;
+  }
+
+  .resource-card {
+    display: flex;
+    flex-direction: column;
+    min-height: 290px;
+    padding: 25px;
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 16px;
+    box-shadow:
+      0 1px 2px rgba(15, 23, 42, 0.03);
+    transition:
+      transform 0.2s ease,
+      box-shadow 0.2s ease,
+      border-color 0.2s ease;
+  }
+
+  .resource-card:hover {
+    border-color: #99f6e4;
+    box-shadow:
+      0 12px 30px rgba(15, 23, 42, 0.08);
+    transform: translateY(-3px);
+  }
+
+  .resource-card[hidden] {
+    display: none;
+  }
+
+  .resource-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 52px;
+    height: 52px;
+    margin-bottom: 18px;
+    border-radius: 13px;
+    background: #f0fdfa;
+    font-size: 25px;
+  }
+
+  .resource-category {
+    margin-bottom: 7px;
+    color: #0f766e;
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+
+  .resource-card h3 {
+    margin: 0 0 10px;
+    color: #0f172a;
+    font-size: 18px;
+    line-height: 1.35;
+  }
+
+  .resource-card p {
+    flex: 1;
+    margin: 0 0 20px;
+    color: #64748b;
+    font-size: 14px;
+    line-height: 1.7;
+  }
+
+  .resource-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    width: fit-content;
+    color: #0f766e;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 700;
+    transition:
+      gap 0.2s ease,
+      color 0.2s ease;
+  }
+
+  .resource-link:hover {
+    gap: 10px;
+    color: #115e59;
+  }
+
+  /* =========================
+     EMPTY STATE
+  ========================= */
+
+  .empty-state {
+    padding: 60px 20px;
+    text-align: center;
+  }
+
+  .empty-icon {
+    margin-bottom: 12px;
+    font-size: 42px;
+  }
+
+  .empty-state h2 {
+    margin: 0 0 8px;
+    color: #0f172a;
+    font-size: 23px;
+  }
+
+  .empty-state p {
+    margin: 0;
+    color: #64748b;
+  }
+
+  /* =========================
+     CTA
+  ========================= */
+
+  .career-cta {
+    margin-top: 70px;
+    overflow: hidden;
+    border-radius: 20px;
+    background:
+      linear-gradient(
+        135deg,
+        #0f766e 0%,
+        #047857 100%
+      );
+  }
+
+  .cta-content {
+    padding: 48px 35px;
+    text-align: center;
+  }
+
+  .cta-label {
+    color: #ccfbf1;
+  }
+
+  .cta-content h2 {
+    margin: 10px 0 12px;
+    color: #ffffff;
+    font-size: 30px;
+    line-height: 1.2;
+  }
+
+  .cta-content p {
+    max-width: 650px;
+    margin: 0 auto 25px;
+    color: #d1fae5;
+    font-size: 15px;
+    line-height: 1.7;
+  }
+
+  .cta-actions {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  .primary-button,
+  .secondary-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    min-height: 45px;
+    padding: 0 20px;
+    border-radius: 9px;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 700;
+    transition:
+      transform 0.2s ease,
+      background 0.2s ease;
+  }
+
+  .primary-button {
+    background: #ffffff;
+    color: #065f46;
+  }
+
+  .primary-button:hover {
+    background: #f0fdf4;
+    transform: translateY(-1px);
+  }
+
+  .secondary-button {
+    border: 1px solid rgba(255, 255, 255, 0.35);
+    color: #ffffff;
+  }
+
+  .secondary-button:hover {
+    background: rgba(255, 255, 255, 0.1);
+    transform: translateY(-1px);
+  }
+
+  /* =========================
+     SEO CONTENT
+  ========================= */
+
+  .seo-content-section {
+    padding: 0 0 80px;
+  }
+
+  .seo-content {
+    max-width: 900px;
+  }
+
+  .seo-content h2 {
+    margin: 9px 0 15px;
+    color: #0f172a;
+    font-size: 28px;
+    line-height: 1.3;
+  }
+
+  .seo-content h3 {
+    margin: 30px 0 8px;
+    color: #1e293b;
+    font-size: 20px;
+    line-height: 1.4;
+  }
+
+  .seo-content p {
+    margin: 0;
+    color: #64748b;
+    font-size: 15px;
+    line-height: 1.8;
+  }
+
+  /* =========================
+     RESPONSIVE
+  ========================= */
+
+  @media (max-width: 900px) {
+    .resources-grid {
+      grid-template-columns:
+        repeat(2, minmax(0, 1fr));
+    }
+
+    .section-heading {
+      align-items: flex-start;
+      flex-direction: column;
+      gap: 12px;
+    }
+  }
+
+  @media (max-width: 640px) {
+    .container {
+      width: min(100% - 24px, 1180px);
+    }
+
+    .hero-content {
+      padding: 52px 0 50px;
+    }
+
+    .hero-content h1 {
+      font-size: 34px;
+    }
+
+    .hero-description {
+      font-size: 15px;
+    }
+
+    .resources-section {
+      padding-bottom: 55px;
+    }
+
+    .category-list {
+      justify-content: flex-start;
+      overflow-x: auto;
+      flex-wrap: nowrap;
+      padding: 3px 2px 8px;
+      scrollbar-width: none;
+    }
+
+    .category-list::-webkit-scrollbar {
+      display: none;
+    }
+
+    .category-button {
+      flex-shrink: 0;
+      padding: 11px 18px;
+    }
+
+    .resources-grid {
+      grid-template-columns: 1fr;
+      gap: 15px;
+    }
+
+    .resource-card {
+      min-height: auto;
+    }
+
+    .career-cta {
+      margin-top: 50px;
+      border-radius: 16px;
+    }
+
+    .cta-content {
+      padding: 38px 22px;
+    }
+
+    .cta-content h2 {
+      font-size: 25px;
+    }
+
+    .cta-actions {
+      flex-direction: column;
+    }
+
+    .primary-button,
+    .secondary-button {
+      width: 100%;
+    }
+
+    .seo-content-section {
+      padding-bottom: 55px;
+    }
+
+    .seo-content h2 {
+      font-size: 25px;
+    }
+  }
+</style>

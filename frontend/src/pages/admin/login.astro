@@ -1,0 +1,405 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import "../../styles/global.css";
+---
+
+<Layout
+  title="Admin Login | JobPortal"
+  description="Secure admin login for JobPortal"
+  
+>
+  <main class="login-page">
+    <div class="login-card">
+
+      <div class="login-header">
+        <div class="logo">
+          Job<span>Portal</span>
+        </div>
+
+        <div class="admin-icon">
+          🔐
+        </div>
+
+        <h1>Admin Login</h1>
+
+        <p>
+          Sign in to access the JobPortal administration dashboard.
+        </p>
+      </div>
+
+      <form id="admin-login-form">
+
+        <div class="form-group">
+          <label for="email">Email Address</label>
+
+          <input
+            id="email"
+            name="email"
+            type="email"
+            placeholder="admin@example.com"
+            autocomplete="email"
+            required
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="password">Password</label>
+
+          <input
+            id="password"
+            name="password"
+            type="password"
+            placeholder="Enter your password"
+            autocomplete="current-password"
+            required
+          />
+        </div>
+
+        <div
+          id="login-error"
+          class="login-error"
+          role="alert"
+          aria-live="polite"
+        ></div>
+
+        <button
+          type="submit"
+          id="login-button"
+        >
+          Login to Dashboard
+          <span>→</span>
+        </button>
+
+      </form>
+
+      <a href="/" class="back-home">
+        ← Back to website
+      </a>
+
+    </div>
+  </main>
+</Layout>
+
+<script>
+  const form = document.getElementById(
+    "admin-login-form"
+  ) as HTMLFormElement | null;
+
+  const emailInput = document.getElementById(
+    "email"
+  ) as HTMLInputElement | null;
+
+  const passwordInput = document.getElementById(
+    "password"
+  ) as HTMLInputElement | null;
+
+  const loginButton = document.getElementById(
+    "login-button"
+  ) as HTMLButtonElement | null;
+
+  const loginError = document.getElementById(
+    "login-error"
+  ) as HTMLDivElement | null;
+
+  const API_URL =
+    import.meta.env.PUBLIC_API_URL || "http://localhost:5000";
+
+
+  form?.addEventListener("submit", async (event) => {
+    event.preventDefault();
+
+    if (
+      !emailInput ||
+      !passwordInput ||
+      !loginButton ||
+      !loginError
+    ) {
+      return;
+    }
+
+    const email = emailInput.value.trim();
+    const password = passwordInput.value;
+
+    loginError.textContent = "";
+    loginError.classList.remove("show");
+
+    loginButton.disabled = true;
+    loginButton.innerHTML = "Logging in...";
+
+
+    try {
+      const response = await fetch(
+        `${API_URL}/api/auth/admin/login`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            email,
+            password,
+          }),
+        }
+      );
+
+
+      const result = await response.json();
+
+
+      if (!response.ok) {
+        throw new Error(
+          result.message || "Invalid email or password."
+        );
+      }
+
+
+      if (!result.token) {
+        throw new Error(
+          "Login successful but authentication token was not received."
+        );
+      }
+
+
+      // Save authentication data
+      localStorage.setItem(
+        "token",
+        result.token
+      );
+
+
+      if (result.admin) {
+        localStorage.setItem(
+          "admin",
+          JSON.stringify(result.admin)
+        );
+      }
+
+
+      // Redirect to admin dashboard
+      window.location.href = "/admin";
+
+
+    } catch (error) {
+
+      console.error(
+        "Admin login error:",
+        error
+      );
+
+      loginError.textContent =
+        error instanceof Error
+          ? error.message
+          : "Unable to login. Please try again.";
+
+      loginError.classList.add("show");
+
+      loginButton.disabled = false;
+
+      loginButton.innerHTML =
+        'Login to Dashboard <span>→</span>';
+    }
+  });
+</script>
+
+
+<style>
+
+  .login-page {
+    min-height: calc(100vh - 80px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 20px;
+    background:
+      linear-gradient(
+        180deg,
+        #f8fafc 0%,
+        #ffffff 100%
+      );
+  }
+
+
+  .login-card {
+    width: 100%;
+    max-width: 430px;
+    padding: 38px;
+    background: white;
+    border: 1px solid #e2e8f0;
+    border-radius: 18px;
+    box-shadow:
+      0 20px 50px rgba(15, 23, 42, 0.08);
+  }
+
+
+  .login-header {
+    text-align: center;
+    margin-bottom: 30px;
+  }
+
+
+  .logo {
+    margin-bottom: 25px;
+    color: #0f172a;
+    font-size: 24px;
+    font-weight: 800;
+  }
+
+
+  .logo span {
+    color: #0f9f8c;
+  }
+
+
+  .admin-icon {
+    width: 55px;
+    height: 55px;
+    margin: 0 auto 18px;
+    display: grid;
+    place-items: center;
+    border-radius: 14px;
+    background: #ecfdf8;
+    font-size: 24px;
+  }
+
+
+  .login-header h1 {
+    margin: 0;
+    color: #0f172a;
+    font-size: 28px;
+  }
+
+
+  .login-header p {
+    max-width: 330px;
+    margin: 9px auto 0;
+    color: #64748b;
+    font-size: 12px;
+    line-height: 1.7;
+  }
+
+
+  #admin-login-form {
+    display: grid;
+    gap: 18px;
+  }
+
+
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+  }
+
+
+  .form-group label {
+    color: #334155;
+    font-size: 11px;
+    font-weight: 700;
+  }
+
+
+  .form-group input {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 12px 13px;
+    border: 1px solid #e2e8f0;
+    border-radius: 9px;
+    background: #f8fafc;
+    color: #0f172a;
+    outline: none;
+    font-family: inherit;
+    font-size: 12px;
+    transition: 0.2s;
+  }
+
+
+  .form-group input:focus {
+    border-color: #5eead4;
+    background: white;
+    box-shadow:
+      0 0 0 3px rgba(20, 184, 166, 0.08);
+  }
+
+
+  #login-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    width: 100%;
+    border: none;
+    border-radius: 9px;
+    padding: 13px;
+    background:
+      linear-gradient(
+        135deg,
+        #14b8a6,
+        #059669
+      );
+    color: white;
+    font-family: inherit;
+    font-size: 12px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: 0.2s;
+  }
+
+
+  #login-button:hover:not(:disabled) {
+    transform: translateY(-1px);
+    box-shadow:
+      0 8px 20px rgba(5, 150, 105, 0.2);
+  }
+
+
+  #login-button:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+  }
+
+
+  .login-error {
+    display: none;
+    padding: 11px 12px;
+    border: 1px solid #fecaca;
+    border-radius: 8px;
+    background: #fef2f2;
+    color: #b91c1c;
+    font-size: 11px;
+    line-height: 1.5;
+  }
+
+
+  .login-error.show {
+    display: block;
+  }
+
+
+  .back-home {
+    display: block;
+    margin-top: 24px;
+    color: #64748b;
+    text-align: center;
+    text-decoration: none;
+    font-size: 11px;
+  }
+
+
+  .back-home:hover {
+    color: #0f9f8c;
+  }
+
+
+  @media (max-width: 500px) {
+
+    .login-page {
+      padding: 25px 15px;
+    }
+
+    .login-card {
+      padding: 28px 20px;
+    }
+
+  }
+
+</style>
