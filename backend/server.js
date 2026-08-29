@@ -20,7 +20,15 @@ dotenv.config();
 
 const app = express();
 
-app.use(cors());
+app.use(
+  cors({
+    origin: [
+      "http://localhost:4321",
+      "https://get-job-career.vercel.app",
+    ],
+    credentials: true,
+  })
+);
 app.use(express.json());
 
 
