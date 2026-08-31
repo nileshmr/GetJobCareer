@@ -25,6 +25,8 @@ app.use(
     origin: [
       "http://localhost:4321",
       "https://get-job-career.vercel.app",
+      "https://getjobcareer.com",
+      "https://www.getjobcareer.com",
     ],
     credentials: true,
   })
