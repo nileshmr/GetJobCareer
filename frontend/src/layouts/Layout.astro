@@ -36,6 +36,23 @@ const {
     <link rel="manifest" href="/site.webmanifest" />
     <title>{title}</title>
 
+<!-- Google Analytics -->
+<script
+  async
+  src="https://www.googletagmanager.com/gtag/js?id=G-VSDDLL73MK"
+></script>
+
+<script is:inline>
+  window.dataLayer = window.dataLayer || [];
+
+  function gtag(...args) {
+    window.dataLayer.push(args);
+  }
+
+  gtag("js", new Date());
+  gtag("config", "G-VSDDLL73MK");
+</script>
+
     
   </head>
 
