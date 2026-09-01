@@ -36,21 +36,18 @@ const {
     <link rel="manifest" href="/site.webmanifest" />
     <title>{title}</title>
 
-<!-- Google Analytics -->
+<!-- Google tag (gtag.js) -->
 <script
+  is:inline
   async
-  src="https://www.googletagmanager.com/gtag/js?id=G-VSDDLL73MK"
+  src="https://www.googletagmanager.com/gtag/js?id=G-HL6T81WFT6"
 ></script>
 
 <script is:inline>
   window.dataLayer = window.dataLayer || [];
-
-  function gtag(...args) {
-    window.dataLayer.push(args);
-  }
-
-  gtag("js", new Date());
-  gtag("config", "G-VSDDLL73MK");
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-HL6T81WFT6');
 </script>
 
     
