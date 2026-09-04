@@ -5,3 +5,4 @@ Disallow: /admin
 
 
 Sitemap: https://getjobcareer.com/sitemap-index.xml
+Sitemap: https://getjobcareer.com/sitemap-jobs.xml
