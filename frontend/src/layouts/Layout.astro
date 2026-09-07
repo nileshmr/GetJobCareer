@@ -27,6 +27,9 @@ const {
     <meta name="description" content={description} />
     <meta name="keywords" content={keywords} />
     <meta name="robots" content="index, follow" />
+{canonical && (
+  <link rel="canonical" href={canonical} />
+)}
     <meta name="generator" content={Astro.generator} />
     <!-- <link rel="icon" type="image/svg+xml" href="/favicon.svg" /> -->
      <link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96" />
